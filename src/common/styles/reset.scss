@@ -1,0 +1,94 @@
+page,
+body {
+    font-size: $font-base;
+    color: $color-text;
+    line-height: 1.42857143;
+    font-family: PingFangSC-Regular, PingFang SC;
+    background-color: $bg-color;
+}
+
+view,
+scroll-view,
+swiper,
+swiper-item,
+movable-area,
+movable-view,
+cover-view,
+cover-image,
+icon,
+text,
+rich-text,
+progress,
+button,
+checkbox-group,
+checkbox,
+form,
+input,
+label,
+picker,
+picker-view,
+radio-group,
+radio,
+slider,
+switch,
+textarea,
+navigator,
+functional-page-navigator,
+image,
+video,
+camera,
+c-input,
+live-player,
+live-pusher,
+map,
+canvas,
+open-data,
+web-view,
+ad,
+a,
+router-link {
+    box-sizing: border-box;
+	vertical-align: top;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+input {
+    height: auto;
+}
+
+button {
+    font-size: $font-base;
+    line-height: 1.42857143;
+}
+
+:after,
+:before {
+    box-sizing: border-box;
+}
+
+// 输入框placeholder
+.uni-input-placeholder,
+.uni-textarea-placeholder {
+    color: $color-placeholder !important;
+}
+
+view.uni-input-placeholder,
+text.uni-input-placeholder,
+picker.uni-input-placeholder {
+    pointer-events: auto;
+}
+
+/* #ifdef H5 */
+// h5滚动条样式
+::-webkit-scrollbar {
+	display: none;
+	width: 0 !important;
+	height: 0 !important;
+	-webkit-appearance: none;
+	background: transparent;
+}
+/* #endif */
