@@ -1,0 +1,88 @@
+{
+	//自动导入插件uniapp自带
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^c-(.*)": "@/common/components/c-$1/c-$1.vue"
+		}
+	},
+	"pages": [
+		{
+			"path": "pages/demo/index",
+			"name": "demo",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "pages/cmptExample/image",
+			"name": "cmptImg",
+			"style": {
+				"navigationBarTitleText": "image示例"
+			}
+		},
+		{
+			"path": "pages/cmptExample/input",
+			"name": "cmptInput",
+			"style": {
+				"navigationBarTitleText": "input示例"
+			}
+		},
+		{
+			"path": "pages/cmptExample/colors",
+			"name": "cmptColors",
+			"style": {
+				"navigationBarTitleText": "colors示例"
+			}
+		},
+		{
+			"path": "pages/cmptExample/button",
+			"name": "cmptButton",
+			"style": {
+				"navigationBarTitleText": "button示例"
+			}
+		},
+		{
+			"path": "pages/cmptExample/cell",
+			"name": "cmptCell",
+			"style": {
+				"navigationBarTitleText": "cell示例"
+			}
+		},
+		{
+			"path": "pages/cmptExample/layout",
+			"name": "cmptLayout",
+			"style": {
+				"navigationBarTitleText": "Layout 布局"
+			}
+		},
+		{
+			"path": "pages/cmptExample/modal",
+			"name": "cmptModal",
+			"style": {
+				"navigationBarTitleText": "Modal 模态框"
+			}
+		},
+		{
+			"path": "pages/cmptExample/popup",
+			"name": "cmptPopup",
+			"style": {
+				"navigationBarTitleText": "Popup 弹出层"
+			}
+		},
+		{
+			"path": "pages/cmptExample/fixed-menu",
+			"name": "cmptFixedMenu",
+			"style": {
+				"navigationBarTitleText": "浮动顶部/底部",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#F8F8F8"
+	}
+}

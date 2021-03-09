@@ -1,0 +1,343 @@
+// 字体对齐方式
+.c-tl{
+	text-align: left;
+}
+.c-tc{
+	text-align: center;
+}
+.c-tr{
+	text-align: right;
+}
+// 字体大小
+.c-font-sm{
+	font-size: $font-sm;
+}
+.c-font{
+	font-size: $font-base;
+}
+.c-font-lg{
+	font-size: $font-lg;
+}
+.c-font-xl{
+	font-size: $font-xl;
+}
+// 基础颜色
+.c-text{
+	color: $color-text;
+}
+.c-sub-text{
+	color: $color-sub-text;
+}
+.c-text-inverse{
+	color: $color-text-inverse;
+}
+.c-gray{
+	color: $color-gray;
+}
+.c-placeholder{
+	color: $color-placeholder;
+}
+.c-disable{
+	color: $color-disable;
+}
+// 通过基础的 12 分栏，迅速简便地创建布局
+.c-row{
+    padding: $spacing-col-sm $spacing-row-sm;
+    display: flex(row);
+    flex-wrap: wrap;
+
+[class*="c-col-"]{
+	padding: $spacing-col-sm $spacing-row-sm;
+	position: relative;
+	min-height: 1px;
+	@include flex(column);
+}
+.c-col-1{
+	padding: 0;
+	width: 8.33333333%;
+}
+.c-col-2{
+	padding: 0;
+	width: 16.66666667%;
+}
+.c-col-3{
+	padding: 0;
+	width: 25%;
+}
+.c-col-4{
+	width: 33.33333333%;
+}
+.c-col-5{
+	width: 41.66666667%;
+}
+.c-col-6{
+	width: 50%;
+}
+.c-col-7{
+	width: 58.33333333%;
+}
+.c-col-8{
+	width: 66.66666667%;
+}
+.c-col-9{
+	width: 75%;
+}
+.c-col-10{
+	width: 83.33333333%;
+}
+.c-col-11{
+	width: 91.66666667%;
+}
+.c-col-12{
+	width: 100%;
+}
+}
+
+/*
+	下划线
+*/
+.c-underline, .c-underline__top {
+    position: relative;
+}
+
+.c-underline::after, .c-underline__top::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    transform: scaleY(0.5);
+	z-index: 1;
+    background-color: #EDEDED;
+}
+.c-underline__top::before{
+	top: 0;
+	bottom: auto;
+}
+// 圆角
+.c-radius-sm{
+    border-radius: $border-radius-sm;
+    overflow: hidden;
+}
+.c-radius{
+    border-radius: $border-radius-base;
+    overflow: hidden;
+}
+.c-radius-lg{
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+}
+.c-radius-circle{
+    $border-radius-circle: 50%;
+}
+
+// 旋转动画
+@keyframes c-icon-spin {
+	from {
+	  transform: rotate(0deg);
+	}
+	to {
+	  transform: rotate(360deg);
+	}
+}
+
+/*
+  常用边距margin padding
+*/
+@for $i from 0 to 6 {
+    .hr#{$i * 12} {
+        height: $i * 12rpx;
+        background-color: $bg-color;
+        display: block;
+    }
+    .p#{$i * 12} {
+        padding: $i * 12rpx !important;
+    }
+
+    .plr#{$i * 12} {
+        padding-left: $i * 12rpx !important;
+        padding-right: $i * 12rpx !important;
+    }
+
+    .pl#{$i * 12} {
+        padding-left: $i * 12rpx !important;
+    }
+    .pr#{$i * 12} {
+        padding-right: $i * 12rpx !important;
+    }
+
+    .pt#{$i * 12} {
+        padding-top: $i * 12rpx !important;
+    }
+
+    .ptb#{$i * 12} {
+        padding-top: $i * 12rpx !important;
+        padding-bottom: $i * 12rpx !important;
+    }
+
+    .pb#{$i * 12} {
+        padding-bottom: $i * 12rpx !important;
+    }
+
+    .mt#{$i * 12} {
+        margin-top: $i * 12rpx !important;
+    }
+}
+
+/*
+  字体换行
+*/
+.c-ellipsis, .c-ellipsis-1 {
+    @include ellipsis();
+}
+
+.c-ellipsis-2 {
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal !important;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical
+}
+
+.c-ellipsis-3 {
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal !important;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical
+}
+
+
+/*
+  流式布局
+*/
+.flex {
+    display: flex;
+}
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+.flex-ajcenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.flex-space-between{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.align-stretch {
+    align-items: stretch;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.align-start {
+    align-items: flex-start;
+}
+
+.align-end {
+    align-items: flex-end;
+}
+
+.align-baseline {
+    align-items: baseline;
+}
+
+.align-inherit {
+    align-items: inherit;
+}
+
+.justify-start {
+    justify-content: flex-start;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-around {
+    justify-content: space-around;
+}
+
+.justify-inherit {
+    justify-content: inherit;
+}
+
+.self-align-stretch {
+    align-self: stretch;
+}
+
+.self-align-center {
+    align-self: center;
+}
+
+.self-align-start {
+    align-self: start;
+}
+
+.self-align-end {
+    align-self: end;
+}
+
+.self-align-inherit {
+    align-self: inherit;
+}
+
+.self-justify-start {
+    justify-self: start;
+}
+
+.self-justify-center {
+    justify-self: center
+}
+
+.self-justify-end {
+    justify-self: end
+}
+
+.self-justify-between {
+    justify-self: between
+}
+
+.self-justify-around {
+    justify-self: around
+}
+
+.self-justify-inherit {
+    justify-self: inherit
+}
+
+// 旋转动画
+@keyframes c-spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
