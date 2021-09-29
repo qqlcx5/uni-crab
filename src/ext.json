@@ -1,0 +1,18 @@
+{
+    "extEnable": true,
+    "extAppid": "wx81bb7bfd06ca37c2",
+    "ext": {
+        "name": "中装卖场",
+        "shop_uid": "270",
+        "api_host": "https://betaapp-saas2.zzsupei.com",
+        "api_back_host": "https://betaapp-saas2.zzsupei.com",
+        "img_host": "https://betastatic-saas.zzsupei.com",
+        "template_id": "47",
+        "applet_appid": "wx81bb7bfd06ca37c2",
+        "user_version": "1.0.3"
+    },
+    "networkTimeout": {
+        "request": 10000,
+        "downloadFile": 10000
+    }
+}

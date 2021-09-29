@@ -1,0 +1,24 @@
+{
+    "easycom": {
+        "autoscan": true,
+        "custom": {
+            "^c-(((?!style).)*)$": "@common/components/c-$1/c-$1.vue" // 基础组件  c-input
+        }
+    },
+    "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+        {
+            "path": "pages/index/index",
+            "aliasPath": "/",
+            "name": "home",
+            "style": {
+                "navigationBarTitleText": "uni-app"
+            }
+        }
+    ],
+    "globalStyle": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "uni-app",
+        "navigationBarBackgroundColor": "#F8F8F8",
+        "backgroundColor": "#F8F8F8"
+    }
+}

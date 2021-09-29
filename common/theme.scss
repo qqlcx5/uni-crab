@@ -1,0 +1,198 @@
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+
+/* 最大宽度 */
+$max-width: 750px;
+
+/* 颜色变量 */
+
+/* 行为相关颜色 */
+$color-primary: #43548F;
+$color-info: #5bc0de;
+$color-success: #5cb85c;
+$color-warning: #f0ad4e;
+$color-danger: #e64340;
+
+/* 文字基本颜色 */
+$color-text:#333;//主要文字颜色
+$color-sub-text:#666;//次级文字颜色
+$color-text-inverse:#fff;//反色
+$color-gray:#999;//辅助灰色
+$color-placeholder: #ccc;
+$color-disable:#c0c0c0;
+
+/* 背景颜色 */
+$bg-color: #f5f5f5;
+
+
+/* 蒙层颜色 */
+$mask-bg: rgba(0, 0, 0, 0.55);
+
+/* 边框颜色 */
+$border-color:#c8c7cc;
+
+/* 尺寸变量 */
+$input-height: 48rpx;
+$button-height-sm: 56rpx;
+$button-height: 76rpx;
+$button-height-lg: 88rpx;
+
+
+
+/* 文字尺寸 */
+$font-sm:24rpx;
+$font-base:28rpx;
+$font-lg:32rpx;
+$font-xl: 48rpx;
+
+
+/* Border Radius */
+$border-radius-sm: 4rpx;
+$border-radius-base: 8rpx;
+$border-radius-lg: 16rpx;
+$border-radius-circle: 50%;
+
+/* 水平间距 */
+$spacing-row-sm: 8rpx;
+$spacing-row-base: 12rpx;
+$spacing-row-lg: 24rpx;
+
+/* 垂直间距 */
+$spacing-col-sm: 8rpx;
+$spacing-col-base: 12rpx;
+$spacing-col-lg: 24rpx;
+
+/* 亮牌颜色 */
+$bright-card: #f5f5f5;
+$bright-card-light: #fff;
+
+@mixin abs($top,$right:null,$bottom:null,$left:null) {
+	position: absolute;
+	top: $top;
+	right: $right;
+	bottom: $bottom;
+	left: $left;
+}
+
+@mixin fixed($top,$right:null,$bottom:null,$left:null) {
+	position: fixed;
+	top: $top;
+	right: $right;
+	bottom: $bottom;
+	left: $left;
+}
+
+@mixin site($left: 0, $right: null) {
+    position: absolute;
+    left: $left;
+    right: $right;
+    top: 50%;
+	transform: translateY(-50%);
+}
+
+@mixin siteCenter() {
+	@include abs(50%, 50%);
+	transform: translate(50%, -50%);
+}
+
+@mixin radius($topL,$topR:null,$bottomR:null,$bottomL:null) {
+    $bottomL: #{if($bottomL, $bottomL , if($bottomR, $bottomR, $topL))};
+    $bottomR: #{if($bottomR, $bottomR , $topL)};
+    $topR: #{if($topR, $topR , $topL)};
+	/* #ifdef APP-PLUS-NVUE */
+	border-bottom-left-radius:$bottomL;
+	border-bottom-right-radius: $bottomR;
+	border-top-left-radius: $topL;
+	border-top-right-radius: $topR;
+	/* #endif */
+	/* #ifndef APP-PLUS-NVUE */
+	border-radius: $topL $topR $bottomR $bottomL;
+	/* #endif */
+}
+
+@mixin tst($property: all, $duration: 0.3s, $delay: 0s, $fun: cubic-bezier(0.25, 0.1, 0.25, 1.0)) {
+	/* #ifdef APP-PLUS-NVUE */
+	transition-property: $property;
+	transition-duration: $duration;
+	transition-delay: $delay;
+	transition-timing-function: $fun;
+	/* #endif */
+	/* #ifndef APP-PLUS-NVUE */
+	// saas不区分空格
+	$split-values: str-split($property, ",");
+	$lastStr: $duration $delay $fun unquote(',');
+	$list: ();
+	@each $value in $split-values {
+	  $list: append($list, (unquote($value) $lastStr));
+	}
+	transition: $list;
+	/* #endif */
+}
+
+// STR-分裂
+@function str-split($str, $separator) {
+	$string: quote($str);
+    // empty array/list
+    $split-arr: ();
+    // first index of separator in string
+    $index : str-index($string, $separator);
+    // loop through string
+    @while $index != null {
+        // get the substring from the first character to the separator
+        $item: str-slice($string, 1, $index - 1);
+        // push item to array
+        $split-arr: append($split-arr, $item);
+        // remove item and separator from string
+        $string: str-slice($string, $index + 1);
+        // find new index of separator
+        $index : str-index($string, $separator);
+    }
+    // add the remaining string to list (the last item)
+    $split-arr: append($split-arr, $string);
+
+    @return $split-arr;
+}
+
+@mixin ellipsis($column: 1) {
+	overflow: hidden;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	@if $column == 1 {
+		white-space: nowrap;
+	} @else {
+	    display: -webkit-box;
+	    white-space: normal !important;
+	    word-wrap: break-word;
+	    -webkit-line-clamp: $column;
+	    -webkit-box-orient: vertical
+	}
+}
+
+@mixin flex($direction: column) {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: $direction;
+}
+
+/**
+ * @description iphonex及iphone系列兼容
+ * @param {String} $prop属性名字如height，padding
+ * @param {String} $num初始高度，只能写一些，不然低版本安卓会出问题
+ * @params {String} $area 安全区域位置===》top或者bottom
+ * @params {String} $direction 方向（属性的拼接值）如果$prop是padding，它是bottom的话，拼接起来就是padding-bocttom
+ * @params {String} $plus 属性的加减，这边会创建出来calc来计算属性
+ */
+@mixin iosSafeArea($prop: padding, $num: 0px, $area: top, $direction: null, $plus: '+'){
+	/* #ifndef APP-PLUS-NVUE */
+	$newPro: #{$prop}#{if($direction, ('-' + $direction), '')};
+	#{$newPro}: #{$num};
+	#{$newPro}: calc(#{$num} #{$plus} constant(safe-area-inset-#{$area}));
+	#{$newPro}: calc(#{$num} #{$plus} env(safe-area-inset-#{$area}));
+	/* #endif */
+}
