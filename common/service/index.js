@@ -55,7 +55,7 @@ export function setRequestList(reqList) {
  * @param {Boolean} reLoad 是否是重发请求类型：get | post,默认post
  * @return {Promise} 返回是一个promise
  */
-export default function requestBefore(name, query = {}, modifyObj = {}, type, reLoad = false) {
+export default function requestBefore(name, query = {}, modifyObj = {}, type) {
     const pages = getCurrentPages()
     const tempCurPage = pages.length ? pages[pages.length - 1] : {}
     if (currentPath !== tempCurPage.route) {
@@ -187,12 +187,6 @@ export function resendChangeDomainRequest() {
     })
 }
 
-export function getToken() {
-    return requestBefore('wxuserinfo', null, {
-        source: 'catch'
-    })
-}
-
 function responseFail(res, catchObj = {}) {
     if (catchObj.toast && res.code) {
         uni.getNetworkType({
@@ -270,8 +264,8 @@ export function showLoginModal(catchObj, content = '您还未登录或登录已�
 }
 
 export function removeUserInfo() {
-    removeStorageSync([needCatchList['userInfo']])
-    removeStorageSync([needCatchList['shuaxinWxApp']])
+    needCatchList['userInfo'] && removeStorageSync([needCatchList['userInfo']])
+    needCatchList['shuaxinWxApp'] && removeStorageSync([needCatchList['shuaxinWxApp']])
     uni.removeStorageSync('prveTokenSession')
 }
 

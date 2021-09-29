@@ -7,64 +7,73 @@
 import Vue from 'vue'
 import App from './App'
 
-// 注入公共代码
-import saasUI, { RouterMount, router, setHttpConfig, setRequestList } from '../common/index'
-
-Vue.use(saasUI, {
-    cconfig: {
-        aaa: 1
-    },
-    common: {
-        a: 111
-    },
-    utils: {
-        cloga() {
-            console.log('a')
-        }
-    }
-})
-
-router.beforeEach((to, from, next) => {
-    console.log('地址拦截', to, from);
-    next()
-})
-
-router.afterEach((to, from) => {
-    console.log(to, from);
-})
-
-// 请求列表配置
-setRequestList({
-    shopInfo: {
-        url: '/Shop/info'
-    },
-    wxuserinfo: {
-        url: '/Shop/info'
-    }
-})
-// 请求配置
-setHttpConfig({
-    // 请求头设置
-}, {
-    // 备用域名配置
-    apiList: [
-        // #ifdef H5
-        process.env.NODE_ENV === 'production' ? 'http://betaapp-saas.zzsupei.com' : '/ssApi'
-        // #endif
-        // #ifndef H5
-        'http://betaapp-saas.zzsupei.com'
-        // #endif
-    ]
-})
-
 Vue.config.productionTip = false
 
 App.mpType = 'app'
 
+// 注入公共代码并载入配置
+import saasUI, { RouterMount } from '../common/index'
+Vue.use(saasUI, {
+    // 共用配置 this.$config
+    config: {
+        frameName: 'SAAS UI'
+    },
+    // 共用方法或变量 this.sayHello
+    common: {
+        sayHello() {
+            console.log('Hello! 我是this上面的方法')
+        }
+    },
+    // 工具方法this.$c.cloga
+    utils: {
+        logHello() {
+            console.log('Hello!我是this.$c上面的工具方法')
+        }
+    },
+    // 路由相关的配置
+    router: {
+        beforeEach: (to, from, next) => {
+            console.log('自定义beforeEach');
+            next()
+        },
+        afterEach: (to, from) => {
+            console.log('自定义afterEach');
+        }
+    },
+    // 请求相关的配置
+    http: {
+        // 请求头字段配置（baseURL无效），设置请求地址请在下面的apiConfig里面进行配置
+        config: {
+
+        },
+        apiConfig: {
+            tokenApi: '/WxApp/wxuserinfo',
+            // 备用域名配置,至少配置一个
+            apiList: [
+                // #ifdef H5
+                process.env.NODE_ENV === 'production' ? 'http://betaapp-saas.zzsupei.com' : '/ssApi'
+                // #endif
+                // #ifndef H5
+                'http://betaapp-saas.zzsupei.com'
+                // #endif
+            ]
+        },
+        apiList: {
+            shopInfo: {
+                url: '/Shop/info'
+            },
+            wxuserinfo: { // 向后台传送微信用户信息 或 授权后一键登录
+                url: '/WxApp/wxuserinfo',
+                catchName: 'jscode2session',
+                toast: true
+            },
+        }
+    }
+})
+
 const app = new Vue({
     ...App
 })
-
 // v1.3.5起 H5端 你应该去除原有的app.$mount();使用路由自带的渲染方式
 // #ifdef H5
 RouterMount(app, '#app')

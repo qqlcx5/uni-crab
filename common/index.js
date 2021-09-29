@@ -25,14 +25,38 @@ const globalFun = {
             config = {},
             utils = {},
             common = {},
-            filter = {}
+            filter = {},
+            http = {},
+            router: routerConfig = {
+            }
         } = extra || {}
+        const {
+            config: httpConfig = {},
+            apiConfig = {},
+            apiList = []
+        } = http
 
         // 路由插件
-        useRouter && Vue.use(Router)
+        if (useRouter) {
+            Vue.use(Router)
+            const defaultRouterConfig = {
+                beforeEach: (to, from, next) => {
+                    console.log('路由默认的beforeEach');
+                    next()
+                },
+                afterEach: (to, from) => {
+                    console.log('路由默认的afterEach');
+                }
+            }
+            const newRouterConfig = Object.assign({}, defaultRouterConfig, routerConfig)
+            router.beforeEach(newRouterConfig.beforeEach)
+            router.afterEach(newRouterConfig.afterEach)
+        }
 
         // 批量挂载在this上
         Vue.prototype.$http = sendHttp;
+        setHttpConfig(httpConfig, apiConfig)
+        setRequestList(apiList)
 
         // 基础配置
         Vue.prototype.$config = Object.assign({}, baseConfig, config);

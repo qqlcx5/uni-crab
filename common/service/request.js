@@ -8,12 +8,13 @@ import Request from 'luch-request' // 下载的插件
 
 import commonConfig from '../config/index'
 
-import { resendRefreshRequest, resendChangeDomainRequest, getToken } from './index'
+import requestBefore, { resendRefreshRequest, resendChangeDomainRequest } from './index'
 
 import Refresh from './refreshToken'
 
 let apiDefaultList = []
 let apiCatchTime = 3660 * 24 * 1000
+let tokenUrl = ''
 
 
 /**
@@ -45,11 +46,13 @@ http.interceptors.request.use(async (config) => {
         'app-from': encodeURIComponent(uni.getStorageSync(commonConfig.fullPageCatch) || '')
     }
     // 无法避免多次请求
-    // if (config.url !== '/WxApp/wxuserinfo' && config.method !== 'UPLOAD') {
-    //     let { data: { token } } = await getToken()
-    //     token || commonConfig.platformType !== 5 ? '' : commonConfig.shopUserTokenCatchName && (token = (uni.getStorageSync(commonConfig.shopUserTokenCatchName) || {}).token)
-    //      token && (otherHeader['Authorization'] = `bearer ${token}`)
-    // }
+    if (tokenUrl && config.url !== tokenUrl && config.method !== 'UPLOAD') {
+        let { data: { token } } = await requestBefore(tokenUrl, null, {
+            source: 'catch'
+        })
+        token || commonConfig.platformType !== 5 ? '' : commonConfig.shopUserTokenCatchName && (token = (uni.getStorageSync(commonConfig.shopUserTokenCatchName) || {}).token)
+        token && (otherHeader['Authorization'] = `bearer ${token}`)
+    }
     config.header = {
         ...config.header,
         ...otherHeader
@@ -174,11 +177,17 @@ http.interceptors.response.use((response) => {
 
 
 export function setHttpConfig(config, apiConfig) {
-    const { apiList = [], catchTime = 0 } = apiConfig || {}
+    /**
+     * apiList {Array} 备用域名列表
+     * catchTime {Number}备用域名存在时间
+     * tokenApi {String}请求头带的token请求的地址
+    */
+    const { apiList = [], catchTime = 0, tokenApi = '' } = apiConfig || {}
     if (!apiList.length) {
         console.warn('-----------至少设置一个baseURL地址---------')
         return
     }
+    tokenUrl = tokenApi
     apiCatchTime = catchTime || apiCatchTime
     apiDefaultList = apiList
     uni.removeStorageSync(commonConfig.curApiCatch)

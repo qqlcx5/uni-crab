@@ -25,7 +25,9 @@ export default {
         }
     },
     async onLoad() {
-        this.$c.cloga()
+        console.log(this.$config.frameName);
+        this.sayHello()
+        this.$c.logHello()
         try {
             this.$http('shopInfo')
             console.log(111);
