@@ -1,9 +1,3 @@
-<!--
- * @Descripttion: 
- * @version: 1.0
- * @Author: sky
- * @Date: 2021-06-07 17:08:23
--->
 <template>
     <view
         class="slideMenu"
@@ -49,14 +43,10 @@
     </view>
 </template>
 <script>
-import { mapState } from 'vuex'
+import {
+    mapState
+} from 'vuex'
 export default {
-    computed: {
-        ...mapState({
-            shopInfo_: (state) =>
-                state.config.shopInfo ? state.config.shopInfo : {}
-        })
-    },
     props: {
         contactBtn: { // 集速配物流
             type: Boolean,
@@ -67,12 +57,19 @@ export default {
             default: 20
         }
     },
+    computed: {
+        ...mapState({
+            shopInfo_: (state) =>
+                state.config.shopInfo ? state.config.shopInfo : {}
+        })
+    },
     methods: {
         handleClick() {
             const url = this.shopInfo_.customer_url
             if (!url) return this.$toast('未配置地址')
             this.$serverJump({
-                app_page: /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g.test(url) ? url : this.$config.hostUrl + url
+                app_page: /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g.test(url) ? url : this.$config
+                    .hostUrl + url
             })
         }
     }
@@ -94,6 +91,7 @@ export default {
         /deep/ button {
             padding: 0;
         }
+
         &::after {
             display: none;
         }

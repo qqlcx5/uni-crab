@@ -18,13 +18,13 @@
                         : ' c-underline__top'
                     : '',
             ]"
-            :style="[childrenStyle_]"
+            :style="[ childrenStyle_ ]"
         >
             <c-colors
-                :pro="['bgc']"
-                :theme="[bgColor]"
+                :pro="[ 'bgc' ]"
+                :theme="[ bgColor ]"
             >
-                <view :style="[colorStyle_]">
+                <view :style="[ colorStyle_ ]">
                     <slot></slot>
                 </view>
             </c-colors>
@@ -91,13 +91,13 @@ export default {
     },
     computed: {
         hasNav_() {
-            return String(this.hasNav) !== 'false';
+            return String(this.hasNav) !== 'false'
         },
         hasBorder_() {
-            return String(this.border) !== 'false';
+            return String(this.border) !== 'false'
         },
         hasTab_() {
-            return String(this.hasTab) !== 'false';
+            return String(this.hasTab) !== 'false'
         },
         fixedHeight_() {
             return this.$c.formatUnit(
@@ -109,7 +109,7 @@ export default {
             )
         },
         height_() {
-            if (!this.value) return '0px';
+            if (!this.value) return '0px'
             return this.$c.formatUnit(this.height)
         },
         paddingTop_() {
@@ -141,6 +141,7 @@ export default {
                 ...this.parentStyle_,
                 height: `calc(${this.height_} + ${this.paddingTop_})`,
                 backgroundColor: this.bgColor
+
             }
             this.hasNav_ ? '' : (childrenStyle.top = 0)
             this.top ? (childrenStyle.top = this.top + 'rpx') : '';
@@ -180,7 +181,7 @@ export default {
             'px';
         // #endif
         // #ifdef APP-PLUS
-        this.paddingTop = systemInfo.statusBarHeight + 'px';
+        this.paddingTop = systemInfo.statusBarHeight + 'px'
         // #endif
     },
     methods: {
@@ -195,8 +196,8 @@ export default {
         change(pro1, pro2, status) {
             this[pro1] = status
             if (this.isFirst) {
-                // eslint-disable-next-line no-return-assign
-                return (this[pro2] = status)
+                this[pro2] = status
+                return this[pro2]
             }
             // 先清空延时函数
             clearTimeout(this.timer)
@@ -214,7 +215,7 @@ export default {
                 // #endif
             } else {
                 this.timer = setTimeout(() => {
-                    this.destroyEle_ ? (this[pro2] = status) : '';
+                    this.destroyEle_ ? (this[pro2] = status) : ''
                 }, 50)
             }
         }

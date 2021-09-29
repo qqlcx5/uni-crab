@@ -2,10 +2,10 @@
     <view
         class="c-cell"
         :hover-class="hoverClass_"
-        :class="[
+        :class="[ 
             'c-cell--' + size,
             arrow ? 'c-cell__arrow': '',
-            center ? 'c-cell__center': '',
+            center ? 'c-cell__center': ''
         ]"
         :style="[ cellStyle ]"
         @tap="handleClick"
@@ -290,8 +290,8 @@ export default {
             return String(this.border) !== 'false'
         },
         rotate_() {
-            if (this.direction == 'up') return -90
-            else if (this.direction == 'down') return 90
+            if (this.direction === 'up') return -90
+            else if (this.direction === 'down') return 90
             else return 0
         },
         isImg_() {
@@ -321,6 +321,7 @@ export default {
 .c-cell {
     position: relative;
     @include flex(row);
+    align-items: center;
     justify-content: flex-start;
     padding: $spacing-col-lg $spacing-row-base * 2;
     font-size: $font-base;

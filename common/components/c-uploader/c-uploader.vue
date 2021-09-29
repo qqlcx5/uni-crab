@@ -318,7 +318,9 @@ export default {
             img_upload_cache: [],
             img_upload_cache_list: [],
             img_upload_before_list: [],
+
             video_upload_len: 0,
+
             video_upload_cache: [], // 用来上传的            
             video_upload_cache_list: [], // 上传完的            
             video_upload_before_list: [], // 上传前的blob本地文件
@@ -442,16 +444,13 @@ export default {
                     type: type
                 })
             })
-
             uni.showLoading({
                 title: `正在上传...`
             })
-
             Promise.all(promises)
                 .then(function (data) {
                     console.log('data', data)
                     uni.hideLoading()
-
                     if (type === 'image') {
                         _self.img_upload_cache_list.push(...data)
                         console.log('img_upload_before_list', _self.img_upload_before_list)

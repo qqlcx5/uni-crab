@@ -1,9 +1,3 @@
-<!--
- * @Descripttion: 
- * @version: 1.0
- * @Author: sanhui
- * @Date: 2021-07-20 14:10:08
--->
 <template>
     <view
         class="c-mask"
@@ -16,7 +10,7 @@
         @touchmove.stop.prevent
     ></view>
 </template>
-
+ 
 <script>
 export default {
     props: {
@@ -25,8 +19,8 @@ export default {
             default: false
         },
         /**
-        * 点击蒙板是否关闭,默认true关闭
-        */
+         * 点击蒙板是否关闭,默认true关闭
+         */
         maskabled: {
             type: [Boolean, String],
             default: true
@@ -94,6 +88,7 @@ export default {
     z-index: 999;
     transition-timing-function: linear;
     transition-property: opacity;
+
     &--visible {
         opacity: 1;
     }

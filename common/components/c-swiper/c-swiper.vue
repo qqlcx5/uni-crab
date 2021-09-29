@@ -226,80 +226,80 @@ export default {
 </script>
 <style lang="scss" scoped>
 .details-swiper-box {
-  position: relative;
-
-  .details-swiper {
-    width: 100%;
-    height: 750rpx;
-
-    .swiper-item {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .dot {
-    position: absolute;
-    bottom: 30rpx;
-    right: 30rpx;
-    background: #000000;
-    border-radius: 30rpx;
-    opacity: 0.4;
-    padding: 8rpx 14rpx;
-    box-sizing: border-box;
-    font-size: 22rpx;
-    color: #ffffff;
-  }
-  .video-swiper {
     position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: 5;
-      display: block;
-      width: 750rpx;
-      height: 750rpx;
-      background: rgba(0, 0, 0, 0.3);
-    }
-    .icon {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate3d(-50%, -50%, 0);
-      z-index: 10;
-    }
-  }
-  .video-box {
-    height: 100vh;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.9);
-  }
 
-  .swiper {
-    &-dots {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      @include abs(null, 24rpx, 24rpx, null);
-      //   transform: translate(-50%, 0);
+    .details-swiper {
+        width: 100%;
+        height: 750rpx;
+
+        .swiper-item {
+            width: 100%;
+            height: 100%;
+        }
     }
-    &-dot {
-      margin: 0 4rpx;
-      border-radius: 3rpx;
-      @include tst();
-      width: 10rpx;
-      height: 10rpx;
-      background: rgba(255, 255, 255, 0.23);
-      border-radius: 6rpx;
-      &.active {
-        width: 22rpx;
-        height: 10rpx;
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 6rpx;
-      }
+
+    .dot {
+        position: absolute;
+        bottom: 30rpx;
+        right: 30rpx;
+        background: #000000;
+        border-radius: 30rpx;
+        opacity: 0.4;
+        padding: 8rpx 14rpx;
+        box-sizing: border-box;
+        font-size: 22rpx;
+        color: #ffffff;
     }
-  }
+    .video-swiper {
+        position: relative;
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 5;
+            display: block;
+            width: 750rpx;
+            height: 750rpx;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .icon {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            z-index: 10;
+        }
+    }
+    .video-box {
+        height: 100vh;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    .swiper {
+        &-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            @include abs(null, 24rpx, 24rpx, null);
+            //   transform: translate(-50%, 0);
+        }
+        &-dot {
+            margin: 0 4rpx;
+            border-radius: 3rpx;
+            @include tst();
+            width: 10rpx;
+            height: 10rpx;
+            background: rgba(255, 255, 255, 0.23);
+            border-radius: 6rpx;
+            &.active {
+                width: 22rpx;
+                height: 10rpx;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 6rpx;
+            }
+        }
+    }
 }
 </style>

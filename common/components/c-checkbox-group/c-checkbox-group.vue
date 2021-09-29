@@ -14,7 +14,7 @@ import Emitter from '../../utils/emitter.js'
  * @property {String Number} size 组件整体的大小，单位rpx（默认40）
  * @property {Boolean} disabled 是否禁用所有checkbox（默认false）
  * @property {String Number} icon-size 图标大小，单位rpx（默认20）
- * @property {Boolean} label-disabled 是否禁止点击文本操作checkbox(默认false)
+ * @property {Boolean} label-disabled 是否禁止点击文本操作checkbox(默认false) 
  * @property {String} width 宽度，需带单位
  * @property {String} width 宽度，需带单位
  * @property {String} shape 外观形状，shape-方形，circle-圆形(默认circle)
@@ -153,7 +153,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped >
 .c-checkbox-group {
     /* #ifndef MP || APP-NVUE */
     display: flex;
