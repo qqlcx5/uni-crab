@@ -38,7 +38,6 @@ const http = new Request({
 const refreshToken = Refresh.initRefreshToken()
 /* 请求之前拦截器。可以使用async await 做异步操作 */
 http.interceptors.request.use(async (config) => {
-    console.log(config);
     config.data = {
         ...config.data
     }

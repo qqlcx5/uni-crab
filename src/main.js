@@ -9,6 +9,7 @@ import App from './App'
 
 // 注入公共代码
 import saasUI, { RouterMount, router, setHttpConfig, setRequestList } from '../common/index'
+
 Vue.use(saasUI, {
     cconfig: {
         aaa: 1
@@ -22,6 +23,17 @@ Vue.use(saasUI, {
         }
     }
 })
+
+router.beforeEach((to, from, next) => {
+    console.log('地址拦截', to, from);
+    next()
+})
+
+router.afterEach((to, from) => {
+    console.log(to, from);
+})
+
+// 请求列表配置
 setRequestList({
     shopInfo: {
         url: '/Shop/info'
@@ -30,8 +42,11 @@ setRequestList({
         url: '/Shop/info'
     }
 })
-
-setHttpConfig({}, {
+// 请求配置
+setHttpConfig({
+    // 请求头设置
+}, {
+    // 备用域名配置
     apiList: [
         // #ifdef H5
         process.env.NODE_ENV === 'production' ? 'http://betaapp-saas.zzsupei.com' : '/ssApi'
