@@ -134,45 +134,44 @@ http.interceptors.response.use((response) => {
         return data
     }
 }, response => {
-    // #ifdef MP-WEIXIN
+    console.log('接口报错了', response);
     // 接口请求不通是不存在statusCode状态码，所以只要根据statusCode判断切域名
     const { statusCode = 0 } = response
     if (!statusCode) {
-        console.log('域名不存在或已宕机，正在切换域名')
-        // if(response.config.url !== 'WxApp/shuaxin')
-        // 正在切换域名
-        if (!refreshToken.isChangeDomain) {
-            saveAPIConfig()
-            refreshToken.setDomainType(true)
-            // 刷新token
-            return resendChangeDomainRequest().then(() => {
-                console.log('域名切换成功，正在重发请求')
-                refreshToken.notifyTaskReload()
-                refreshToken.setDomainType(false)
-                return http.request(response.config)
-            }).catch((e) => {
-                console.log('切换之后还是失败了', e)
-                refreshToken.clearTask()
-                refreshToken.setDomainType(false)
-                return response
+        if (apiDefaultList.length > 1) {
+            console.log('域名不存在或已宕机，正在切换域名')
+            // if(response.config.url !== 'WxApp/shuaxin')
+            // 正在切换域名
+            if (!refreshToken.isChangeDomain) {
+                saveAPIConfig(true)
+                refreshToken.setDomainType(true)
+                // 刷新token
+                return resendChangeDomainRequest().then(() => {
+                    console.log('域名切换成功，正在重发请求')
+                    refreshToken.notifyTaskReload()
+                    refreshToken.setDomainType(false)
+                    return http.request(response.config)
+                }).catch((e) => {
+                    console.log('切换之后还是失败了', e)
+                    refreshToken.clearTask()
+                    refreshToken.setDomainType(false)
+                    return response
+                })
+            }
+            return new Promise((r, s) => {
+                // 将需要重新请求的接口添加到队列中
+                refreshToken.addTask((isError) => {
+                    if (isError) {
+                        return r(response)
+                    }
+                    http.request(response.config).then(r).catch(s)
+                })
             })
         }
-        return new Promise((r, s) => {
-            // 将需要重新请求的接口添加到队列中
-            refreshToken.addTask((isError) => {
-                if (isError) {
-                    return r(response)
-                }
-                http.request(response.config).then(r).catch(s)
-            })
-        })
+        return response
     } else {
         return response
     }
-    // #endif
-    // #ifndef MP-WEIXIN
-    return response
-    // #endif
 })
 
 
@@ -194,15 +193,19 @@ export function setHttpConfig(config, apiConfig) {
     saveAPIConfig()
 }
 
-function saveAPIConfig() {
+/**
+ * 切换域名
+ * force {boolean} 暴力切换
+*/
+function saveAPIConfig(force = false) {
     const newTime = +new Date()
     let apiCatch = uni.getStorageSync(commonConfig.curApiCatch)
     // #ifdef MP-WEIXIN
     // 切换的域名有效
     if (apiCatch) {
         // 时间超过缓存时间 要切回来
-        if (apiCatch.saveTime < newTime - apiCatchTime) {
-            console.log('-----------请求域名缓存超时了---------')
+        if (apiCatch.saveTime < newTime - apiCatchTime || force) {
+            console.log('-----------请求域名缓存超时或被清行切换---------')
             apiCatch = {
                 saveTime: newTime,
                 url: apiDefaultList.find(o => o !== apiCatch.url)
