@@ -1,7 +1,6 @@
 <template>
     <view
         class="c-image"
-        :class="{'c-image__mask': mask_}"
         :style="[parentStyle_]"
         @click="onClick"
     >
@@ -26,6 +25,10 @@
 </template>
 
 <script>
+// #ifdef APP-PLUS-NVUE
+import config from '../../config'
+import { formatUnit } from '../../utils'
+// #endif
 /**
  * props下面的宽高圆角都只支持rpx  不要传单位进来
  */
@@ -38,10 +41,6 @@ export default {
         mode: {
             type: String,
             default: 'scaleToFill'
-        },
-        type: {
-            type: String,
-            default: 'normal'
         },
         // 是否显示加载中
         showLoading: {
@@ -88,10 +87,6 @@ export default {
             type: String,
             default: ''
         },
-        border: {
-            type: String,
-            default: ''
-        },
         // 图片圆角,解决app端问题，如果设置了shape为circle，该属性就失效了
         radius: {
             type: [String, Number],
@@ -106,20 +101,17 @@ export default {
             type: String,
             default: 'transparent'
         },
-        // 图片加边框
-        mask: {
-            type: [String, Boolean],
-            default: false
-        },
-        // 图片加边框
-        shadow: {
-            type: [String, Boolean],
-            default: false
-        },
         // 是否使用过渡效果
         effect: {
             type: Boolean,
             default: false
+        },
+        // 是否有边框
+        border: {
+            type: Object,
+            default: () => {
+                return {}
+            }
         },
         // 淡入淡出动画的过渡时间
         duration: {
@@ -127,7 +119,7 @@ export default {
             default: 300
         },
         showMenuByLongpress: {
-            type: [Boolean, String],
+            type: [String, Boolean],
             default: false
         }
     },
@@ -140,12 +132,6 @@ export default {
         }
     },
     computed: {
-        mask_() {
-            return String(this.mask) !== 'false'
-        },
-        shadow_() {
-            return String(this.shadow) !== 'false'
-        },
         isEffect_() {
             return String(this.effect) !== 'false'
         },
@@ -165,7 +151,9 @@ export default {
             if (Object.keys(this.border).length) {
                 style = Object.assign({}, style, this.border)
             }
+            // #ifndef APP-PLUS-NVUE
             style.height = this.mode_ === 'widthFix' ? 'auto' : height;
+            // #endif
             // #ifdef APP-PLUS-NVUE
             (this.mode !== 'widthFix' || this.height) && (style.height = height)
             // #endif
@@ -177,23 +165,28 @@ export default {
                 backgroundColor: this.bgColor,
                 ...this.style_
             }
-            if (this.shadow_) {
-                parentStyle.boxShadow = this.shadow_.indexOf('px') ? this.shadow_ : '0px 0px 8px 0px rgba(182, 204, 255, 0.3)'
-            }
             if (this.isEffect_) {
                 parentStyle.opacity = this.opacity
                 parentStyle.transition = `opacity ${this.time / 1000}s ease-in-out`
             } else {
                 parentStyle.opacity = 1
             }
-            if (this.border) parentStyle.border = this.border
             return parentStyle
         },
         static_() {
             return String(this.static) !== 'false'
         },
+        showMenuByLongpress_() {
+            return String(this.showMenuByLongpress) !== 'false'
+        },
         errSrc_() {
-            let errSrc = this.errSrc ? this.errSrc : this.$config ? this.$config.errorImg : ''
+            let errSrc
+            // #ifdef APP-PLUS-NVUE
+            errSrc = this.errSrc ? this.errSrc : config ? config.errorImg : ''
+            // #endif
+            // #ifndef APP-PLUS-NVUE
+            errSrc = this.errSrc ? this.errSrc : this.$config ? this.$config.errorImg : ''
+            // #endif
             return this.getFullOssImg(errSrc)
         },
         imgUrl_() {
@@ -206,9 +199,6 @@ export default {
             // const width = this.$c.formatUnit(this.width, 'rpx', size)
             // const height = this.$c.formatUnit(this.height, 'rpx', size)
             // return width.indexOf('%') !== -1 && height.indexOf('%') !== -1 ? 'widthFix' : this.mode
-        },
-        showMenuByLongpress_() {
-            return String(this.showMenuByLongpress) !== 'false'
         }
     },
     watch: {
@@ -235,6 +225,14 @@ export default {
             immediate: true
         }
     },
+    created() {
+        // #ifdef APP-PLUS-NVUE
+        !this.$config ? (this.$config = {}) : ''
+        this.$config = config
+        !this.$c ? (this.$c = {}) : ''
+        this.$c.formatUnit = formatUnit
+        // #endif
+    },
     methods: {
         getFullOssImg(url) {
             if (url.indexOf('data:image') !== -1 || url.indexOf('wxfile:') !== -1 || url.indexOf('file:') !== -1 || url.indexOf('_doc') !== -1) {
@@ -242,7 +240,12 @@ export default {
             } else if (/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g.test(url)) {
                 return url
             } else {
+                // #ifdef APP-PLUS-NVUE
+                return (config ? config.ossImgUrl : '') + url
+                // #endif
+                // #ifndef APP-PLUS-NVUE
                 return (this.$config ? this.$config.ossImgUrl : '') + url
+                // #endif
             }
         },
         imgLoaded(e) {
@@ -275,15 +278,6 @@ export default {
     opacity: 0;
     overflow: hidden;
     position: relative;
-    &__mask {
-        &::after {
-            content: '';
-            @include abs(0, 0, 0, 0);
-            background-color: rgba($color: #000000, $alpha: 0.02);
-            z-index: 2;
-            border-radius: inherit;
-        }
-    }
 
     &__image {
         width: 100%;

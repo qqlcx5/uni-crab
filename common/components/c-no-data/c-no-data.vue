@@ -1,15 +1,6 @@
-<!--
- * @Descripttion: 
- * @version: 1.0
- * @Author: J
- * @Date: 2021-05-20 11:54:33
--->
 <template>
     <view class="c-no-data">
-        <view
-            v-if="showImg_"
-            :style="[style_]"
-        >
+        <block v-if="showImg_">
             <c-image
                 v-if="isImg_"
                 :static="isStatic_"
@@ -23,10 +14,9 @@
                 class="c-no-data__img"
                 :type="icon"
                 :size="size"
-            >
-            </c-icons>
+            ></c-icons>
             <!-- #endif -->
-        </view>
+        </block>
         <text
             v-if="text_"
             class="c-no-data__text"
@@ -64,12 +54,6 @@ export default {
             default: () => {
                 return {}
             }
-        },
-        boxStyle: {
-            type: Object,
-            default: () => {
-                return {}
-            }
         }
     },
     computed: {
@@ -84,9 +68,6 @@ export default {
         },
         text_() {
             return String(this.text) === 'false' ? false : this.text
-        },
-        style_() {
-            return this.boxStyle
         }
     }
 }
@@ -98,6 +79,7 @@ export default {
     text-align: center;
     @include flex(column);
     align-items: center;
+
     &__text {
         font-size: $font-base;
         color: #999;

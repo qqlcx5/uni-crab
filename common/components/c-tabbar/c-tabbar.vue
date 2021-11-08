@@ -146,7 +146,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/common/styles/tarbar.css";
 .c-tabbar {
     &-bd {
         .flex-1 {

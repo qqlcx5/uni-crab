@@ -106,5 +106,6 @@
     ],
     "uni-app": {
         "scripts": {}
-    }
+    },
+    "types": "./types/index.d.ts"
 }

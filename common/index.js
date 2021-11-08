@@ -1,5 +1,5 @@
 /*
- * @Descripttion: 
+ * @Descripttion:
  * @version: 1.0
  * @Author: sanhui
  * @Date: 2021-09-28 16:27:15
@@ -28,7 +28,8 @@ const globalFun = {
             filter = {},
             http = {},
             router: routerConfig = {
-            }
+            },
+            mixins = []
         } = extra || {}
         const {
             config: httpConfig = {},
@@ -79,6 +80,9 @@ const globalFun = {
         Object.keys(allFilter).forEach(fKey => {
             Vue.filter(fKey, allFilter[fKey]);
         })
+
+        //混入全局minxins
+        mixins.forEach(v => Vue.mixin(v));
     }
 }
 

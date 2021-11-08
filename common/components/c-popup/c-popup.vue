@@ -2,6 +2,7 @@
     <view
         v-if="popupFlag"
         hover-stop-propagation
+        @click.stop
     >
         <view
             class="c-modal"

@@ -16,88 +16,25 @@
             class="c-input-bd"
             :style="[textAreaStyle_]"
         >
-            <template v-if="type !== 'textarea'">
-                <input
-                    v-if="inputType === 'text'"
-                    ref="input"
-                    class="c-input"
-                    :disabled="disabled_"
-                    :confirm-type="confirmType"
-                    :maxlength="maxlength_"
-                    :focus="focus_"
-                    type="text"
-                    :value="inputValue_"
-                    :placeholder="placeholder"
-                    :password="type === 'password' && !showPassword"
-                    placeholder-class="c-input-placeholder"
-                    :style="[inputStyle]"
-                    :placeholder-style="placeholderStyle"
-                    @input="onInput"
-                    @focus="onFocus"
-                    @blur="onBlur"
-                    @confirm="onConfirm"
-                />
-                <input
-                    v-else-if="inputType === 'digit'"
-                    ref="input"
-                    class="c-input"
-                    :disabled="disabled_"
-                    :confirm-type="confirmType"
-                    :maxlength="maxlength_"
-                    :focus="focus_"
-                    type="digit"
-                    :value="inputValue_"
-                    :placeholder="placeholder"
-                    :password="type === 'password' && !showPassword"
-                    placeholder-class="c-input-placeholder"
-                    :style="[inputStyle]"
-                    :placeholder-style="placeholderStyle"
-                    @input="onInput"
-                    @focus="onFocus"
-                    @blur="onBlur"
-                    @confirm="onConfirm"
-                />
-                <input
-                    v-else-if="inputType === 'number'"
-                    ref="input"
-                    class="c-input"
-                    :disabled="disabled_"
-                    :confirm-type="confirmType"
-                    :maxlength="maxlength_"
-                    :focus="focus_"
-                    type="number"
-                    :value="inputValue_"
-                    :placeholder="placeholder"
-                    :password="type === 'password' && !showPassword"
-                    placeholder-class="c-input-placeholder"
-                    :style="[inputStyle]"
-                    :placeholder-style="placeholderStyle"
-                    @input="onInput"
-                    @focus="onFocus"
-                    @blur="onBlur"
-                    @confirm="onConfirm"
-                />
-                <input
-                    v-else-if="inputType === 'idcard'"
-                    ref="input"
-                    class="c-input"
-                    :disabled="disabled_"
-                    :confirm-type="confirmType"
-                    :maxlength="maxlength_"
-                    :focus="focus_"
-                    type="idcard"
-                    :value="inputValue_"
-                    :placeholder="placeholder"
-                    :password="type === 'password' && !showPassword"
-                    placeholder-class="c-input-placeholder"
-                    :style="[inputStyle]"
-                    :placeholder-style="placeholderStyle"
-                    @input="onInput"
-                    @focus="onFocus"
-                    @blur="onBlur"
-                    @confirm="onConfirm"
-                />
-            </template>
+            <input
+                v-if="type !== 'textarea'"
+                ref="input"
+                class="c-input"
+                :disabled="disabled_"
+                :confirm-type="confirmType"
+                :maxlength="maxlength_"
+                :focus="focus_"
+                :type="inputType"
+                :value="inputValue_"
+                :placeholder="placeholder"
+                :password="type === 'password' && !showPassword"
+                placeholder-class="c-input-placeholder"
+                :placeholder-style="placeholderStyle"
+                @input="onInput"
+                @focus="onFocus"
+                @blur="onBlur"
+                @confirm="onConfirm"
+            />
             <textarea
                 v-else
                 class="c-textarea"
@@ -315,12 +252,6 @@ export default {
         textAreaStyle: {
             type: Object,
             default: () => { }
-        },
-        inputStyle: {
-            type: Object,
-            default: () => {
-                return {}
-            }
         }
     },
     data() {
@@ -567,11 +498,9 @@ export default {
             min-height: 0;
             background-color: transparent;
         }
-
         .c-numVerification {
             text-align: right;
         }
-
         &--select {
             .c-input-icon__arrows {
                 @include abs(0, 0, 0, 0);

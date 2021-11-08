@@ -1,16 +1,35 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: sanhui
+ * @Date: 2021-07-20 14:10:08
+-->
 <template>
-    <view
-        class="c-mask"
-        :class="[
-            show ? 'c-mask--visible' : ''
-        ]"
-        :style="[ parentStyle_ ]"
-        catchtouchmove="true"
-        @click="handleClick"
-        @touchmove.stop.prevent
-    ></view>
+    <view>
+        <view
+            v-if="isSlide_"
+            class="c-mask"
+            :class="[
+                show ? 'c-mask--visible' : ''
+            ]"
+            :style="[ parentStyle_ ]"
+            catchtouchmove="true"
+            @click="handleClick"
+            @touchmove.stop.prevent
+        ></view>
+        <view
+            v-else
+            class="c-mask"
+            :class="[
+                show ? 'c-mask--visible' : ''
+            ]"
+            :style="[ parentStyle_ ]"
+            @click="handleClick"
+        >
+        </view>
+    </view>
 </template>
- 
+
 <script>
 export default {
     props: {
@@ -19,8 +38,8 @@ export default {
             default: false
         },
         /**
-         * 点击蒙板是否关闭,默认true关闭
-         */
+        * 点击蒙板是否关闭,默认true关闭
+        */
         maskabled: {
             type: [Boolean, String],
             default: true
@@ -49,6 +68,10 @@ export default {
         radius: {
             type: [String, Number],
             default: 0
+        },
+        isSlide: {
+            type: [Boolean, String],
+            default: true
         }
     },
     computed: {
@@ -67,6 +90,9 @@ export default {
         },
         maskabled_() {
             return String(this.maskabled) !== 'false'
+        },
+        isSlide_() {
+            return String(this.isSlide) !== 'false'
         }
     },
     methods: {
@@ -88,7 +114,6 @@ export default {
     z-index: 999;
     transition-timing-function: linear;
     transition-property: opacity;
-
     &--visible {
         opacity: 1;
     }

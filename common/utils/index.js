@@ -51,7 +51,7 @@ export function numFormat(num, type = 'price') {
 /**
  * 是否是图片
  * @parmas src {String} 地址或者icon值
- * @return {Boolean} 
+ * @return {Boolean}
  */
 export const isImg = (src) => {
     if (!src) return false
@@ -382,14 +382,13 @@ export function addUnit(value = 'auto', unit = 'rpx') {
 
 // 柯里化
 export const typeFn = {}
-const curring = (fn, arr = []) => {
-    const len = fn.length
-    return (...args) => {
-        arr = arr.concat(args)
-        if (arr.length < len) {
-            return curring(fn, arr)
+const curring = (fn) => {
+    const args = []
+    return function curryN(...v) {
+        if (args.push(...Array.from(v)) < fn.length) {
+            return curryN
         }
-        return fn(...arr)
+        return fn(...args)
     }
 }
 
@@ -509,7 +508,7 @@ export function formatUnit(val, unit = 'rpx', deault = 0) {
 /** *
  * 获取当前日期为开始时间
  * @parmas type { String } start:开始 end: 结束
- * 
+ *
  */
 export const getDate = (type) => {
     const date = new Date()
@@ -571,7 +570,7 @@ function getNow(s) {
 
 /** *
  * 两个日期比较 如 2021-01-01 与 2021-04-01
- * 
+ *
  */
 export const compareDate = (date1, date2) => {
     var oDate1 = new Date(date1)
@@ -622,4 +621,9 @@ export const timeRange = (beginTime, endTime, nowTime) => {
     } else {
         return false
     }
+}
+
+
+export const where = (is, condition1, condition2 = () => { return {} }) => {
+    return is ? condition1() : condition2()
 }

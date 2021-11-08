@@ -1,5 +1,6 @@
 <template>
     <view class="c-rate">
+        <!-- {{scoreList}} -->
         <view
             v-for="(item, index) in scoreList"
             :key="index"
@@ -43,12 +44,12 @@ export default {
         // 选中图标名称
         icon: {
             type: String,
-            default: 'icon-shixinwujiaoxing'
+            default: 'icon-shoucangdianpuxuanzhong'
         },
         // 未选中图标名称
         voidIcon: {
             type: String,
-            default: 'icon-kongxinwujiaoxing'
+            default: 'icon-shoucangdianpu'
         },
         // 选中图标颜色
         color: {

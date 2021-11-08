@@ -69,6 +69,10 @@ export default {
             type: [String, Boolean],
             default: ''
         },
+        customStyle: {
+            type: Object,
+            default: () => { }
+        },
         // 选中状态下的颜色，如设置此值，将会覆盖checkboxGroup的activeColor值
         activeColor: {
             type: String,
@@ -198,7 +202,7 @@ export default {
                 style.flex = '0 0 100%'
                 // #endif
             }
-            return style
+            return { ...style, ...this.customStyle }
         }
     },
     methods: {

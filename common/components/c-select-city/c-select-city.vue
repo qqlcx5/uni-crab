@@ -1,9 +1,9 @@
 <template>
     <view>
+        <!-- maskabled="false" -->
         <c-popup
             v-model="modalFlag"
             mode="bottom"
-            maskabled="false"
             radius="24rpx 24rpx 0 0"
         >
             <view class="select-city">
@@ -54,7 +54,7 @@
                                 type="icon-queding"
                                 size="32"
                             ></c-icons>
-                            {{item.label}}
+                            {{ item.label }}
                         </c-colors>
                     </view>
                 </scroll-view>

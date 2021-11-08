@@ -3,94 +3,102 @@
         v-model="selectFlag"
         mode="bottom"
         show-close="true"
-        radius="16rpx 16rpx 0 0"
+        radius="24rpx 24rpx 0 0"
     >
-        <view class="pop-box">
-            <view
-                class="c-row pt48"
-                :class="{'pb48': mode == 'list'}"
-            >
-                <block v-if="mode == 'home'">
-                    <view class="c-col-12">
-                        <view class="appoint-title">{{ title }}</view>
-                    </view>
-                    <view class="apppoint-content">服务内容：{{ content }}</view>
-                    <view class="apppoint-ps">稍后装修公司将会电话联系你，沟通具体的装修方案流程</view>
-                </block>
-                <block v-else-if="mode == 'list'">
-                    <view class="c-col-12">
-                        <view
-                            class="appoint-title"
-                            :class="[mode]"
-                        >{{ content }}</view>
-                        <view
-                            v-if="info.start_time && info.end_time"
-                            class="apppoint-ps"
-                            :class="[mode]"
-                        >活动时间：{{ info.start_time }}-{{ info.end_time }}</view>
-                    </view>
-                </block>
-                <view class="apppoint-phone">请确定手机号以便享受优惠</view>
-                <view class="apppoint-input">
-                    <c-input
-                        ref="checkTelRef"
-                        v-model="mobile"
-                        maxlength="11"
-                        pattern="mobile"
-                        msg-name="手机号"
-                        placeholder="请输入手机号"
-                        after-width="100"
-                        :disabled="isEdit"
-                        type="number"
-                    >
-                        <text
-                            v-show="isEdit"
-                            class="apppoint-input__text"
-                            @click="handleEdit"
-                        >修改</text>
-                    </c-input>
-                </view>
-                <block v-if="mode == 'home'">
-                    <c-checkbox-group
-                        class="apppoint-agree"
-                        @change="handleChange"
-                    >
-                        <c-checkbox
-                            name="1"
-                            checked
-                        >
-                            <text class="agree-server">我已阅读并同意<text class="server">《服务须知》</text></text>
-                        </c-checkbox>
-                    </c-checkbox-group>
-                </block>
+        <view class="c-subscribe c-content">
+            <view v-if="mode === 'home'">
+                <view class="c-subscribe__title">{{ title }}</view>
+                <view class="c-subscribe__content pt16">服务内容：{{ content }}</view>
+                <view class="c-subscribe__desc pt8">稍后客服将会联系您!</view>
             </view>
-            <view class="appoint-btn">
-                <c-colors
-                    radius="16"
-                    :theme="['t', '#fff']"
-                    :pro="['bgc', 'c']"
+            <view v-else-if="mode === 'list'">
+                <view class="c-subscribe__content">{{ content }}</view>
+                <view class="c-subscribe__desc pt8">活动时间：{{ info.start_time }}-{{ info.end_time }}</view>
+            </view>
+
+            <text class="c-subscribe__input-title pt32">
+                请确定手机号以便享受优惠
+            </text>
+            <view class="c-subscribe__input-box">
+                <c-input
+                    ref="checkTelRef"
+                    v-model="mobile"
+                    class="flex-1"
+                    maxlength="11"
+                    pattern="mobile"
+                    msg-name="手机号"
+                    placeholder="请输入手机号"
+                    :disabled="isEdit"
+                    type="number"
                 >
-                    <c-button
-                        type="inherit"
-                        :loading="loading"
-                        @click="appoint"
-                    >{{ btnText_ }}</c-button>
-                </c-colors>
+                    <text
+                        v-show="isEdit"
+                        class="c-subscribe__input-operate"
+                        @click="handleEdit"
+                    >修改</text>
+                </c-input>
+            </view>
+            <view v-if="mode === 'home'">
+                <c-checkbox-group @change="handleCheckbox($event)">
+                    <view class="c-subscribe__agreement pt16">
+                        <c-checkbox
+                            icon-size="28"
+                            label-size="28"
+                            name="checked"
+                            checked
+                        >我已阅读并同意</c-checkbox>
+                        <text
+                            v-if="agreement.status === 1"
+                            class="c-subscribe__agreement-text"
+                            @click="$jumpDetail('agreement', agreement.id)"
+                        >《{{ agreement.title }}》</text>
+                        <text v-if="agreement.status === 1 && privacy.status === 1">和</text>
+                        <text
+                            v-if="privacy.status === 1"
+                            class="c-subscribe__agreement-text"
+                            @click="$jumpDetail('agreement', agreement.id)"
+                        >《{{ privacy.title }}》</text>
+                    </view>
+                </c-checkbox-group>
+            </view>
+            <view class="c-underline pt24"></view>
+            <view class="flex ptb24">
+                <view class="flex-1">
+                    <c-colors
+                        radius="16"
+                        type="button"
+                        :theme="['t', '#fff']"
+                        :pro="['bgc', 'c']"
+                    >
+                        <c-button
+                            height="88"
+                            type="inherit"
+                            :loading="loading"
+                            @click="handleSubmit"
+                        >立即预约</c-button>
+                    </c-colors>
+                </view>
             </view>
         </view>
     </c-popup>
 </template>
 <script>
+
 export default {
+    options: {
+        styleIsolation: 'shared'
+    },
     props: {
         value: {
             type: Boolean,
             default: false
         },
+        // 1案例 2免费量房 3免费设计 4免费报价 5工长 6装修活动 7 共享官网 8 邀请函
         type: {
             type: [String, Number],
             default: 1
         },
+        // 来源id
         source: {
             type: [String, Number],
             default: ''
@@ -104,7 +112,6 @@ export default {
             default: '免费提供平面方案和全景效果图'
         },
         /**
-         * 根据不用的mode显示的内容样式不同
          * home: 首页装修活动
          * list: 活动列表的活动详情
          */
@@ -122,17 +129,13 @@ export default {
     },
     data() {
         return {
-            isEdit: false,
-            agreeCheck: true,
             selectFlag: false,
             mobile: '',
+            agreement: {},
+            privacy: {},
+            isEdit: false,
+            isCheckAgree: true,
             loading: false
-        }
-    },
-    computed: {
-        btnText_() {
-            // if (this.mode === 'list') return '立即参与';
-            return '立即预约'
         }
     },
     watch: {
@@ -148,130 +151,92 @@ export default {
     },
     created() {
         this.handleGetUser()
+        this.getAgreementStatus()
     },
     methods: {
         async handleGetUser() {
-            const userInfoRes = await this.$http('userInfo', {}, {
-                source: 'catch'
-            })
+            const userInfoRes = await this.$http('userInfo', {}, { source: 'catch' })
             if (userInfoRes.data) {
                 this.mobile = userInfoRes.data.mobile
                 this.isEdit = !!userInfoRes.data.mobile
             }
         },
-        handleChange(e) {
-            this.agreeCheck = e.detail.value[0] * 1 === 1
+        // 商家是否开启协议
+        async getAgreementStatus() {
+            const { data: agreement } = await this.$http('agreementStatus', { type: 1 }) // 1 用户协议 2会员购买协议 3会员资料协议4商家套餐升级协议 6 隐私协议
+            const { data: privacy } = await this.$http('agreementStatus', { type: 6 }) // 1 用户协议 2会员购买协议 3会员资料协议4商家套餐升级协议 6 隐私协议
+            this.agreement = agreement
+            this.privacy = privacy
+        },
+        handleCheckbox(e) {
+            const val = e.detail.value
+            this.isCheckAgree = val[0] === 'checked'
         },
         handleEdit() {
-            this.mobile = ''
             this.isEdit = false
+            this.mobile = ''
         },
-        async appoint() {
+        async handleSubmit() {
             const validateObj = this.$refs.checkTelRef.validate(true)
+            if (!this.isCheckAgree) return this.$toast('请同意条款')
             if (!validateObj.validate) return
-            if (!this.agreeCheck) {
-                return this.$toast('请同意条款')
-            }
             this.loading = true
-            await this.$http('applySignUp', {
-                phone: this.mobile,
-                type: this.type,
-                source_id: this.source
-            })
+            try {
+                await this.$http('applySignUp', {
+                    phone: this.mobile,
+                    type: this.type,
+                    source_id: this.source
+                })
+            } catch (e) { console.log(e) }
             this.loading = false
             this.selectFlag = false
-            this.$toast('预约报名成功！')
         }
     }
+
 }
 </script>
-<style lang="scss" scoped>
-.pop-box {
-    background: #fff;
-    border-radius: 24rpx 24rpx 0px 0px;
-
-    .appoint-title {
-        height: 50rpx;
+<style lang="scss">
+.c-subscribe {
+    padding: 58rpx 24rpx 0;
+    font-size: 24rpx;
+    @include flex;
+    &__title {
         font-size: 36rpx;
-        font-weight: 500;
+        font-weight: bold;
         color: #fa3f1e;
-        line-height: 50rpx;
-
-        &.list {
-            height: auto;
-            line-height: initial;
-            font-size: 36rpx;
-            font-weight: bold;
-            color: #333;
-        }
     }
-
-    .apppoint-content {
-        padding: 4rpx 12rpx 8rpx;
-        font-weight: 400;
+    &__content {
         font-size: 28rpx;
         color: #333333;
-        line-height: 40rpx;
     }
-
-    .apppoint-ps {
-        padding: 0 12rpx;
-        height: 33rpx;
-        font-size: 24rpx;
-        font-weight: 400;
+    &__desc {
         color: #999999;
-        line-height: 33rpx;
-
-        &.list {
-            padding: 0;
-        }
     }
-
-    .apppoint-phone {
-        padding: 33rpx 12rpx 16rpx;
-        font-size: 24rpx;
-        font-weight: 400;
+    &__input-title {
         color: #333333;
-        line-height: 33rpx;
     }
-
-    .apppoint-input {
-        margin: 0 12rpx;
-        padding: 20rpx 0;
-        display: block;
-        width: 100%;
+    &__input-box {
+        margin-top: 16rpx;
+        padding: 0 24rpx 0 12rpx;
+        display: flex;
+        align-items: center;
         background: #f5f5f5;
         border-radius: 16rpx;
-        position: relative;
-
-        &__text {
-            color: $color-primary;
-            font-size: 24rpx;
-        }
+        height: 88rpx;
     }
-
-    .apppoint-agree {
-        padding: 16rpx 12rpx 36rpx;
-        font-size: 24rpx;
-        font-weight: 400;
-        color: #999999;
+    &__input-operate {
+        color: #43548f;
+    }
+    &__agreement {
+        font-size: 28rpx;
         @include flex(row);
-
-        .agree-server {
-            .server {
-                color: $color-primary;
-            }
+        align-items: center;
+        flex-wrap: wrap;
+        /deep/ .c-checkbox__label {
+            margin-right: 0;
         }
-    }
-
-    .appoint-btn {
-        padding: 24rpx;
-        border-top: 1px solid #ededed;
-
-        .btn-error {
-            height: 88rpx;
-            border-radius: 16rpx;
-            line-height: 88rpx;
+        &-text {
+            color: #43548f;
         }
     }
 }

@@ -13,12 +13,12 @@
                 class="c-modal__title"
                 :style="[ titleStyle ]"
             >{{ title }}</view>
-            <view
-                class="c-modal__content"
-                :style="[ contentStyle ]"
-            >
+            <view class="c-modal__content">
                 <block v-if="$slots.default || content">
-                    <view class="c-modal-bd">
+                    <view
+                        class="c-modal-bd"
+                        :style="[ contentStyle ]"
+                    >
                         <view v-if="content">{{ content }}</view>
                         <slot></slot>
                     </view>

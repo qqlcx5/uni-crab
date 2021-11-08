@@ -128,7 +128,9 @@ export default {
                 // 所有边框的单位
                 const borderUnit = borderArr.map((o, i) => o.replace(borderNumberArr[i], ''))
                 borderStyle.borderRadius = borderArr.map((o, i) => parseInt(o) * 2 + borderUnit[i]).join(' ')
-                this.style_.borderColor && (borderStyle.borderColor = this.style_.borderColor)
+            }
+            if (this.style_.borderColor) {
+                borderStyle.borderColor = this.style_.borderColor
             }
             return borderStyle
         }
@@ -164,6 +166,7 @@ export default {
             return res
         },
         handleGetphonenumber(e) {
+            console.log(e)
             this.$emit('getphonenumber', e)
             this.$emit('getphonenumberencry', {
                 type: e.type || 'getphonenumber',
@@ -234,16 +237,17 @@ export default {
         background-color: inherit;
     }
     &__border {
-        content: '';
-        width: 200%;
-        height: 200%;
+        content: "";
+        width: 199.8%;
+        height: 199.6%;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        transform: scale(0.5, 0.5);
         position: absolute;
         top: 0;
         left: 0;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        transform: scale(0.5);
         transform-origin: 0 0;
         border-radius: 2 * $border-radius-base;
+        z-index: 1;
     }
 
     &--circle {

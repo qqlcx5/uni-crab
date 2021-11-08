@@ -13,7 +13,6 @@
             :disabled="!!linkUrl"
             :placeholder="placeholder"
             :clearable="clearable"
-            @input="inputBack"
             @click="inputClick"
             @confirm="confirmInput"
         >
@@ -21,12 +20,11 @@
                 slot="before"
                 class="search-box__before flex-ajcenter"
             >
-                <gc-icons
+                <c-icons
                     size="32"
                     color="#999999"
                     type="icon-sousuo"
-                >
-                </gc-icons>
+                ></c-icons>
             </view>
         </c-input>
         <view
@@ -34,20 +32,18 @@
             class="search-box__after"
             @click="changeMode"
         >
-            <gc-icons
+            <c-icons
                 v-if="newListMode === 'column'"
                 size="48"
                 color="#999999"
                 type="icon-shupai"
-            >
-            </gc-icons>
-            <gc-icons
+            ></c-icons>
+            <c-icons
                 v-else
                 type="icon-hengpai"
                 size="48"
                 color="#999999"
-            >
-            </gc-icons>
+            ></c-icons>
         </view>
         <view
             v-if="mode === 'searchText'"
@@ -150,30 +146,6 @@ export default {
         confirmInput(e) {
             this.$emit('confirm', {
                 type: e.type,
-                detail: {
-                    value: this.keyword
-                }
-            })
-        },
-        /**
-         * @name: 关闭搜索
-         */
-        changeClose() {
-            this.$emit('changeClose', {
-                type: 'click',
-                detail: {
-                    value: false
-                }
-            })
-        },
-        /**
-         * @name: 输入事件
-         * @param {*} e
-         * @return {*}
-         */
-        inputBack() {
-            this.$emit('inputBack', {
-                type: 'input',
                 detail: {
                     value: this.keyword
                 }

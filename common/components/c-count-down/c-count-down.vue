@@ -303,7 +303,7 @@ export default {
             handler(val) {
                 if (!val) return
                 this.time && this.time.end()
-                this.time = new TimeUtil({ showDays: this.showDays })
+                this.time = new TimeUtil()
                 this.time.addTask(val)
                 this.time.start((res) => {
                     if (res[0].timestamp <= 0 && this.firstZero) {
@@ -317,8 +317,7 @@ export default {
             immediate: true
         }
     },
-    mounted() {
-    },
+    mounted() { },
     created() { },
     beforeDestroy() {
         this.time && this.time.end()
@@ -361,11 +360,10 @@ export default {
 
 .c-countdown-colon {
     display: flex;
+    width: 100%;
     justify-content: center;
-    line-height: 1;
-    padding: 0 4rpx;
+    padding: 0 4rpx 4rpx;
     align-items: center;
-    padding-bottom: 4rpx;
 }
 
 .c-countdown-scale {

@@ -100,13 +100,13 @@ export default {
         emitKeyNumber(e) {
             const val = e.target.dataset.num
             const paymentPwdArr = this.paymentPwd.split('')
-            if (val === '' || (val !== -1 && paymentPwdArr.length === this.digits_)) { // 空或者已经达到最大值
+            if (val === '' || (val != -1 && paymentPwdArr.length === this.digits_)) { // 空或者已经达到最大值
                 if (paymentPwdArr.length === this.digits_ && this.trigger === 'auto') {
                     this.handleSubmit()
                     return
                 }
                 return false
-            } else if (val !== -1) { // 数字输入
+            } else if (val != -1) { // 数字输入
                 paymentPwdArr.splice(this.activeInput, 0, val)
                 this.activeInput++
                 this.paymentPwd = paymentPwdArr.join('')
@@ -149,7 +149,7 @@ export default {
         width: 40rpx;
         height: 40rpx;
         margin-top: -8rpx;
-        @include siteCenter();
+        @include siteCenter;
         transform: translate(50%, -50%) scale(0.5) rotate(-45deg);
     }
 
@@ -159,14 +159,12 @@ export default {
         @include flex(row);
         flex-wrap: wrap;
     }
-
     &__num,
     &-hd {
         position: relative;
         overflow: hidden;
-
         &::before {
-            content: '';
+            content: "";
             width: 200%;
             height: 200%;
             border: 1px solid #eee;
@@ -175,7 +173,6 @@ export default {
             transform-origin: 0 0;
         }
     }
-
     &__num {
         transition: all 0.2s linear;
         background-color: #fff;
@@ -190,7 +187,7 @@ export default {
         font-weight: bold;
 
         &::after {
-            content: '';
+            content: "";
             display: block;
             position: absolute;
             width: 100%;

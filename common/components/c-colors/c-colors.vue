@@ -10,7 +10,7 @@
 
 <script>
 // #ifdef APP-PLUS-NVUE
-import { formatUnit } from '../../utils/index.js'
+import { formatUnit } from '../../utils'
 // #endif
 const colorEnum = {
     t: 'theme',
