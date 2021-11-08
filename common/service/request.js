@@ -190,14 +190,14 @@ export function setHttpConfig(config, apiConfig) {
     apiCatchTime = catchTime || apiCatchTime
     apiDefaultList = apiList
     uni.removeStorageSync(commonConfig.curApiCatch)
-    saveAPIConfig()
+    saveAPIConfig(false, config)
 }
 
 /**
  * 切换域名
  * force {boolean} 暴力切换
 */
-function saveAPIConfig(force = false) {
+function saveAPIConfig(force = false, config) {
     const newTime = +new Date()
     let apiCatch = uni.getStorageSync(commonConfig.curApiCatch)
     // #ifdef MP-WEIXIN
@@ -227,7 +227,7 @@ function saveAPIConfig(force = false) {
     }
     // #endif
     http && http.setConfig(_config => {
-        return { ..._config, baseURL: apiCatch.url }
+        return { ..._config, baseURL: apiCatch.url, ...config }
     })
     return apiCatch
 }
