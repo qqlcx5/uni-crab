@@ -2,15 +2,20 @@
  * @Descripttion: 
  * @version: 1.0
  * @Author: sanhui
- * @Date: 2021-11-10 15:24:54
+ * @Date: 2021-09-29 10:23:02
  */
 // vue.config.js
 const TransformPages = require('uni-read-pages')
 // 读取路由文件插件
 const { webpack } = new TransformPages()
 
+const path = require('path');//引入path模块
+function resolve(dir) {
+    return path.join(__dirname, dir)//path.join(__dirname)设置绝对路径
+}
+
 module.exports = {
-    transpileDependencies: ['uni-simple-router', 'luch-request', 'uni-luck-draw'],
+    transpileDependencies: ['uni-simple-router', 'luch-request', 'uni-luck-draw', 'zzsp-saas-ui'],
     configureWebpack: {
         plugins: [
             new webpack.DefinePlugin({
@@ -22,5 +27,8 @@ module.exports = {
                 }, true)
             })
         ]
+    },
+    chainWebpack: (config) => {
+        config.resolve.alias.set('@common', resolve('./common'))
     }
 }

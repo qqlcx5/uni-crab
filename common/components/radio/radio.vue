@@ -255,75 +255,75 @@ export default {
 
 <style lang="scss" scoped>
 .c-radio {
-  /* #ifndef APP-NVUE */
-  display: inline-flex;
-  /* #endif */
-  align-items: center;
-  overflow: hidden;
-  user-select: none;
-  line-height: 1.8;
-
-  &__icon-wrap {
-    color: $color-sub-text;
-    @include flex(row);
-    flex: none;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    width: 42rpx;
-    height: 42rpx;
-    color: transparent;
-    text-align: center;
-    transition-property: color, border-color, background-color;
-    font-size: 20rpx;
-    // border: 1px solid #c8c9cc;
-    transition-duration: 0.2s;
-
-    /* #ifdef MP-TOUTIAO */
-    // 头条小程序兼容性问题，需要设置行高为0，否则图标偏下
-    &__icon {
-      line-height: 0;
-    }
+    /* #ifndef APP-NVUE */
+    display: inline-flex;
     /* #endif */
+    align-items: center;
+    overflow: hidden;
+    user-select: none;
+    line-height: 1.8;
 
-    &--circle {
-      border-radius: 100%;
+    &__icon-wrap {
+        color: $color-sub-text;
+        @include flex(row);
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        width: 42rpx;
+        height: 42rpx;
+        color: transparent;
+        text-align: center;
+        transition-property: color, border-color, background-color;
+        font-size: 20rpx;
+        // border: 1px solid #c8c9cc;
+        transition-duration: 0.2s;
+
+        /* #ifdef MP-TOUTIAO */
+        // 头条小程序兼容性问题，需要设置行高为0，否则图标偏下
+        &__icon {
+            line-height: 0;
+        }
+        /* #endif */
+
+        &--circle {
+            border-radius: 100%;
+        }
+
+        &--square {
+            border-radius: 3px;
+        }
+
+        &--checked {
+            color: #fff;
+            background-color: $color-primary;
+            border-color: $color-primary;
+        }
+
+        &--disabled {
+            background-color: #ebedf0;
+            border-color: #c8c9cc;
+        }
+
+        &--disabled--checked {
+            color: #c8c9cc !important;
+        }
     }
 
-    &--square {
-      border-radius: 3px;
-    }
+    &__label {
+        word-wrap: break-word;
+        margin-left: 24rpx;
+        margin-right: 24rpx;
+        color: $color-sub-text;
+        font-size: 30rpx;
 
-    &--checked {
-      color: #fff;
-      background-color: $color-primary;
-      border-color: $color-primary;
-    }
+        &--before {
+            margin-left: 0;
+        }
 
-    &--disabled {
-      background-color: #ebedf0;
-      border-color: #c8c9cc;
+        &--disabled {
+            color: #c8c9cc;
+        }
     }
-
-    &--disabled--checked {
-      color: #c8c9cc !important;
-    }
-  }
-
-  &__label {
-    word-wrap: break-word;
-    margin-left: 24rpx;
-    margin-right: 24rpx;
-    color: $color-sub-text;
-    font-size: 30rpx;
-
-    &--before {
-      margin-left: 0;
-    }
-
-    &--disabled {
-      color: #c8c9cc;
-    }
-  }
 }
 </style>

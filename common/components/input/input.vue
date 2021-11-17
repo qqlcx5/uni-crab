@@ -106,7 +106,6 @@
 </template>
 
 <script>
-import validateReg from '@/common/utils/validate.js'
 export default {
     name: 'CInput',
     model: {
@@ -384,7 +383,7 @@ export default {
         validate(hasMsg = true) {
             console.log(this.pattern, 'validate：inputValue = ', this.inputValue)
             if (!this.pattern) return true
-            const validateObj = validateReg(this.pattern, this.inputValue, hasMsg)
+            const validateObj = this.$c.validate(this.pattern, this.inputValue, hasMsg)
             if (hasMsg) {
                 if (!validateObj.validate) {
                     this.$toast(this.msgName + validateObj.message)
