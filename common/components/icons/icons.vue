@@ -1,0 +1,101 @@
+<!--
+ * @Descripttion:
+ * @version: 1.0
+ * @Author: sanhui
+ * @Date: 2021-05-29 09:58:21
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-11-17 15:47:12
+-->
+<template>
+    <view
+        class="c-icons"
+        :style="[parentObj_]"
+    >
+        <text
+            :color="color"
+            :size="size"
+            class="c-icons__text"
+            :style="[styleObj_]"
+            :class="[iconName_, type_]"
+            @click="onClick"
+        ></text>
+    </view>
+</template>
+
+<script>
+export default {
+    name: 'CIcons',
+    props: {
+        type: {
+            type: String,
+            default: ''
+        },
+        color: {
+            type: [String, Boolean],
+            default: false
+        },
+        size: {
+            type: [Number, String],
+            default: 28
+        },
+        spin: {
+            type: Boolean,
+            default: false
+        },
+        rotate: {
+            type: [Number, String, Boolean],
+            default: false
+        }
+    },
+    computed: {
+        type_() {
+            const types = this.type.split('-')
+            if (['tarbar'].includes(types[0])) return this.type
+            return types.join('-')
+        },
+        iconName_() {
+            const prevName = this.type_.split('-')[0]
+            return prevName === 'icon' ? 'iconfont' : prevName
+        },
+        rotate_() {
+            return String(this.rotate) === 'false' ? false : this.rotate
+        },
+        styleObj_() {
+            const obj = {
+                fontSize: String(this.size).indexOf('px') !== -1 ? this.size : uni.upx2px(this.size) + 'px'
+            }
+            String(this.color) !== 'false' && (obj['color'] = this.color)
+            return obj
+        },
+        parentObj_() {
+            const obj = {}
+            // obj.height = String(this.size).indexOf('px') !== -1 ? this.size : uni.upx2px(this.size) + 'px'
+            this.rotate_ && (obj.transform = isNaN(this.rotate) ? `rotate(${this.rotate})` : `rotate(${this.rotate}deg)`)
+            if (this.spin) {
+                obj.animation = 'c-icon-spin 1.5s linear infinite'
+            }
+            return obj
+        }
+    },
+    methods: {
+        onClick(e) {
+            this.$emit('click', e)
+        }
+    }
+}
+
+</script>
+
+<style scoped lang="scss">
+.c-icons {
+    @include flex(row);
+    line-height: 0;
+    font-size: 0;
+    @include tst(transform);
+
+    &__text {
+        vertical-align: middle;
+        line-height: 1;
+    }
+}
+</style>

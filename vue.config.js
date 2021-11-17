@@ -2,19 +2,25 @@
  * @Descripttion: 
  * @version: 1.0
  * @Author: sanhui
- * @Date: 2021-09-29 10:23:02
+ * @Date: 2021-11-10 15:24:54
  */
-//vue.config.js
-const defaultConfig = require('./common/vueconfig.js')
-
-const path = require('path');//引入path模块
-function resolve(dir) {
-    return path.join(__dirname, dir)//path.join(__dirname)设置绝对路径
-}
+// vue.config.js
+const TransformPages = require('uni-read-pages')
+// 读取路由文件插件
+const { webpack } = new TransformPages()
 
 module.exports = {
-    ...defaultConfig,
-    chainWebpack: (config) => {
-        config.resolve.alias.set('@common', resolve('./common'))
+    transpileDependencies: ['uni-simple-router', 'luch-request', 'uni-luck-draw'],
+    configureWebpack: {
+        plugins: [
+            new webpack.DefinePlugin({
+                ROUTES: webpack.DefinePlugin.runtimeValue(() => {
+                    const tfPages = new TransformPages({
+                        includes: ['path', 'name', 'meta', 'aliasPath']
+                    })
+                    return JSON.stringify(tfPages.routes)
+                }, true)
+            })
+        ]
     }
 }
