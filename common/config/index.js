@@ -16,22 +16,6 @@
 // node环境变量
 const env = process.env.NODE_ENV
 
-
-// {value: 1, label: "H5"}
-// {value: 0, label: "小程序"}
-// {value: 2, label: "APP"}
-// {value: 3, label: "PC"}
-// {value: 4, label: "微信H5"}
-// #ifdef MP
-const platformType = 0
-// #endif
-// #ifdef H5
-const platformType = /micromessenger/.test(navigator.userAgent.toLowerCase()) ? 4 : 1
-// #endif
-// #ifndef MP || H5
-const platformType = 2
-// #endif
-
 const gzhOpenIdCatchName = 'h5SaasOpenId'
 
 // 当前选中的城市
@@ -39,8 +23,6 @@ const localCityCatchName = 'localCity'
 
 // 当前选中的城市
 const homeCityCatchName = 'homeLocalCity'
-
-const fullPageCatch = 'curFullPage'
 
 // 分享上级缓存
 const shareParentName = 'parent_id'
@@ -81,9 +63,7 @@ export default {
     invitationCodeCatchName,
     localCityCatchName,
     homeCityCatchName,
-    platformType,
     gzhOpenIdCatchName,
-    fullPageCatch,
     shareParentName,
     shareOriginName,
     priceNullText,

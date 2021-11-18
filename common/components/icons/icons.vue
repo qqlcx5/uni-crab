@@ -4,7 +4,7 @@
  * @Author: sanhui
  * @Date: 2021-05-29 09:58:21
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-17 15:47:12
+ * @LastEditTime: 2021-11-18 15:43:28
 -->
 <template>
     <view
@@ -48,14 +48,19 @@ export default {
         }
     },
     computed: {
+        iconStyle_() {
+            return this.zzspIconStyle
+        },
         type_() {
             const types = this.type.split('-')
             if (['tarbar'].includes(types[0])) return this.type
+            this.iconStyle_ && types.splice(1, 0, this.iconStyle_)
             return types.join('-')
         },
         iconName_() {
-            const prevName = this.type_.split('-')[0]
-            return prevName === 'icon' ? 'iconfont' : prevName
+            const types = this.type.split('-')
+            if (['tarbar', 'tabbar'].includes(types[0])) return types[0]
+            return this.iconStyle_ ? `icon` + this.iconStyle_ : 'iconfont'
         },
         rotate_() {
             return String(this.rotate) === 'false' ? false : this.rotate
@@ -88,7 +93,9 @@ export default {
 
 <style scoped lang="scss">
 .c-icons {
-    @include flex(row);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     line-height: 0;
     font-size: 0;
     @include tst(transform);

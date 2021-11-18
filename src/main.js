@@ -6,6 +6,7 @@
  */
 import Vue from 'vue'
 import App from './App'
+import store from './store'
 
 Vue.config.productionTip = false
 
@@ -14,6 +15,8 @@ App.mpType = 'app'
 // 注入公共代码并载入配置
 import saasUI, { RouterMount } from '../common/index'
 Vue.use(saasUI, {
+    // 如果需要多域名切换请把store实例传入
+    store,
     // 共用配置 this.$config
     config: {
         frameName: 'SAAS UI'
@@ -70,9 +73,9 @@ Vue.use(saasUI, {
         }
     }
 })
-
 const app = new Vue({
-    ...App
+    ...App,
+    store
 })
 // v1.3.5起 H5端 你应该去除原有的app.$mount();使用路由自带的渲染方式
 // #ifdef H5

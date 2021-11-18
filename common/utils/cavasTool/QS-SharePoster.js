@@ -3,16 +3,13 @@ import QRCodeAlg from './QRCodeAlg.js'
 import { base64ToPath } from './image-tools.js'
 const ShreUserPosterBackgroundKey = 'ShrePosterBackground_' // 背景图片缓存名称前缀
 const idKey = 'QSSHAREPOSTER_IDKEY' // drawArray自动生成的idkey
-var isMp = false
-// #ifdef MP
-isMp = true
-// #endif
 
 var nbgScale = 1
 // export default
 function getSharePoster(obj) {
     return new Promise(async (resolve, reject) => {
         try {
+            _app.abort = false
             const result1 = await returnPromise(obj)
             resolve(result1)
         } catch (e) {
@@ -35,33 +32,29 @@ function getSharePoster(obj) {
 }
 
 function returnPromise(obj) {
-    let {
+    const {
         type,
         formData,
         background,
         posterCanvasId,
         backgroundImage,
         reserve,
-        textArray,
-        drawArray,
-        qrCodeArray,
-        imagesArray,
         setCanvasWH,
         setCanvasToTempFilePath,
         setDraw,
-        bgScale,
-        Context,
         _this,
         delayTimeScale,
         drawDelayTime,
-        loadingText = '正在绘制海报'
+        loadingText = '正在绘制海报',
+        drawBefore
     } = obj
+    let { textArray, drawArray, qrCodeArray, imagesArray, bgScale, Context } = obj
     return new Promise(async (rs, rj) => {
         try {
             loadingText ? _app.showLoading(loadingText) : ''
             if (!Context) {
                 _app.log('没有画布对象,创建画布对象')
-                Context = uni.createCanvasContext(posterCanvasId, (_this || null))
+                Context = uni.createCanvasContext(posterCanvasId, _this || null)
             }
             let bgObj
             if (background && background.width && background.height) {
@@ -82,37 +75,45 @@ function returnPromise(obj) {
                 bgObj,
                 type,
                 bgScale,
-                getBgObj: function () {
+                getBgObj: function() {
                     return params.bgObj
                 },
-                setBgObj: function (newBgObj) {
+                setBgObj: function(newBgObj) {
                     const n = { ...params.bgObj, ...newBgObj }
                     params.bgObj = n
                     bgObj = n
                 }
             }
             if (imagesArray) {
-                if (typeof (imagesArray) === 'function') { imagesArray = imagesArray(params) }
+                if (typeof imagesArray === 'function') {
+                    imagesArray = imagesArray(params)
+                }
                 // _app.showLoading('正在生成需绘制图片的临时路径');
                 _app.log('准备设置图片')
                 imagesArray = await setImage(imagesArray)
                 _app.hideLoading()
             }
             if (textArray) {
-                if (typeof (textArray) === 'function') { textArray = textArray(params) }
+                if (typeof textArray === 'function') {
+                    textArray = textArray(params)
+                }
                 textArray = setText(Context, textArray)
             }
             if (qrCodeArray) {
-                if (typeof (qrCodeArray) === 'function') { qrCodeArray = qrCodeArray(params) }
+                if (typeof qrCodeArray === 'function') {
+                    qrCodeArray = qrCodeArray(params)
+                }
                 // _app.showLoading('正在生成需绘制图片的临时路径');
                 for (let i = 0; i < qrCodeArray.length; i++) {
                     _app.log(i)
-                    if (qrCodeArray[i].image) { qrCodeArray[i].image = await _app.downloadFile_PromiseFc(qrCodeArray[i].image) }
+                    if (qrCodeArray[i].image) {
+                        qrCodeArray[i].image = await _app.downloadFile_PromiseFc(qrCodeArray[i].image)
+                    }
                 }
                 _app.hideLoading()
             }
             if (drawArray) {
-                if (typeof (drawArray) === 'function') {
+                if (typeof drawArray === 'function') {
                     drawArray = drawArray(params)
                 }
                 if (_app.isPromise(drawArray)) {
@@ -196,8 +197,22 @@ function returnPromise(obj) {
                     }
                 }
             }
+            drawArray.sort((a, b) => {
+                const a_zIndex = !_app.isUndef(a.zIndex) && !_app.isNull(a.zIndex) ? Number(a.zIndex) : Number.NEGATIVE_INFINITY
+                const b_zIndex = !_app.isUndef(b.zIndex) && !_app.isNull(b.zIndex) ? Number(b.zIndex) : Number.NEGATIVE_INFINITY
+                return a_zIndex - b_zIndex
+            })
+
+            if (drawBefore) {
+                const newBgObj = await drawBefore({ drawArray })
+                const n = { ...params.bgObj, ...newBgObj }
+                params.bgObj = n
+                bgObj = n
+            }
+
             console.log('params:' + JSON.stringify(params))
-            if (setCanvasWH && typeof (setCanvasWH) === 'function') {
+
+            if (setCanvasWH && typeof setCanvasWH === 'function') {
                 await new Promise((resolve, reject) => {
                     setCanvasWH(params)
                     setTimeout(() => {
@@ -205,6 +220,7 @@ function returnPromise(obj) {
                     }, 50)
                 })
             }
+            if (_app.abort) return new Promise(() => {})
             const poster = await drawShareImage({
                 Context,
                 type,
@@ -236,25 +252,10 @@ function returnPromise(obj) {
     })
 }
 
-function drawShareImage(obj) { // 绘制海报方法
-    let {
-        Context,
-        type,
-        posterCanvasId,
-        reserve,
-        bgObj,
-        drawArray,
-        textArray,
-        qrCodeArray,
-        imagesArray,
-        setCanvasToTempFilePath,
-        setDraw,
-        bgScale,
-        _this,
-        delayTimeScale,
-        drawDelayTime,
-        loadingText = '正在绘制海报'
-    } = obj
+function drawShareImage(obj) {
+    // 绘制海报方法
+    const { Context, type, posterCanvasId, reserve, bgObj, drawArray, textArray, qrCodeArray, imagesArray, setCanvasToTempFilePath, setDraw, bgScale, _this, loadingText = '正在绘制海报' } = obj
+    let { delayTimeScale, drawDelayTime } = obj
     const params = {
         Context,
         bgObj,
@@ -282,13 +283,17 @@ function drawShareImage(obj) { // 绘制海报方法
             }
 
             // _app.showLoading('绘制图片');
-            if (imagesArray && imagesArray.length > 0) { drawImage(Context, imagesArray) }
+            if (imagesArray && imagesArray.length > 0) {
+                drawImage(Context, imagesArray)
+            }
 
             // _app.showLoading('绘制自定义内容');
-            if (setDraw && typeof (setDraw) === 'function') setDraw(params)
+            if (setDraw && typeof setDraw === 'function') setDraw(params)
 
             // _app.showLoading('绘制文本');
-            if (textArray && textArray.length > 0) { drawText(Context, textArray, bgObj) }
+            if (textArray && textArray.length > 0) {
+                drawText(Context, textArray, bgObj)
+            }
 
             // _app.showLoading('绘制二维码');
             if (qrCodeArray && qrCodeArray.length > 0) {
@@ -317,7 +322,9 @@ function drawShareImage(obj) { // 绘制海报方法
                             break
                         case 'custom':
                             _app.log('绘制可控层级序列, 绘制自定义内容')
-                            if (drawArrayItem.setDraw && typeof drawArrayItem.setDraw === 'function') { drawArrayItem.setDraw(Context) }
+                            if (drawArrayItem.setDraw && typeof drawArrayItem.setDraw === 'function') {
+                                drawArrayItem.setDraw(Context)
+                            }
                             break
                         case 'fillRect':
                             _app.log('绘制可控层级序列, 绘制填充直角矩形')
@@ -345,11 +352,12 @@ function drawShareImage(obj) { // 绘制海报方法
             setTimeout(() => {
                 _app.log('准备执行draw方法')
                 _app.log('Context:' + Context)
-                const fn = function () {
+                const fn = function() {
                     // _app.showLoading('正在输出图片');
                     let setObj = setCanvasToTempFilePath || {}
-                    if (setObj && typeof (setObj) === 'function') { setObj = setCanvasToTempFilePath(bgObj, type) }
-                    let canvasToTempFilePathFn
+                    if (setObj && typeof setObj === 'function') {
+                        setObj = setCanvasToTempFilePath(bgObj, type)
+                    }
                     const data = {
                         x: 0,
                         y: 0,
@@ -361,8 +369,9 @@ function drawShareImage(obj) { // 绘制海报方法
                         fileType: 'jpg',
                         ...setObj
                     }
-                    canvasToTempFilePathFn = function () {
-                        const toTempFilePathObj = { // 输出为图片
+                    const canvasToTempFilePathFn = function() {
+                        const toTempFilePathObj = {
+                            // 输出为图片
                             ...data,
                             canvasId: posterCanvasId,
                             success(res) {
@@ -412,7 +421,7 @@ function drawShareImage(obj) { // 绘制海报方法
                     _app.log('总计延时:' + delayTime)
                     setTimeout(canvasToTempFilePathFn, delayTime)
                 }
-                Context.draw((typeof (reserve) === 'boolean' ? reserve : false), fn)
+                Context.draw(typeof reserve === 'boolean' ? reserve : false, fn)
             }, drawDelayTime)
         } catch (e) {
             // TODO handle the exception
@@ -423,7 +432,8 @@ function drawShareImage(obj) { // 绘制海报方法
 }
 
 // export
-function drawFillRect(Context, drawArrayItem = {}) {	// 填充矩形
+function drawFillRect(Context, drawArrayItem = {}) {
+    // 填充矩形
     _app.log('进入绘制填充直角矩形方法, drawArrayItem:' + JSON.stringify(drawArrayItem))
     Context.setFillStyle(drawArrayItem.backgroundColor || 'black')
     Context.setGlobalAlpha(drawArrayItem.alpha || 1)
@@ -432,7 +442,8 @@ function drawFillRect(Context, drawArrayItem = {}) {	// 填充矩形
 }
 
 // export
-function drawStrokeRect(Context, drawArrayItem = {}) {	// 线条矩形
+function drawStrokeRect(Context, drawArrayItem = {}) {
+    // 线条矩形
     Context.setStrokeStyle(drawArrayItem.color || 'black')
     Context.setLineWidth(drawArrayItem.lineWidth || 1)
     Context.strokeRect(drawArrayItem.dx, drawArrayItem.dy, drawArrayItem.width, drawArrayItem.height)
@@ -440,7 +451,8 @@ function drawStrokeRect(Context, drawArrayItem = {}) {	// 线条矩形
 
 // export
 function drawRoundStrokeRect(Context, drawArrayItem = {}) {
-    let { dx, dy, width, height, r, lineWidth, color, boxShadow = false, backgroundColor } = drawArrayItem
+    const { dx, dy, width, height, lineWidth, color, boxShadow = false } = drawArrayItem
+    let { r } = drawArrayItem
     r = r || width * 0.1
 
     if (width < 2 * r) {
@@ -464,7 +476,8 @@ function drawRoundStrokeRect(Context, drawArrayItem = {}) {
 
 // export
 function drawRoundFillRect(Context, drawArrayItem = {}) {
-    let { dx, dy, width, height, r, backgroundColor } = drawArrayItem
+    let { r } = drawArrayItem
+    const { dx, dy, width, height, backgroundColor } = drawArrayItem
     r = r || width * 0.1
 
     if (width < 2 * r) {
@@ -485,7 +498,8 @@ function drawRoundFillRect(Context, drawArrayItem = {}) {
 }
 
 // export
-function setText(Context, texts) { // 设置文本数据
+function setText(Context, texts) {
+    // 设置文本数据
     _app.log('进入设置文字方法, texts:' + JSON.stringify(texts))
     if (texts && _app.isArray(texts)) {
         _app.log('texts是数组')
@@ -522,7 +536,7 @@ function setTextFn(Context, textItem) {
         })
         _app.log('字符串信息-初始化时的文本长度:' + textLength)
         let infoCallBackObj = {}
-        if (textItem.infoCallBack && typeof (textItem.infoCallBack) === 'function') {
+        if (textItem.infoCallBack && typeof textItem.infoCallBack === 'function') {
             infoCallBackObj = textItem.infoCallBack(textLength)
         }
         textItem = {
@@ -537,10 +551,7 @@ function setTextFn(Context, textItem) {
 
 function countTextLength(Context, obj) {
     _app.log('计算文字长度, obj:' + JSON.stringify(obj))
-    const {
-        text,
-        size
-    } = obj
+    const { text, size } = obj
     Context.setFontSize(size)
     let textLength
     try {
@@ -750,7 +761,8 @@ function countStrLength(t) {
 }
 
 // export
-function setImage(images) { // 设置图片数据
+function setImage(images) {
+    // 设置图片数据
     _app.log('进入设置图片数据方法')
     return new Promise(async (resolve, rejcet) => {
         try {
@@ -783,11 +795,11 @@ function base64ToPathFn(path) {
 function setImageFn(image) {
     return new Promise(async (resolve, reject) => {
         if (image.url) {
-            image.url = (await base64ToPathFn(image.url))
+            image.url = await base64ToPathFn(image.url)
             let imgUrl = image.url
             imgUrl = await _app.downloadFile_PromiseFc(imgUrl)
             image.url = imgUrl
-            const hasinfoCallBack = image.infoCallBack && typeof (image.infoCallBack) === 'function'
+            const hasinfoCallBack = image.infoCallBack && typeof image.infoCallBack === 'function'
             let imageInfo = {}
             try {
                 imageInfo = await _app.getImageInfo_PromiseFc(imgUrl)
@@ -816,7 +828,8 @@ function setImageFn(image) {
 }
 
 // export
-function drawText(Context, textArray, bgObj) { // 先遍历换行再绘制
+function drawText(Context, textArray, bgObj) {
+    // 先遍历换行再绘制
     if (!_app.isArray(textArray)) {
         _app.log('遍历文本方法, 不是数组')
         textArray = [textArray]
@@ -835,49 +848,51 @@ function drawText(Context, textArray, bgObj) { // 先遍历换行再绘制
                 let dx = textItem.dx
                 if (_app.isObject(textItem.lineFeed)) {
                     const lineFeed = textItem.lineFeed
-                    lineNum = (lineFeed.lineNum !== undefined && typeof (lineFeed.lineNum) === 'number') && lineFeed.lineNum >= 0
-                        ? lineFeed.lineNum : lineNum
-                    maxWidth = (lineFeed.maxWidth !== undefined && typeof (lineFeed.maxWidth) === 'number') ? lineFeed.maxWidth
-                        : maxWidth
-                    lineHeight = (lineFeed.lineHeight !== undefined && typeof (lineFeed.lineHeight) === 'number') ? lineFeed.lineHeight
-                        : lineHeight
-                    dx = (lineFeed.dx !== undefined && typeof (lineFeed.dx) === 'number') ? lineFeed.dx : dx
+                    lineNum = lineFeed.lineNum !== undefined && typeof lineFeed.lineNum === 'number' && lineFeed.lineNum >= 0 ? lineFeed.lineNum : lineNum
+                    maxWidth = lineFeed.maxWidth !== undefined && typeof lineFeed.maxWidth === 'number' ? lineFeed.maxWidth : maxWidth
+                    lineHeight = lineFeed.lineHeight !== undefined && typeof lineFeed.lineHeight === 'number' ? lineFeed.lineHeight : lineHeight
+                    dx = lineFeed.dx !== undefined && typeof lineFeed.dx === 'number' ? lineFeed.dx : dx
                 }
-                const chr = (textItem.text).split('')
-                let temp = ''
+                const splitChars = textItem.text.split('\\n')
                 const row = []
                 // 循环出几行文字组成数组
-                for (let a = 0, len = chr.length; a < len; a++) {
-                    if (countTextLength(Context, {
-                        text: temp,
-                        size: textItem.size
-                    }) <= maxWidth && countTextLength(Context, {
-                        text: (temp + chr[a]),
-                        size: textItem.size
-                    }) <= maxWidth) {
-                        temp += chr[a]
-                        if (a == (chr.length - 1)) {
+                for (let sa = 0, slen = splitChars.length; sa < slen; sa++) {
+                    const chr = splitChars[sa].split('')
+                    let temp = ''
+                    for (let a = 0, len = chr.length; a < len; a++) {
+                        if (
+                            countTextLength(Context, {
+                                text: temp,
+                                size: textItem.size
+                            }) <= maxWidth &&
+                            countTextLength(Context, {
+                                text: temp + chr[a],
+                                size: textItem.size
+                            }) <= maxWidth
+                        ) {
+                            temp += chr[a]
+                            if (a === chr.length - 1) {
+                                row.push(temp)
+                            }
+                        } else {
                             row.push(temp)
+                            temp = chr[a]
                         }
-                    } else {
-                        row.push(temp)
-                        temp = chr[a]
                     }
                 }
-                _app.log('循环出的文本数组:' + JSON.stringify(row))
                 // 只显示几行 变量间距lineHeight  变量行数lineNum
-                const allNum = (lineNum >= 0 && lineNum < row.length) ? lineNum : row.length
+                const allNum = lineNum >= 0 && lineNum < row.length ? lineNum : row.length
 
                 for (let i = 0; i < allNum; i++) {
                     let str = row[i]
-                    if (i == (allNum - 1) && allNum < row.length) {
+                    if (i === allNum - 1 && allNum < row.length) {
                         str = str.substring(0, str.length - 1) + '...'
                     }
                     const obj = {
                         ...textItem,
                         text: str,
-                        dx: i === 0 ? textItem.dx : (dx >= 0 ? dx : textItem.dx),
-                        dy: textItem.dy + (i * lineHeight),
+                        dx: i === 0 ? textItem.dx : dx >= 0 ? dx : textItem.dx,
+                        dy: textItem.dy + i * lineHeight,
                         textLength: countTextLength(Context, {
                             text: str,
                             size: textItem.size
@@ -896,7 +911,7 @@ function drawText(Context, textArray, bgObj) { // 先遍历换行再绘制
 }
 
 function setFont(textItem = {}) {
-    if (textItem.font && typeof (textItem.font) === 'string') {
+    if (textItem.font && typeof textItem.font === 'string') {
         _app.log(textItem.font)
         return textItem.font
     } else {
@@ -906,19 +921,24 @@ function setFont(textItem = {}) {
         let fontSize = textItem.size || 10
         let fontFamily = 'sans-serif'
         fontSize = Math.ceil(Number(fontSize))
-        if (textItem.fontStyle && typeof (textItem.fontStyle) === 'string') { fontStyle = textItem.fontStyle.trim() }
-        if (textItem.fontVariant && typeof (textItem.fontVariant) === 'string') { fontVariant = textItem.fontVariant.trim() }
-        if (textItem.fontWeight && (typeof (textItem.fontWeight) === 'string' || typeof (textItem.fontWeight) === 'number')) { fontWeight = textItem.fontWeight.trim() }
-        if (textItem.fontFamily && typeof (textItem.fontFamily) === 'string') { fontFamily = textItem.fontFamily.trim() }
-        return fontStyle + ' ' +
-            fontVariant + ' ' +
-            fontWeight + ' ' +
-            fontSize + 'px' + ' ' +
-            fontFamily
+        if (textItem.fontStyle && typeof textItem.fontStyle === 'string') {
+            fontStyle = textItem.fontStyle.trim()
+        }
+        if (textItem.fontVariant && typeof textItem.fontVariant === 'string') {
+            fontVariant = textItem.fontVariant.trim()
+        }
+        if (textItem.fontWeight && (typeof textItem.fontWeight === 'string' || typeof textItem.fontWeight === 'number')) {
+            fontWeight = textItem.fontWeight.trim()
+        }
+        if (textItem.fontFamily && typeof textItem.fontFamily === 'string') {
+            fontFamily = textItem.fontFamily.trim()
+        }
+        return fontStyle + ' ' + fontVariant + ' ' + fontWeight + ' ' + fontSize + 'px' + ' ' + fontFamily
     }
 }
 
-function drawTexts(Context, texts) { // 绘制文本
+function drawTexts(Context, texts) {
+    // 绘制文本
     _app.log('准备绘制文本方法, texts:' + JSON.stringify(texts))
     if (texts && _app.isArray(texts)) {
         _app.log('准备绘制文本方法, 是数组')
@@ -960,21 +980,21 @@ function drawTextFn(Context, textItem) {
                     mx = textItem.dx
                     break
                 case 'center':
-                    mx = textItem.dx - (textItem.textLength) / 2
+                    mx = textItem.dx - textItem.textLength / 2
                     break
                 default:
-                    mx = textItem.dx - (textItem.textLength)
+                    mx = textItem.dx - textItem.textLength
                     break
             }
             switch (textItem.textBaseline) {
                 case 'top':
-                    my = textItem.dy + (textItem.size * 0.5)
+                    my = textItem.dy + textItem.size * 0.5
                     break
                 case 'middle':
                     my = textItem.dy
                     break
                 default:
-                    my = textItem.dy - (textItem.size * 0.5)
+                    my = textItem.dy - textItem.size * 0.5
                     break
             }
             Context.beginPath()
@@ -989,7 +1009,8 @@ function drawTextFn(Context, textItem) {
     }
 }
 // export
-function drawImage(Context, images) { // 绘制图片
+function drawImage(Context, images) {
+    // 绘制图片
     _app.log('判断图片数据类型:' + JSON.stringify(images))
     if (images && _app.isArray(images)) {
         if (images.length > 0) {
@@ -1018,29 +1039,21 @@ function readyDrawImageFn(Context, img) {
 const drawImageModes = {
     scaleToFill(Context, img) {
         _app.log('准备绘制mode为scaleToFill的图片')
-        Context.drawImage(img.url, Number(img.dx || 0), Number(img.dy || 0),
-            Number(img.dWidth) || false, Number(img.dHeight) || false)
+        Context.drawImage(img.url, Number(img.dx || 0), Number(img.dy || 0), Number(img.dWidth) || false, Number(img.dHeight) || false)
         _app.log('mode为scaleToFill的图片绘制完毕')
     },
     aspectFit(Context, img) {
         _app.log('准备绘制mode为aspectFit的图片')
-        const {
-            imageInfo,
-            dWidth,
-            dHeight
-        } = img
-        const {
-            height,
-            width
-        } = imageInfo
+        const { imageInfo, dWidth, dHeight } = img
+        const { height, width } = imageInfo
         let drawWidth = dWidth
-        let drawHeight = height / width * drawWidth
+        let drawHeight = (height / width) * drawWidth
         if (drawHeight < dHeight) {
             const diffHeight = Number(dHeight) - Number(drawHeight)
             img.dy = Number(img.dy) + diffHeight / 2
         } else {
             drawHeight = dHeight
-            drawWidth = width / height * drawHeight
+            drawWidth = (width / height) * drawHeight
             const diffWidth = Number(dWidth) - Number(drawWidth)
             img.dx = Number(img.dx) + diffWidth / 2
         }
@@ -1048,38 +1061,28 @@ const drawImageModes = {
         _app.log('mode为aspectFit的图片绘制完毕')
     },
     aspectFill(Context, img) {
-        const dpr = uni.getSystemInfoSync().pixelRatio
         _app.log('准备绘制mode为aspectFill的图片')
-        const {
-            imageInfo,
-            dWidth,
-            dHeight
-        } = img
-        const {
-            height,
-            width
-        } = imageInfo
+        const { imageInfo, dWidth, dHeight } = img
+        const { height, width } = imageInfo
         let sx = 0
         let sy = 0
-        let sWidth = (width)
-        let sHeight = (height)
+        let sWidth = width
+        let sHeight = height
         let drawWidth = dWidth
-        let drawHeight = height / width * drawWidth
+        let drawHeight = (height / width) * drawWidth
         if (drawHeight < dHeight) {
             _app.log('绘制高度 小于 预定高度')
             drawHeight = dHeight
-            drawWidth = width / height * drawHeight
+            drawWidth = (width / height) * drawHeight
             const diffWidth = ((Number(drawWidth) - Number(dWidth)) / Number(drawWidth)) * width
             sx = diffWidth / 2
             sWidth = width - diffWidth
         } else {
             const diffHeight = ((Number(drawHeight) - Number(dHeight)) / Number(drawHeight)) * height
             sy = diffHeight / 2
-            sHeight = (height - diffHeight)
+            sHeight = height - diffHeight
         }
-        _app.log(
-            `aspectFill 最终绘制: sx: ${sx}, sy: ${sy}, sWidth: ${sWidth}, sHeight: ${sHeight}, dx: ${img.dx}, dy: ${img.dy}, dWidth: ${dWidth}, dHeight: ${dHeight}`
-        )
+        _app.log(`aspectFill 最终绘制: sx: ${sx}, sy: ${sy}, sWidth: ${sWidth}, sHeight: ${sHeight}, dx: ${img.dx}, dy: ${img.dy}, dWidth: ${dWidth}, dHeight: ${dHeight}`)
         Context.drawImage(img.url, sx, sy, sWidth, sHeight, img.dx, img.dy, dWidth, dHeight)
         _app.log('mode为aspectFill的图片绘制完毕')
     }
@@ -1100,15 +1103,20 @@ function drawImageFn(Context, img) {
         } else {
             if (img.dWidth && img.dHeight && img.sx && img.sy && img.sWidth && img.sHeight) {
                 _app.log('绘制默认图片方法, 绘制第一种方案')
-                Context.drawImage(img.url,
-                    Number(img.sx) || false, Number(img.sy) || false,
-                    Number(img.sWidth) || false, Number(img.sHeight) || false,
-                    Number(img.dx || 0), Number(img.dy || 0),
-                    Number(img.dWidth) || false, Number(img.dHeight) || false)
+                Context.drawImage(
+                    img.url,
+                    Number(img.sx) || false,
+                    Number(img.sy) || false,
+                    Number(img.sWidth) || false,
+                    Number(img.sHeight) || false,
+                    Number(img.dx || 0),
+                    Number(img.dy || 0),
+                    Number(img.dWidth) || false,
+                    Number(img.dHeight) || false
+                )
             } else if (img.dWidth && img.dHeight) {
                 _app.log('绘制默认图片方法, 绘制第二种方案')
-                Context.drawImage(img.url, Number(img.dx || 0), Number(img.dy || 0),
-                    Number(img.dWidth) || false, Number(img.dHeight) || false)
+                Context.drawImage(img.url, Number(img.dx || 0), Number(img.dy || 0), Number(img.dWidth) || false, Number(img.dHeight) || false)
             } else {
                 _app.log('绘制默认图片方法, 绘制第三种方案')
                 Context.drawImage(img.url, Number(img.dx || 0), Number(img.dy || 0))
@@ -1123,14 +1131,7 @@ function drawImageFn(Context, img) {
 
 function drawCircleImage(Context, obj) {
     _app.log('进入绘制圆形图片方法, obj:' + JSON.stringify(obj))
-    const {
-        dx,
-        dy,
-        dWidth,
-        dHeight,
-        circleSet,
-        imageInfo
-    } = obj
+    const { dx, dy, dWidth, dHeight, circleSet } = obj
     let x, y, r
     if (typeof circleSet === 'object') {
         x = circleSet.x
@@ -1138,8 +1139,7 @@ function drawCircleImage(Context, obj) {
         r = circleSet.r
     }
     if (!r) {
-        let d
-        d = dWidth > dHeight ? dHeight : dWidth
+        const d = dWidth > dHeight ? dHeight : dWidth
         r = d / 2
     }
 
@@ -1159,35 +1159,23 @@ function drawCircleImage(Context, obj) {
     Context.restore()
 }
 
-function drawRoundRectImage(Context, obj) { // 绘制矩形
+function drawRoundRectImage(Context, obj) {
+    // 绘制矩形
     _app.log('进入绘制矩形图片方法, obj:' + JSON.stringify(obj))
     Context.save()
-    const {
-        dx,
-        dy,
-        dWidth,
-        dHeight,
-        roundRectSet,
-        imageInfo
-    } = obj
+    const { dx, dy, dWidth, dHeight, roundRectSet } = obj
     let r
     if (typeof roundRectSet === 'object') {
         r = roundRectSet.r
     }
-    r = r || dWidth * 0.1
-
-    if (dWidth < 2 * r) {
-        r = dWidth / 2
-    }
-    if (dHeight < 2 * r) {
-        r = dHeight / 2
-    }
+    const br = checkRadius(typeof r !== 'number' ? r : new Array(4).fill(r), dWidth, dHeight)
+    console.log('呵呵哈哈哈哈哈', br)
     Context.beginPath()
-    Context.moveTo(dx + r, dy)
-    Context.arcTo(dx + dWidth, dy, dx + dWidth, dy + dHeight, r)
-    Context.arcTo(dx + dWidth, dy + dHeight, dx, dy + dHeight, r)
-    Context.arcTo(dx, dy + dHeight, dx, dy, r)
-    Context.arcTo(dx, dy, dx + dWidth, dy, r)
+    Context.moveTo(dx + br[1], dy)
+    Context.arcTo(dx + dWidth, dy, dx + dWidth, dy + dHeight, br[1])
+    Context.arcTo(dx + dWidth, dy + dHeight, dx, dy + dHeight, br[2])
+    Context.arcTo(dx, dy + dHeight, dx, dy, br[3])
+    Context.arcTo(dx, dy, dx + dWidth, dy, br[0])
     Context.closePath()
     Context.setGlobalAlpha(0)
     Context.fillStyle = '#FFFFFF'
@@ -1199,8 +1187,26 @@ function drawRoundRectImage(Context, obj) { // 绘制矩形
     _app.log('进入绘制矩形图片方法, 绘制完毕')
 }
 
+// 二开
+function checkRadius(radiusArr, dWidth, dHeight) {
+    return radiusArr.map(r => {
+        r = parseInt(r)
+        if (isNaN(r)) {
+            r = 0
+        }
+        if (dWidth < 2 * r) {
+            r = dWidth / 2
+        }
+        if (dHeight < 2 * r) {
+            r = dHeight / 2
+        }
+        return Math.ceil(r <= 1 ? 0.1 : r)
+    })
+}
+
 // export
-function drawQrCode(Context, qrCodeObj) { // 生成二维码方法， 参考了 诗小柒 的二维码生成器代码
+function drawQrCode(Context, qrCodeObj) {
+    // 生成二维码方法， 参考了 诗小柒 的二维码生成器代码
     _app.log('进入绘制二维码方法')
     // _app.showLoading('正在生成二维码');
     const qrcodeAlgObjCache = []
@@ -1220,12 +1226,12 @@ function drawQrCode(Context, qrCodeObj) { // 生成二维码方法， 参考了 
     let d = 0
     for (var i = 0, l = qrcodeAlgObjCache.length; i < l; i++) {
         d = i
-        if (qrcodeAlgObjCache[i].text == options.text && qrcodeAlgObjCache[i].text.correctLevel == options.correctLevel) {
+        if (qrcodeAlgObjCache[i].text === options.text && qrcodeAlgObjCache[i].text.correctLevel === options.correctLevel) {
             qrCodeAlg = qrcodeAlgObjCache[i].obj
             break
         }
     }
-    if (d == l) {
+    if (d === l) {
         qrCodeAlg = new QRCodeAlg(options.text, options.correctLevel)
         qrcodeAlgObjCache.push({
             text: options.text,
@@ -1233,13 +1239,14 @@ function drawQrCode(Context, qrCodeObj) { // 生成二维码方法， 参考了 
             obj: qrCodeAlg
         })
     }
-    const getForeGround = function (config) {
+    const getForeGround = function(config) {
         const options = config.options
-        if (options.pdground && (
-            (config.row > 1 && config.row < 5 && config.col > 1 && config.col < 5) ||
-            (config.row > (config.count - 6) && config.row < (config.count - 2) && config.col > 1 && config.col < 5) ||
-            (config.row > 1 && config.row < 5 && config.col > (config.count - 6) && config.col < (config.count - 2))
-        )) {
+        if (
+            options.pdground &&
+            ((config.row > 1 && config.row < 5 && config.col > 1 && config.col < 5) ||
+                (config.row > config.count - 6 && config.row < config.count - 2 && config.col > 1 && config.col < 5) ||
+                (config.row > 1 && config.row < 5 && config.col > config.count - 6 && config.col < config.count - 2))
+        ) {
             return options.pdground
         }
         return options.foreground
@@ -1253,8 +1260,8 @@ function drawQrCode(Context, qrCodeObj) { // 生成二维码方法， 参考了 
     // 绘制
     for (let row = 0; row < count; row++) {
         for (let col = 0; col < count; col++) {
-            const w = (Math.ceil((col + 1) * tileW) - Math.floor(col * tileW))
-            const h = (Math.ceil((row + 1) * tileW) - Math.floor(row * tileW))
+            const w = Math.ceil((col + 1) * tileW) - Math.floor(col * tileW)
+            const h = Math.ceil((row + 1) * tileW) - Math.floor(row * tileW)
             const foreground = getForeGround({
                 row: row,
                 col: col,
@@ -1268,33 +1275,35 @@ function drawQrCode(Context, qrCodeObj) { // 生成二维码方法， 参考了 
     if (options.image) {
         const x = options.dx + Number(((ratioSize - ratioImgSize) / 2).toFixed(2))
         const y = options.dy + Number(((ratioSize - ratioImgSize) / 2).toFixed(2))
-        drawRoundedRect(Context, x, y, ratioImgSize, ratioImgSize, 2, 6, true, true)
+        drawRoundedRect(options, Context, x, y, ratioImgSize, ratioImgSize, 2, 6, true, true)
         Context.drawImage(options.image, x, y, ratioImgSize, ratioImgSize)
-        // 画圆角矩形
-        function drawRoundedRect(ctxi, x, y, width, height, r, lineWidth, fill, stroke) {
-            ctxi.setLineWidth(lineWidth)
-            ctxi.setFillStyle(options.background)
-            ctxi.setStrokeStyle(options.background)
-            ctxi.beginPath() // draw top and top right corner
-            ctxi.moveTo(x + r, y)
-            ctxi.arcTo(x + width, y, x + width, y + r, r) // draw right side and bottom right corner
-            ctxi.arcTo(x + width, y + height, x + width - r, y + height, r) // draw bottom and bottom left corner
-            ctxi.arcTo(x, y + height, x, y + height - r, r) // draw left and top left corner
-            ctxi.arcTo(x, y, x + r, y, r)
-            ctxi.closePath()
-            if (fill) {
-                ctxi.fill()
-            }
-            if (stroke) {
-                ctxi.stroke()
-            }
-        }
     }
     _app.log('进入绘制二维码方法完毕')
     _app.hideLoading()
 }
 
-function getShreUserPosterBackground(objs) { // 检查背景图是否存在于本地， 若存在直接返回， 否则调用getShreUserPosterBackgroundFc方法
+// 画圆角矩形
+function drawRoundedRect(options, ctxi, x, y, width, height, r, lineWidth, fill, stroke) {
+    ctxi.setLineWidth(lineWidth)
+    ctxi.setFillStyle(options.background)
+    ctxi.setStrokeStyle(options.background)
+    ctxi.beginPath() // draw top and top right corner
+    ctxi.moveTo(x + r, y)
+    ctxi.arcTo(x + width, y, x + width, y + r, r) // draw right side and bottom right corner
+    ctxi.arcTo(x + width, y + height, x + width - r, y + height, r) // draw bottom and bottom left corner
+    ctxi.arcTo(x, y + height, x, y + height - r, r) // draw left and top left corner
+    ctxi.arcTo(x, y, x + r, y, r)
+    ctxi.closePath()
+    if (fill) {
+        ctxi.fill()
+    }
+    if (stroke) {
+        ctxi.stroke()
+    }
+}
+
+function getShreUserPosterBackground(objs) {
+    // 检查背景图是否存在于本地， 若存在直接返回， 否则调用getShreUserPosterBackgroundFc方法
     return new Promise(async (resolve, reject) => {
         try {
             _app.log('正在获取海报背景图')
@@ -1310,18 +1319,6 @@ function getShreUserPosterBackground(objs) { // 检查背景图是否存在于�
     })
 }
 
-function getPosterStorage(type) {
-    return _app.getStorageSync(getStorageKey(type))
-}
-
-function removePosterStorage(type) {
-    const ShreUserPosterBackgroundKey = getStorageKey(type)
-    const pbg = _app.getStorageSync(ShreUserPosterBackgroundKey)
-    if (pbg && pbg.path) {
-        _app.removeStorageSync(ShreUserPosterBackgroundKey)
-    }
-}
-
 function setPosterStorage(type, data) {
     _app.setStorage(getStorageKey(type), data)
 }
@@ -1330,19 +1327,24 @@ function getStorageKey(type) {
     return ShreUserPosterBackgroundKey + (type || 'default')
 }
 
-function getShreUserPosterBackgroundFc(objs, upimage) { // 下载并保存背景图方法
-    const {
-        backgroundImage,
-        type,
-        formData = {}
-    } = objs
+function drawAbort(state = true) {
+    _app.abort = state
+    _app.hideLoading()
+    // _app.showLoading = () => {
+    //     return
+    // }
+}
+
+function getShreUserPosterBackgroundFc(objs, upimage) {
+    // 下载并保存背景图方法
+    const { backgroundImage, type, formData = {} } = objs
     _app.log('获取分享背景图, 尝试清空本地数据')
     return new Promise(async (resolve, reject) => {
         try {
             // _app.showLoading('正在下载海报背景图');
             _app.log('没有从后端获取的背景图片路径, 尝试从后端获取背景图片路径')
             let image = backgroundImage || (await _app.getPosterUrl(objs))
-            image = (await base64ToPathFn(image))
+            image = await base64ToPathFn(image)
             _app.log('尝试下载并保存背景图:' + image)
             const savedFilePath = await _app.downLoadAndSaveFile_PromiseFc(image)
             if (savedFilePath) {
@@ -1389,5 +1391,6 @@ module.exports = {
     drawFillRect,
     drawStrokeRect,
     drawRoundStrokeRect,
-    drawRoundFillRect
+    drawRoundFillRect,
+    drawAbort
 }

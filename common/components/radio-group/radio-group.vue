@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Emitter from '@/common/utils/emitter.js'
+import Emitter from '../../utils/emitter.js'
 /**
  * radioRroup 单选框父组件
  * @description 单选框用于有一个选择，用户只能选择其中一个的场景。搭配c-radio使用

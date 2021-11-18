@@ -167,7 +167,6 @@ export default {
             // #ifdef APP-PLUS-NVUE
             (this.mode !== 'widthFix' || this.height) && (style.height = this.height_)
             // #endif
-            console.log(style)
             return style
         },
         parentStyle_() {
@@ -216,7 +215,6 @@ export default {
             let curErrSrc = ''
             // 只知道宽或者高
             if (oWidth === 'auto' || oHeight === 'auto') {
-                console.log('只知道宽或者高', oWidth, oHeight)
                 const heightArr = imgInfoList.map(o => o.height).sort((a, b) => a - b)
                 const widthArr = imgInfoList.map(o => o.height).sort((a, b) => a - b)
                 compareNum = oWidth === 'auto' ? oHeight : oWidth
@@ -230,7 +228,6 @@ export default {
                 curErrSrc = imgList[curIndex === -1 ? 0 : curIndex]
             } else {
                 // 宽高都已经知道
-                console.log('宽高都已经知道', oWidth, oHeight)
                 const ratio = parseInt(oWidth * 1000 / oHeight)
                 // 找到相近的图片
                 curErrSrc = imgInfoList.filter(o => o.ratio > ratio * 0.9 && o.ratio < ratio * 1.1).map(o => {

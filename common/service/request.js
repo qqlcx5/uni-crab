@@ -12,9 +12,16 @@ import requestBefore, { resendRefreshRequest, resendChangeDomainRequest } from '
 
 import Refresh from './refreshToken'
 
-let apiDefaultList = []
-let apiCatchTime = 3660 * 24 * 1000
-let tokenUrl = ''
+import { getVuex } from '../index'
+
+// 传入的api配置
+let zzspApiConfig = {
+    apiCatchTime: 3660 * 24 * 1000, // 域名缓存时间
+    tokenApi: '', // 获取token的api
+    refreshApi: '',// 刷新的api
+    domainList: [], // 备用域名列表
+    header: {} // 请求头
+}
 
 
 /**
@@ -22,15 +29,7 @@ let tokenUrl = ''
  **/
 const http = new Request({
     header: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'app-version': commonConfig.version, // 版本号
-        'app-type': commonConfig.platformType, // 平台类型
-        'shop-uid': commonConfig.shopUid, // 商家id
-        // #ifdef MP-WEIXIN
-        'applet-appid': commonConfig.appId, // 商家id
-        'template-id': commonConfig.templateId, // 小程序模板id
-        'user-version': commonConfig.userVersion || '' // 小程序模板id
-        // #endif
+        'Content-Type': 'application/json; charset=utf-8'
     },
     validateStatus: (statusCode) => { // statusCode 必存在。此处示例为全局默认配置
         return statusCode >= 200 && statusCode < 300
@@ -42,20 +41,17 @@ http.interceptors.request.use(async (config) => {
     config.data = {
         ...config.data
     }
-    const otherHeader = {
-        'app-from': encodeURIComponent(uni.getStorageSync(commonConfig.fullPageCatch) || '')
-    }
     // 无法避免多次请求
-    if (tokenUrl && config.url !== tokenUrl && config.method !== 'UPLOAD') {
-        let { data: { token } } = await requestBefore(tokenUrl, null, {
+    if (zzspApiConfig.tokenApi && config.url !== zzspApiConfig.tokenApi && config.method !== 'UPLOAD') {
+        let { data: { token } } = await requestBefore(zzspApiConfig.tokenApi, null, {
             source: 'catch'
         })
         token || commonConfig.platformType !== 5 ? '' : commonConfig.shopUserTokenCatchName && (token = (uni.getStorageSync(commonConfig.shopUserTokenCatchName) || {}).token)
-        token && (otherHeader['Authorization'] = `bearer ${token}`)
+        token && (config.header['Authorization'] = `bearer ${token}`)
     }
     config.header = {
-        ...config.header,
-        ...otherHeader
+        ...zzspApiConfig.header,
+        ...config.header
     }
     return config
 }, (err) => {
@@ -73,7 +69,7 @@ http.interceptors.response.use((response) => {
         response.data.code = 0
     }
     // token过期
-    if (((refreshToken.isRefresh && response.data.code !== 0) || response.data.code === 20202) && response.config.url !== 'WxApp/shuaxin') {
+    if (((refreshToken.isRefresh && response.data.code !== 0) || response.data.code === 20202) && response.config.url !== zzspApiConfig.refreshApi) {
         // 刷新token状态中
         if (!refreshToken.isRefresh) {
             refreshToken.setRefreshType(true)
@@ -134,20 +130,18 @@ http.interceptors.response.use((response) => {
         return data
     }
 }, response => {
-    console.log('接口报错了', response);
     // 接口请求不通是不存在statusCode状态码，所以只要根据statusCode判断切域名
     const { statusCode = 0 } = response
     if (!statusCode) {
-        if (apiDefaultList.length > 1) {
+        if (zzspApiConfig.domainList.length > 1) {
             console.log('域名不存在或已宕机，正在切换域名')
-            // if(response.config.url !== 'WxApp/shuaxin')
             // 正在切换域名
             if (!refreshToken.isChangeDomain) {
                 saveAPIConfig(true)
                 refreshToken.setDomainType(true)
                 // 刷新token
-                return resendChangeDomainRequest().then(() => {
-                    console.log('域名切换成功，正在重发请求')
+                return resendChangeDomainRequest().then((res) => {
+                    console.log('域名切换成功，正在重发请求', res)
                     refreshToken.notifyTaskReload()
                     refreshToken.setDomainType(false)
                     return http.request(response.config)
@@ -175,60 +169,76 @@ http.interceptors.response.use((response) => {
 })
 
 
-export function setHttpConfig(config, apiConfig) {
-    /**
-     * apiList {Array} 备用域名列表
-     * catchTime {Number}备用域名存在时间
-     * tokenApi {String}请求头带的token请求的地址
-    */
-    const { apiList = [], catchTime = 0, tokenApi = '' } = apiConfig || {}
-    if (!apiList.length) {
-        console.warn('-----------至少设置一个baseURL地址---------')
+
+export function setHttpConfig({ apiConfig, header }) {
+    const newConfig = {
+        ...apiConfig,
+        header
+    }
+    zzspApiConfig = Object.assign({}, zzspApiConfig, newConfig)
+    if (!apiConfig.domainList.length) {
+        console.warn('-----------至少设置一个baseURL地址(domainList)---------')
         return
     }
-    tokenUrl = tokenApi
-    apiCatchTime = catchTime || apiCatchTime
-    apiDefaultList = apiList
     uni.removeStorageSync(commonConfig.curApiCatch)
-    saveAPIConfig(false, config)
+    saveAPIConfig(false)
 }
 
 /**
  * 切换域名
  * force {boolean} 暴力切换
 */
-function saveAPIConfig(force = false, config) {
+function saveAPIConfig(force = false) {
     const newTime = +new Date()
     let apiCatch = uni.getStorageSync(commonConfig.curApiCatch)
     // #ifdef MP-WEIXIN
     // 切换的域名有效
     if (apiCatch) {
         // 时间超过缓存时间 要切回来
-        if (apiCatch.saveTime < newTime - apiCatchTime || force) {
-            console.log('-----------请求域名缓存超时或被清行切换---------')
+        if (apiCatch.saveTime < newTime - zzspApiConfig.apiCatchTime || force || !apiCatch.url) {
+            console.log('-----------请求域名缓存超时了---------')
             apiCatch = {
                 saveTime: newTime,
-                url: apiDefaultList.find(o => o !== apiCatch.url)
+                url: zzspApiConfig.domainList.find(o => o !== apiCatch.url)
             }
             uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
         }
     } else {
         apiCatch = {
             saveTime: newTime,
-            url: apiDefaultList[0] || ''
+            url: zzspApiConfig.domainList[0] || ''
         }
         uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
     }
     // #endif
-    // #ifndef MP-WEIXIN
+    // #ifdef H5
     apiCatch = {
         saveTime: newTime,
-        url: apiDefaultList[0] || ''
+        url: process.env.NODE_ENV === 'production' ? zzspApiConfig.domainList[0] : zzspApiConfig.proxyName
     }
     // #endif
+    // #ifndef MP-WEIXIN || H5
+    apiCatch = {
+        saveTime: newTime,
+        url: zzspApiConfig.domainList[0] || ''
+    }
+    // #endif
+    console.log('apiCatchapiCatchapiCatchapiCatch', apiCatch);
     http && http.setConfig(_config => {
-        return { ..._config, baseURL: apiCatch.url, ...config }
+        return { ..._config, baseURL: apiCatch.url }
     })
+    // 这边要对代理的地址做下处理
+    const saveAPI = {
+        ...apiCatch,
+        // #ifdef H5
+        url: zzspApiConfig.domainList[0]
+        // #endif
+    }
+    try {
+        getVuex().commit('zzspui/SET_CUR_DOMAIN', saveAPI)
+    } catch (error) {
+        console.log('这边没有注入保存当前请求域名的store');
+    }
     return apiCatch
 }
 

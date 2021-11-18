@@ -15,8 +15,14 @@ import baseFilter from './filters'
 import baseCommon from './utils/common'
 import colorGradient from './utils/colorGradient'
 import router from './router/index'
+import zzspuiStore from './store/request'
 
 export { RouterMount, router, setRequestList, setHttpConfig }
+let zzspVuex = null;
+
+export const getVuex = () => {
+    return zzspVuex
+}
 
 const globalFun = {
     install(Vue, extra) {
@@ -29,14 +35,20 @@ const globalFun = {
             http = {},
             router: routerConfig = {
             },
-            mixins = []
+            mixins = [],
+            store = null,
         } = extra || {}
         const {
-            config: httpConfig = {},
+            header: headerConfig = {},
             apiConfig = {},
             apiList = []
         } = http
 
+        if (store) {
+            zzspVuex = store
+            // 注册模块 `zzspui`
+            store.registerModule('zzspui', zzspuiStore)
+        }
         // 路由插件
         if (useRouter) {
             Vue.use(Router)
@@ -56,7 +68,8 @@ const globalFun = {
 
         // 批量挂载在this上
         Vue.prototype.$http = sendHttp;
-        setHttpConfig(httpConfig, apiConfig)
+        console.log(http, apiList);
+        setHttpConfig(http)
         setRequestList(apiList)
 
         // 基础配置
