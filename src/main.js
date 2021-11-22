@@ -46,13 +46,13 @@ Vue.use(saasUI, {
     // 请求相关的配置
     http: {
         // 请求头字段配置（baseURL无效），设置请求地址请在下面的apiConfig里面进行配置
-        config: {
+        header: {
 
         },
         apiConfig: {
             tokenApi: '/WxApp/wxuserinfo',
             // 备用域名配置,至少配置一个
-            apiList: [
+            domainList: [
                 // #ifdef H5
                 process.env.NODE_ENV === 'production' ? 'http://betaapp-saas.zzsupei.com' : '/ssApi'
                 // #endif

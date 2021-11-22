@@ -44,6 +44,24 @@
 </template>
 
 <script>
+// 单位rpx转px
+const basePix = uni.getSystemInfoSync().windowWidth / 750
+const rpx2px = (rpxVal) => {
+    rpxVal = String(rpxVal).replace(' ', '')
+    rpxVal = rpxVal.replace('calc(', '')
+    if (rpxVal.indexOf(')') !== -1) {
+        rpxVal = rpxVal.substr(0, rpxVal.length - 1)
+    }
+    // 所有数值（含单位）
+    const borderArr = rpxVal.split('+')
+    // （不含单位）
+    const borderNumberArr = borderArr.map(o => parseInt(o))
+    // 所有的单位
+    const borderUnit = borderArr.map((o, i) => o.replace(borderNumberArr[i], '') || 'rpx')
+    const result = borderUnit.map((o, i) => (['rpx', 'upx'].includes(o) ? basePix : 1) * borderNumberArr[i])
+    const resultNum = result.reduce((a, b) => a + b)
+    return resultNum
+}
 export default {
     props: {
         onVal: {// 选中的值
@@ -184,8 +202,8 @@ export default {
             const style = {
                 [bgPro]: color,
                 width: this.switchWidth + uni.upx2px(24) + 'px',
-                height: this.$c.rpx2px(56) + 'px',
-                lineHeight: this.$c.rpx2px(56) + 'px',
+                height: rpx2px(56) + 'px',
+                lineHeight: rpx2px(56) + 'px',
                 opacity: this.switchWidth ? 1 : 0,
                 transform: 'scale(' + this.scale_ + ')'
             }
@@ -288,101 +306,101 @@ export default {
 
 <style lang="scss">
 .c-switch-box {
-  display: inline-flexbox;
-  vertical-align: middle;
+    display: inline-flexbox;
+    vertical-align: middle;
 }
 .c-switch {
-  min-width: 96rpx;
-  border-radius: 56rpx;
-  display: inline-block;
-  vertical-align: middle;
-  background-color: #dadada;
-  position: relative;
-  opacity: 0;
-  @include tst;
-  .c-switch__mask {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.35);
-  }
-  // .c-switch__loading {
-  //     width: 6rpx;
-  //     height: 6rpx;
-  //     position: absolute;
-  //     left: 50%;
-  //     top: 50%;
-  //     transform: translate(-50%, -50%);
-  //     color: #444;
-  //     border-radius: 100%; /* 圆角 */
-  //     box-shadow: 14rpx -10rpx 0 0.5px currentColor,
-  //         /* 右 */ 0 16rpx currentColor,
-  //         /* 下 */ -14rpx -10rpx 0 0.5px currentColor,
-  //         /* 左 */ 0 -16rpx 0 1px currentColor,
-  //         /* 右上, 1.5px扩展 */ 14rpx 10rpx currentColor,
-  //         /* 右下 */ -14rpx 10rpx currentColor; /* 左下 */
-  // }
-
-  // .spin {
-  //     animation: spin 1s steps(8) infinite;
-  // }
-
-  // @keyframes spin {
-  //     from {
-  //         transform: rotate(0deg);
-  //     }
-  //     to {
-  //         transform: rotate(360deg);
-  //     }
-  // }
-  .c-switch__slide {
-    width: 48rpx;
-    height: 48rpx;
-    background-color: #fff;
-    border-radius: 100%;
-    position: absolute;
-    top: 50%;
-    margin-top: -24rpx;
-    left: 4rpx;
-    transform: translateX(0);
-    transition: transform 0.2s linear;
-    &-icon {
-      @include siteCenter;
-      z-index: 2;
-    }
-  }
-  .c-switch__text {
-    position: absolute;
-    top: 50%;
-    margin-top: -24rpx;
-    height: 48rpx;
-    line-height: 48rpx;
-    display: block;
-    font-size: 24rpx;
-    color: #ffffff;
-    min-width: 30rpx;
+    min-width: 96rpx;
+    border-radius: 56rpx;
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #dadada;
+    position: relative;
+    opacity: 0;
     @include tst;
-    &.c-switch__text_on {
-      left: 16rpx;
-      opacity: 0;
+    .c-switch__mask {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.35);
     }
-    &.c-switch__text_off {
-      right: 16rpx;
-      opacity: 1;
+    // .c-switch__loading {
+    //     width: 6rpx;
+    //     height: 6rpx;
+    //     position: absolute;
+    //     left: 50%;
+    //     top: 50%;
+    //     transform: translate(-50%, -50%);
+    //     color: #444;
+    //     border-radius: 100%; /* 圆角 */
+    //     box-shadow: 14rpx -10rpx 0 0.5px currentColor,
+    //         /* 右 */ 0 16rpx currentColor,
+    //         /* 下 */ -14rpx -10rpx 0 0.5px currentColor,
+    //         /* 左 */ 0 -16rpx 0 1px currentColor,
+    //         /* 右上, 1.5px扩展 */ 14rpx 10rpx currentColor,
+    //         /* 右下 */ -14rpx 10rpx currentColor; /* 左下 */
+    // }
+
+    // .spin {
+    //     animation: spin 1s steps(8) infinite;
+    // }
+
+    // @keyframes spin {
+    //     from {
+    //         transform: rotate(0deg);
+    //     }
+    //     to {
+    //         transform: rotate(360deg);
+    //     }
+    // }
+    .c-switch__slide {
+        width: 48rpx;
+        height: 48rpx;
+        background-color: #fff;
+        border-radius: 100%;
+        position: absolute;
+        top: 50%;
+        margin-top: -24rpx;
+        left: 4rpx;
+        transform: translateX(0);
+        transition: transform 0.2s linear;
+        &-icon {
+            @include siteCenter;
+            z-index: 2;
+        }
     }
-  }
-  &.c-switch__active {
-    .c-switch__text_on {
-      opacity: 1;
+    .c-switch__text {
+        position: absolute;
+        top: 50%;
+        margin-top: -24rpx;
+        height: 48rpx;
+        line-height: 48rpx;
+        display: block;
+        font-size: 24rpx;
+        color: #ffffff;
+        min-width: 30rpx;
+        @include tst;
+        &.c-switch__text_on {
+            left: 16rpx;
+            opacity: 0;
+        }
+        &.c-switch__text_off {
+            right: 16rpx;
+            opacity: 1;
+        }
     }
-    .c-switch__text_off {
-      opacity: 0;
+    &.c-switch__active {
+        .c-switch__text_on {
+            opacity: 1;
+        }
+        .c-switch__text_off {
+            opacity: 0;
+        }
     }
-  }
-  &.c-switch__disabled {
-    cursor: no-drop;
-  }
+    &.c-switch__disabled {
+        cursor: no-drop;
+    }
 }
 </style>

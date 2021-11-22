@@ -53,11 +53,6 @@ export interface FunctionalUtils {
     };
 
     /**
-     * @example 生成从minNum到maxNum的随机数
-     */
-    getRandomNum: (minNum: any, maxNum: any, ...args: any[]) => number;
-
-    /**
      * @example 防抖
      */
     debounce: (func: Function, wait?: number, ...args: any[]) => void;
@@ -76,8 +71,6 @@ export interface FunctionalUtils {
      * @example 判断对象是否相等
      */
     diffByObj: (obj1: any, obj2: any) => boolean;
-
-    basePix: number;
 
     rpx2px: (rpxVal: any) => any;
 
@@ -138,32 +131,6 @@ export interface FunctionalUtils {
 
 
     formatUnit: (val: any, unit?: string, deault?: number) => any;
-
-    /**
-     * @example  获取当前日期为开始时间
-     */
-    getDate: (type: any) => string;
-
-    /**
-     * @example 获取当前时间
-     */
-    getTime: (type: any) => string;
-
-
-    /**
-     * @example 两个时间比较
-     */
-    compareDate: (date1: any, date2: any) => false | 1 | 2;
-
-    /**
-     *  @example 判断时间是否在某个时间段里
-     *  @parmas beginTime {String} 区间段开始时间
-     *  @parmas endTime {String} 区间段结束时间
-     *  @parmas nowTime {String} 当前时间
-     */
-    timeRange: (beginTime: any, endTime: any, nowTime: any) => boolean;
-
-    where: <T extends Function = (...arg: arg[]) => any>(is: any, condition1: T, condition2?: T) => any;
 }
 
 

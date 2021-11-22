@@ -4,7 +4,6 @@
  * @Author: sanhui
  * @Date: 2021-09-23 18:36:53
  */
-// 这里仅示范npm安装方式的引入，其它方式引入请看最上面【安装】部分
 import Router from 'uni-simple-router'
 
 // 初始化

@@ -114,23 +114,7 @@ export function getUrlQuery(page) {
     }
 }
 
-/** *
- * 生成从minNum到maxNum的随机数
- * @parmas minNum 最小数
- * @parmas maxNum 最大数
- */
-export function getRandomNum(minNum, maxNum) {
-    switch (arguments.length) {
-        case 1:
-            return parseInt(Math.random() * minNum + 1, 10)
-        case 2:
-            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
-        default:
-            return 0
-    }
-}
-
-/** *
+/**
  * 防抖
  * @parmas fn 回调函数
  * @parmas time 规定时间
@@ -150,7 +134,7 @@ export const debounce = (function () {
     }
 })()
 
-/** *
+/**
  * 节流(规定的时间才触发)
  * @parmas fn 结束完运行的回调
  * @parmas delay 规定时间
@@ -249,25 +233,6 @@ export const diffByObj = (obj1, obj2) => {
     return isDif
 }
 
-// 单位rpx转px
-export const basePix = uni.getSystemInfoSync().windowWidth / 750
-export const rpx2px = (rpxVal) => {
-    rpxVal = String(rpxVal).replace(' ', '')
-    rpxVal = rpxVal.replace('calc(', '')
-    if (rpxVal.indexOf(')') !== -1) {
-        rpxVal = rpxVal.substr(0, rpxVal.length - 1)
-    }
-    // 所有数值（含单位）
-    const borderArr = rpxVal.split('+')
-    // （不含单位）
-    const borderNumberArr = borderArr.map(o => parseInt(o))
-    // 所有的单位
-    const borderUnit = borderArr.map((o, i) => o.replace(borderNumberArr[i], '') || 'rpx')
-    const result = borderUnit.map((o, i) => (['rpx', 'upx'].includes(o) ? basePix : 1) * borderNumberArr[i])
-    const resultNum = result.reduce((a, b) => a + b)
-    return resultNum
-}
-
 /**
  * 获取节点的相关信息。
  * @parmas selecter 元素的class或者id
@@ -286,7 +251,7 @@ export function getRect(selecter, pro = {}) {
     const isSelectAll = selecter.lastIndexOf(',') !== -1 || selecter.lastIndexOf('.') !== -1
     return new Promise((res, rej) => {
         // #ifdef APP-PLUS-NVUE
-        rej()
+        rej({ mag: '当前环境不支持' })
         // #endif
         // #ifndef APP-PLUS-NVUE
         if (!this) {
@@ -301,18 +266,22 @@ export function getRect(selecter, pro = {}) {
                 // #ifdef H5
                 if (!this.$el) return rej({ mag: '节点获取失败' })// 不存在节点信息就中断
                 // #endif
-                uni.createSelectorQuery()
-                    // #ifndef MP-ALIPAY
-                    .in(this)
-                // #endif
-                // eslint-disable-next-line no-unexpected-multiline
-                [isSelectAll ? 'selectAll' : 'select'](selecter).fields({
-                    size: true,
-                    rect: true,
-                    ...pro
-                }, (data) => {
-                    res(Array.isArray(data) ? (data.length > 1 ? data : data[0]) : data)
-                }).exec()
+                try {
+                    uni.createSelectorQuery()
+                        // #ifndef MP-ALIPAY
+                        .in(this)
+                    // #endif
+                    // eslint-disable-next-line no-unexpected-multiline
+                    [isSelectAll ? 'selectAll' : 'select'](selecter).fields({
+                        size: true,
+                        rect: true,
+                        ...pro
+                    }, (data) => {
+                        res(Array.isArray(data) ? (data.length > 1 ? data : data[0]) : data)
+                    }).exec()
+                } catch (error) {
+                    rej({ mag: '节点获取失败' })
+                }
             }, 100)
         })
         // #endif
@@ -340,9 +309,7 @@ export function getParent(name = undefined) {
 
 // 生成随机uid
 export function guid(len = 32, firstU = true, radix = null) {
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split(
-        ''
-    )
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
     const uuid = []
     radix = radix || chars.length
 
@@ -379,25 +346,6 @@ export function addUnit(value = 'auto', unit = 'rpx') {
     // 用uView内置验证规则中的number判断是否为数值
     return number(value) ? `${value}${unit}` : value
 }
-
-// 柯里化
-export const typeFn = {}
-const curring = (fn) => {
-    const args = []
-    return function curryN(...v) {
-        if (args.push(...Array.from(v)) < fn.length) {
-            return curryN
-        }
-        return fn(...args)
-    }
-}
-
-function isType(type, content) {
-    return Object.prototype.toString.call(content) === `[object ${type}]`
-}
-['String', 'Number', 'Boolean', 'Null', 'Array', 'Object', 'Function'].forEach((type) => {
-    typeFn[type] = curring(isType)(type)
-})
 
 /**
  * 四则运算（加减乘除）
@@ -503,127 +451,4 @@ function accDiv(arg1, arg2) {
 
 export function formatUnit(val, unit = 'rpx', deault = 0) {
     return !val ? deault : validateFn('number', val) ? (val + unit) : val
-}
-
-/** *
- * 获取当前日期为开始时间
- * @parmas type { String } start:开始 end: 结束
- *
- */
-export const getDate = (type) => {
-    const date = new Date()
-    let year = date.getFullYear()
-    let month = date.getMonth() + 1
-    let day = date.getDate()
-
-    if (type === 'end') {
-        year = year + 2
-    }
-    month = month > 9 ? month : '0' + month
-    day = day > 9 ? day : '0' + day
-    return `${year}-${month}-${day}`
-}
-
-/** *
- * 获取当前时间
- * @parmas type { String } year mon date hours minutes hoursToMinutes
- */
-export const getTime = (type) => {
-    var myDate = new Date()
-    var year = myDate.getFullYear() // 获取当前年
-    var mon = myDate.getMonth() + 1 // 获取当前月
-    var date = myDate.getDate() // 获取当前日
-    var h = myDate.getHours()// 获取当前小时数(0-23)
-    var m = myDate.getMinutes()// 获取当前分钟数(0-59)
-    var s = myDate.getSeconds()// 获取当前秒数(0-59)
-    // 判断是否在前面加0
-    let time
-    switch (type) {
-        case 'year':
-            time = `${year}`
-            break
-        case 'mon':
-            time = `${year}-${getNow(mon)}`
-            break
-        case 'date':
-            time = `${year}-${getNow(mon)}-${getNow(date)}`
-            break
-        case 'hours':
-            time = `${year}-${getNow(mon)}-${getNow(date)} ${getNow(h)}`
-            break
-        case 'minutes':
-            time = `${year}-${getNow(mon)}-${getNow(date)} ${getNow(h)}:${getNow(m)}`
-            break
-        case 'hoursToMinutes':
-            time = `${getNow(h)}:${getNow(m)}`
-            break
-        default:
-            time = `${year}-${getNow(mon)}-${getNow(date)} ${getNow(h)}:${getNow(m)}:${getNow(s)}`
-            break
-    }
-    return time
-}
-
-function getNow(s) {
-    return s < 10 ? '0' + s : s
-}
-
-/** *
- * 两个日期比较 如 2021-01-01 与 2021-04-01
- *
- */
-export const compareDate = (date1, date2) => {
-    var oDate1 = new Date(date1)
-    var oDate2 = new Date(date2)
-    if (oDate1.getTime() > oDate2.getTime()) {
-        return 1 // 第一个大
-    } else if (oDate1.getTime() === oDate2.getTime()) {
-        return 2 // 相等
-    } else {
-        return false // 第二个大
-    }
-}
-
-/** *
- * 判断时间是否在某个时间段里
- *  @parmas beginTime {String} 区间段开始时间
- *  @parmas endTime {String} 区间段结束时间
- *  @parmas nowTime {String} 当前时间
- */
-export const timeRange = (beginTime, endTime, nowTime) => {
-    const strb = beginTime.split(':')
-    if (strb.length !== 2) {
-        return false
-    }
-
-    var stre = endTime.split(':')
-    if (stre.length !== 2) {
-        return false
-    }
-
-    var strn = nowTime.split(':')
-    if (stre.length !== 2) {
-        return false
-    }
-    var b = new Date()
-    var e = new Date()
-    var n = new Date()
-
-    b.setHours(strb[0])
-    b.setMinutes(strb[1])
-    e.setHours(stre[0])
-    e.setMinutes(stre[1])
-    n.setHours(strn[0])
-    n.setMinutes(strn[1])
-
-    if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
-        return true
-    } else {
-        return false
-    }
-}
-
-
-export const where = (is, condition1, condition2 = () => { return {} }) => {
-    return is ? condition1() : condition2()
 }

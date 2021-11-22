@@ -1,3 +1,9 @@
+/*
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: sanhui
+ * @Date: 2021-09-30 11:50:53
+ */
 import Vue from "vue";
 import { IConfigTyps } from "./types/configTypes";
 import { ICommonConfig } from "./types/commonTypes";
@@ -15,7 +21,7 @@ interface OptionConfig {
         [k: string]: (value: any, ...arg: any[]) => any;
     };
     http: {
-        config: INoCareMergeType;
+        header: INoCareMergeType;
         apiConfig: INoCareMergeType;
         apiList: Array<any>;
     };

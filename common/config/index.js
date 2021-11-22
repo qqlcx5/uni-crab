@@ -44,7 +44,7 @@ const firstIntPageCatchName = 'firstPage'
 // 邀请码缓存
 const invitationCodeCatchName = 'invitationCode'
 
-const curApiCatch = 'currentAPI'
+const curApiCatch = 'currentDomain'
 
 // 无价格显示（非0，针对undefined）
 const priceNullText = ''

@@ -49,8 +49,14 @@ http.interceptors.request.use(async (config) => {
         token || commonConfig.platformType !== 5 ? '' : commonConfig.shopUserTokenCatchName && (token = (uni.getStorageSync(commonConfig.shopUserTokenCatchName) || {}).token)
         token && (config.header['Authorization'] = `bearer ${token}`)
     }
+    const zzspApiConfigHeader = {}
+    Object.keys(zzspApiConfig.header).forEach(key => {
+        const item = zzspApiConfig.header[key]
+        const itemType = typeof item
+        zzspApiConfigHeader[key] = itemType === 'function' ? item() : item
+    })
     config.header = {
-        ...zzspApiConfig.header,
+        ...zzspApiConfigHeader,
         ...config.header
     }
     return config
@@ -170,14 +176,14 @@ http.interceptors.response.use((response) => {
 
 
 
-export function setHttpConfig({ apiConfig, header }) {
+export function setHttpConfig({ apiConfig, header = {} }) {
     const newConfig = {
         ...apiConfig,
         header
     }
     zzspApiConfig = Object.assign({}, zzspApiConfig, newConfig)
-    if (!apiConfig.domainList.length) {
-        console.warn('-----------至少设置一个baseURL地址(domainList)---------')
+    if (!apiConfig.domainList || !apiConfig.domainList.length) {
+        console.error('-----------至少设置一个baseURL地址(domainList)---------')
         return
     }
     uni.removeStorageSync(commonConfig.curApiCatch)

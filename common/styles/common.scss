@@ -6,8 +6,8 @@ scroll-view ::-webkit-scrollbar {
 }
 
 .c-content {
-    max-width: $max-width;
-    margin: 0 auto;
+    // max-width: $max-width;
+    // margin: 0 auto;
 }
 .bg-fff {
     background-color: #fff;
@@ -310,63 +310,6 @@ scroll-view ::-webkit-scrollbar {
     }
 }
 
-// 加减
-.calc-box {
-    width: 180rpx;
-    .calc-btn {
-        color: #333333;
-        display: inline-flex !important;
-        align-items: center;
-        justify-content: center;
-        height: 44rpx;
-        width: 44rpx;
-        text-align: center;
-        font-size: 40rpx;
-        font-weight: bold;
-        &__disabled {
-            color: #999999;
-        }
-    }
-    .flex-middle {
-        height: 64rpx;
-        padding: 0 10rpx;
-        min-width: 88rpx;
-        &__text {
-            color: #333;
-            display: block;
-            height: 100%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #f5f5f5;
-            border-radius: 8rpx;
-            padding: 0 10rpx;
-            font-size: 32rpx;
-            width: 100%;
-        }
-    }
-    &-cart {
-        // width: 160rpx;
-        width: auto;
-        .calc-btn {
-            width: 50rpx;
-            height: 42rpx;
-        }
-        .flex-middle {
-            height: 48rpx;
-            font-size: 0;
-            &__text {
-                font-size: 30rpx;
-                padding: 0 10rpx;
-                background-color: #f5f5f5;
-            }
-        }
-    }
-    &-package {
-        width: 140rpx;
-    }
-}
-
 // 金额
 .price-com {
     display: inline-flex;
@@ -378,7 +321,7 @@ scroll-view ::-webkit-scrollbar {
     &::before {
         font-family: inherit;
         position: relative;
-        bottom: 2rpx;
+        bottom: 4rpx;
         font-weight: bold;
         content: "￥";
         font-size: 65%;
@@ -389,6 +332,12 @@ scroll-view ::-webkit-scrollbar {
             font-weight: normal;
         }
     }
+    &--default {
+        font-family: "PingFangSC-Regular, PingFang SC";
+    }
+}
+[data-price_prefix]::before {
+    content: attr(data-price_prefix) !important;
 }
 
 // 弹窗标题
@@ -427,6 +376,7 @@ scroll-view ::-webkit-scrollbar {
     bottom: auto;
 }
 
+// 亮牌特效
 .bright-card {
     position: relative;
     overflow: hidden;
@@ -457,26 +407,6 @@ scroll-view ::-webkit-scrollbar {
 
     100% {
         left: 150%;
-    }
-}
-
-// 描述和凭证
-.voucher {
-    padding: 24rpx 0;
-
-    &__title {
-        font-size: 32rpx;
-        color: #333333;
-    }
-}
-
-// 订单
-.multi-cell {
-    display: flex;
-
-    &__content {
-        flex: 1;
-        flex-direction: column;
     }
 }
 
@@ -512,24 +442,6 @@ scroll-view ::-webkit-scrollbar {
             }
         }
     }
-}
-
-/*截断省略*/
-/*有看到c-ellipsis类，but单行的不生效，没敢修改theme里的mix*/
-.clamp {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box; /*! autoprefixer: off */
-    -webkit-box-orient: vertical; /*! autoprefixer: on */
-}
-.clamp-1 {
-    -webkit-line-clamp: 1;
-}
-.clamp-2 {
-    -webkit-line-clamp: 2;
-}
-.clamp-3 {
-    -webkit-line-clamp: 3;
 }
 
 .fs20 {

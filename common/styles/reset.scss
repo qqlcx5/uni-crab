@@ -48,7 +48,7 @@ ad,
 a,
 router-link {
     box-sizing: border-box;
-	vertical-align: top;
+    vertical-align: top;
 }
 
 a {
@@ -85,10 +85,10 @@ picker.uni-input-placeholder {
 /* #ifdef H5 */
 // h5滚动条样式
 ::-webkit-scrollbar {
-	display: none;
-	width: 0 !important;
-	height: 0 !important;
-	-webkit-appearance: none;
-	background: transparent;
+    display: none;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none;
+    background: transparent;
 }
 /* #endif */
