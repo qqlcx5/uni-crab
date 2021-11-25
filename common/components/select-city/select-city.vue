@@ -4,6 +4,8 @@
         <c-popup
             v-model="modalFlag"
             mode="bottom"
+            maskabled="false"
+            destroy-ele="false"
             radius="24rpx 24rpx 0 0"
         >
             <view class="select-city">
@@ -144,11 +146,17 @@ export default {
             return (id) => {
                 return this.valueObj[this.cityList[this.showRank].identify].value == id
             }
+        },
+        defaultValue_() {
+            return this.$deepClone(this.defaultValue)
         }
     },
     watch: {
-        defaultValue: {
-            handler(val) {
+        // 因为defaultValue的值为对象或者数组时，需要先computed里deepClone一下，才能正确同步到新旧值
+        defaultValue_: {
+            handler(val, oldVal) {
+                // console.log('val', val)
+                // console.log('oldVal', oldVal)
                 const len = val.length
                 if (len <= 0) {
                     this.initData()
@@ -160,7 +168,8 @@ export default {
                     })
                 }
             },
-            immediate: true
+            immediate: true,
+            deep: true
         },
         value: {
             handler(val) {
@@ -236,9 +245,19 @@ export default {
             this.identifys_.forEach((o, i) => {
                 if (i > this.showRank) {
                     this.$set(this.cityList[i], 'name', '')
+                    this.$set(this.valueObj, o, {
+                        label: '',
+                        value: ''
+                    })
                 }
             })
         },
+        /**
+         * 选中
+         * name {String} 展示选中的值
+         * id {Number}  选中的id
+         * submit 是否自动提交
+        */
         async onChooseClick(name, id, submit = true) {
             if (id && submit) {
                 const identify = this.identifys_[this.showRank]
@@ -305,7 +324,7 @@ export default {
             align-items: center;
             height: 68rpx;
             position: relative;
-            padding: 0 16rpx;
+            margin: 0 16rpx;
         }
         &__line {
             width: 56rpx;

@@ -10,6 +10,7 @@ import sendHttp, { setRequestList } from './service'
 import { setHttpConfig } from './service/request'
 
 import baseConfig from './config'
+import globalMixin from './mixins/globalMixin'
 import * as beseUtils from './utils/index'
 import baseFilter from './filters'
 import baseCommon from './utils/common'
@@ -39,8 +40,6 @@ const globalFun = {
             store = null,
         } = extra || {}
         const {
-            header: headerConfig = {},
-            apiConfig = {},
             apiList = []
         } = http
 
@@ -68,7 +67,6 @@ const globalFun = {
 
         // 批量挂载在this上
         Vue.prototype.$http = sendHttp;
-        console.log(http, apiList);
         setHttpConfig(http)
         setRequestList(apiList)
 
@@ -94,6 +92,7 @@ const globalFun = {
             Vue.filter(fKey, allFilter[fKey]);
         })
 
+        mixins.unshift(globalMixin)
         //混入全局minxins
         mixins.forEach(v => Vue.mixin(v));
     }

@@ -30,10 +30,6 @@
 </template>
 
 <script>
-// #ifdef APP-PLUS-NVUE
-import config from '@/common/config'
-import { formatUnit } from '@/common/utils'
-// #endif
 /**
  * props下面的宽高圆角都只支持rpx  不要传单位进来
  */
@@ -128,6 +124,11 @@ export default {
         showMenuByLongpress: {
             type: [String, Boolean],
             default: false
+        },
+        // 可选值有normal/update
+        type: {
+            type: String,
+            default: 'normal'
         }
     },
     data() {
@@ -289,14 +290,6 @@ export default {
             immediate: true
         }
     },
-    created() {
-        // #ifdef APP-PLUS-NVUE
-        !this.$config ? (this.$config = {}) : ''
-        this.$config = config
-        !this.$c ? (this.$c = {}) : ''
-        this.$c.formatUnit = formatUnit
-        // #endif
-    },
     methods: {
         async getImgRect() {
             const data = await this.$c.getRect.call(this, '.c-image')
@@ -309,7 +302,7 @@ export default {
             } else if (/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g.test(url)) {
                 return url
             } else {
-                return (this.$config?.ossImgUrl || '') + url
+                return (this.$config.ossImgUrl || '') + (this.type === 'normal' ? ('/' + this.$config.ossFileName + '/') : '') + url
             }
         },
         imgLoaded() {
@@ -357,8 +350,8 @@ export default {
 
     &__border {
         content: '';
-        width: 199%;
-        height: 199%;
+        width: 198.8%;
+        height: 198.8%;
         border: 1px solid rgba(0, 0, 0, 0.2);
         transform: scale(0.5, 0.5);
         position: absolute;

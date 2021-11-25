@@ -19,7 +19,7 @@ Vue.use(saasUI, {
     store,
     // 共用配置 this.$config
     config: {
-        frameName: 'SAAS UI'
+        libName: 'zzspSaaSUI'
     },
     // 共用方法或变量 this.sayHello
     common: {
@@ -27,7 +27,7 @@ Vue.use(saasUI, {
             console.log('Hello! 我是this上面的方法')
         }
     },
-    // 工具方法this.$c.cloga
+    // 工具方法this.$c.logHello
     utils: {
         logHello() {
             console.log('Hello!我是this.$c上面的工具方法')

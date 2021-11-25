@@ -7,7 +7,7 @@
 <template>
     <view>
         <view
-            v-if="isSlide_"
+            v-if="stopPrevent_"
             class="c-mask"
             :class="[
                 show ? 'c-mask--visible' : ''
@@ -68,10 +68,6 @@ export default {
         radius: {
             type: [String, Number],
             default: 0
-        },
-        isSlide: {
-            type: [Boolean, String],
-            default: true
         }
     },
     computed: {
@@ -90,9 +86,6 @@ export default {
         },
         maskabled_() {
             return String(this.maskabled) !== 'false'
-        },
-        isSlide_() {
-            return String(this.isSlide) !== 'false'
         }
     },
     methods: {

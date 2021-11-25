@@ -364,7 +364,7 @@ export const calcFn = {
     sub() {
         const arg = Array.from(arguments)
         return arg.reduce((total, num) => {
-            return accSub(total, -num)
+            return accAdd(total, -num)
         })
     },
     mul() {
@@ -385,68 +385,39 @@ export const calcFn = {
 // 调用：accAdd(arg1,arg2)
 // 返回值：arg1加上arg2的精确结果
 function accAdd(arg1, arg2) {
-    var r1, r2, m
-    try {
-        r1 = arg1.toString().split('.')[1].length
-    } catch (e) {
-        r1 = 0
-    }
-    try {
-        r2 = arg2.toString().split('.')[1].length
-    } catch (e) {
-        r2 = 0
-    }
-    m = Math.pow(10, Math.max(r1, r2))
+    const argInfo1 = dotedAfterInfo(arg1)
+    const argInfo2 = dotedAfterInfo(arg2)
+    const m = Math.pow(10, Math.max(argInfo1.length, argInfo2.length))
     return (arg1 * m + arg2 * m) / m
-}
-
-// 说明：javascript的减法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的减法结果。
-// 调用：accSub(arg1,arg2)
-// 返回值：arg1减上arg2的精确结果
-function accSub(arg1, arg2) {
-    return accAdd(arg1, -arg2)
 }
 
 // 说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
 // 调用：accMul(arg1,arg2)
 // 返回值：arg1乘以arg2的精确结果
 function accMul(arg1, arg2) {
-    var m = 0
-    var s1 = arg1.toString()
-    var s2 = arg2.toString()
-    try {
-        m += s1.split('.')[1].length
-    } catch (e) {
-        console.log(e)
-    }
-    try {
-        m += s2.split('.')[1].length
-    } catch (e) {
-        console.log(e)
-    }
-    return Number(s1.replace('.', '')) * Number(s2.replace('.', '')) / Math.pow(10, m)
+    const argInfo1 = dotedAfterInfo(arg1)
+    const argInfo2 = dotedAfterInfo(arg2)
+    var m = argInfo1.length + argInfo2.length
+    return argInfo1.number * argInfo2.number / Math.pow(10, m)
 }
 
 // 说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
 // 调用：accDiv(arg1,arg2)
 // 返回值：arg1除以arg2的精确结果
 function accDiv(arg1, arg2) {
-    var t1 = 0
-    var t2 = 0
-    var r1; var r2
-    try {
-        t1 = arg1.toString().split('.')[1].length
-    } catch (e) {
-        console.log(e)
+    const argInfo1 = dotedAfterInfo(arg1)
+    const argInfo2 = dotedAfterInfo(arg2)
+    return accMul((argInfo1.number / argInfo2.number), Math.pow(10, argInfo2.length - argInfo1.length))
+}
+
+function dotedAfterInfo(arg) {
+    const s1 = arg.toString()
+    const argArr = s1.split('.')
+    return {
+        str: s1,
+        length: (argArr[1] || []).length,
+        number: Number(s1.replace('.', ''))
     }
-    try {
-        t2 = arg2.toString().split('.')[1].length
-    } catch (e) {
-        console.log(e)
-    }
-    r1 = Number(arg1.toString().replace('.', ''))
-    r2 = Number(arg2.toString().replace('.', ''))
-    return (r1 / r2) * Math.pow(10, t2 - t1)
 }
 
 export function formatUnit(val, unit = 'rpx', deault = 0) {

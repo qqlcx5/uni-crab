@@ -100,7 +100,7 @@ export default {
             return String(this.loading) !== 'false'
         },
         plain_() {
-            return String(this.plain) !== 'false' || (this.parent ? this.parent.type === 'button' : false)
+            return String(this.plain) !== 'false' || (this.parent && this.type === 'inherit' ? this.parent.type === 'button' : false)
         },
         disabled_() {
             return String(this.disabled) !== 'false'
@@ -109,7 +109,7 @@ export default {
             return this.height && this.shape === 'circle' ? this.height / 2 : this.radius
         },
         style_() {
-            const bottonStyle = this.parent ? { ...this.parent.colorsStyle_ } : {}
+            const bottonStyle = this.parent && this.type === 'inherit' ? { ...this.parent.colorsStyle_ } : {}
             this.width ? (bottonStyle.width = this.$c.formatUnit(this.width)) : ''
             this.height ? (bottonStyle.height = this.$c.formatUnit(this.height)) : ''
             this.fontSize ? (bottonStyle.fontSize = this.$c.formatUnit(this.fontSize)) : ''
@@ -238,8 +238,8 @@ export default {
     }
     &__border {
         content: '';
-        width: 199%;
-        height: 199%;
+        width: 198.8%;
+        height: 198.8%;
         border: 1px solid rgba(0, 0, 0, 0.2);
         transform: scale(0.5, 0.5);
         position: absolute;

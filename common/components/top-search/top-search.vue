@@ -3,7 +3,7 @@
         class="search-box flex-ajcenter"
         :style="{backgroundColor: bgColor}"
     >
-        <slot></slot>
+        <slot name="before" />
         <c-input
             v-model="keyword"
             confirm-type="search"
@@ -32,34 +32,7 @@
                 </c-colors>
             </view>
         </c-input>
-        <view
-            v-if="mode === 'listMode'"
-            class="search-box__after"
-            @click="changeMode"
-        >
-            <c-icons
-                v-if="newListMode === 'column'"
-                size="48"
-                color="#999999"
-                type="icon-shupai"
-            ></c-icons>
-            <c-icons
-                v-else
-                type="icon-hengpai"
-                size="48"
-                color="#999999"
-            ></c-icons>
-        </view>
-        <view
-            v-if="mode === 'searchText' && confirmBtn_"
-            class="search-box__after"
-            @click="confirmInput"
-        >搜索</view>
-        <view
-            v-if="mode === 'searchText' && cancleBtn_"
-            class="search-box__after"
-            @click="resetInput"
-        >{{ cancelText }}</view>
+        <slot name="after" />
     </view>
 </template>
 

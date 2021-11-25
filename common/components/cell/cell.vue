@@ -290,8 +290,8 @@ export default {
             return String(this.border) !== 'false'
         },
         rotate_() {
-            if (this.direction == 'up') return -90
-            else if (this.direction == 'down') return 90
+            if (this.direction === 'up') return -90
+            else if (this.direction === 'down') return 90
             else return 0
         },
         isImg_() {
@@ -302,7 +302,7 @@ export default {
         handleClick() {
             this.$emit('click', this.index)
             if (this.to) {
-                if (this.$c.typeFn.Object(this.to)) {
+                if (typeof this.to === 'object') {
                     return this.$jump(this.to.name, this.to.params ? this.to.params : this.to.query)
                 }
                 this.$jump(this.to)
