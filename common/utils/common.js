@@ -266,7 +266,31 @@ function formatParams(params = {}) {
         const item = String(params[o])
         !['undefined', 'null'].includes(item) && (newParams[o] = params[o])
     })
-    return newParams
+    return newParams;
+}
+
+/**
+ * @name: 获取时间字符串
+ * @param {Number} day; 和今天相差几天 
+ * @return {String} 2021-03-30
+ */
+export const getData = (day) => {
+    var today = new Date();
+    var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+    today.setTime(targetday_milliseconds); //注意，这行是关键代码
+    var tYear = today.getFullYear();
+    var tMonth = today.getMonth();
+    var tDate = today.getDate();
+    tMonth = doHandleMonth(tMonth + 1);
+    tDate = doHandleMonth(tDate);
+    return tYear + "-" + tMonth + "-" + tDate;
+}
+function doHandleMonth(month) {
+    var m = month;
+    if (month.toString().length == 1) {
+        m = "0" + month;
+    }
+    return m;
 }
 
 export default {
@@ -280,6 +304,7 @@ export default {
     $session: sessionCatch,
     $loading: showLoading,
     $modal: showModal,
+    $getData: getData,
     $toast: showToast,
     $serverJump: serverJump,
     $jumpDetail: jumpPageDetail,

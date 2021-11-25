@@ -82,6 +82,11 @@ export default {
             type: [String, Number],
             default: 0
         },
+        // 高度是否自动
+        heightAuto: {
+            type: Boolean,
+            default: true
+        },
         // 图片的最大高
         maxHeight: {
             type: [String, Number],
@@ -109,6 +114,15 @@ export default {
         // 是否使用过渡效果
         effect: {
             type: Boolean,
+            default: false
+        },// 图片加边框
+        mask: {
+            type: [String, Boolean],
+            default: false
+        },
+        // 图片加边框
+        shadow: {
+            type: [String, Boolean],
             default: false
         },
         // 是否有边框
@@ -140,6 +154,12 @@ export default {
         }
     },
     computed: {
+        mask_() {
+            return String(this.mask) !== 'false'
+        },
+        shadow_() {
+            return String(this.shadow) !== 'false'
+        },
         isEffect_() {
             return String(this.effect) !== 'false'
         },
@@ -315,6 +335,7 @@ export default {
         imgLoaded() {
             if (!this.loadStatus) {
                 this.loadStatus = true
+                this.$emit('imgLoaded', this.loadStatus)
             }
         },
         // 图片错误一律按404处理，之后可能分清空
@@ -344,6 +365,15 @@ export default {
     overflow: hidden;
     /* #endif */
     position: relative;
+    &__mask {
+        &::after {
+            content: '';
+            @include abs(0, 0, 0, 0);
+            background-color: rgba($color: #000000, $alpha: 0.02);
+            z-index: 2;
+            border-radius: inherit;
+        }
+    }
 
     &__image {
         width: 100%;
