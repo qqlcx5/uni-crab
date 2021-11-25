@@ -115,15 +115,6 @@ export default {
         effect: {
             type: Boolean,
             default: false
-        },// 图片加边框
-        mask: {
-            type: [String, Boolean],
-            default: false
-        },
-        // 图片加边框
-        shadow: {
-            type: [String, Boolean],
-            default: false
         },
         // 是否有边框
         border: {
@@ -154,12 +145,7 @@ export default {
         }
     },
     computed: {
-        mask_() {
-            return String(this.mask) !== 'false'
-        },
-        shadow_() {
-            return String(this.shadow) !== 'false'
-        },
+
         isEffect_() {
             return String(this.effect) !== 'false'
         },
@@ -182,7 +168,8 @@ export default {
                 borderRadius: radius
             }
             // #ifndef APP-PLUS-NVUE
-            style.height = this.mode_ === 'widthFix' ? 'auto' : this.height_;
+            style.height = this.mode_ === 'widthFix' && this.heightAuto ? 'auto' : this.height_;
+
             // #endif
             // #ifdef APP-PLUS-NVUE
             (this.mode !== 'widthFix' || this.height) && (style.height = this.height_)
@@ -205,6 +192,8 @@ export default {
                 parentStyle.height = this.$c.formatUnit(this.height, 'rpx', this.size_)
                 parentStyle.backgroundColor = '#f5f5f5'
             }
+            // 当关闭自动高度的时候 改变垂直居中方式
+            !this.heightAuto && (parentStyle.alignItems = 'flex-start')
             return parentStyle
         },
         static_() {
@@ -365,16 +354,6 @@ export default {
     overflow: hidden;
     /* #endif */
     position: relative;
-    &__mask {
-        &::after {
-            content: '';
-            @include abs(0, 0, 0, 0);
-            background-color: rgba($color: #000000, $alpha: 0.02);
-            z-index: 2;
-            border-radius: inherit;
-        }
-    }
-
     &__image {
         width: 100%;
         height: 100%;
