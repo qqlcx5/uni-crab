@@ -276,6 +276,7 @@ export default {
             padding-left: 206rpx;
             height: 100%;
             border-top-right-radius: 16rpx;
+            font-size: 0;
 
             .price-com {
                 position: relative;
@@ -296,6 +297,7 @@ export default {
                 width: 100%;
                 display: inline-block;
                 @include ellipsis;
+                font-size: 28rpx;
             }
         }
     }
