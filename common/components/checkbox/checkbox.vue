@@ -18,7 +18,7 @@
         <view
             v-if="$slots.default"
             class="c-checkbox__label"
-            :style="{ fontSize: labelSize_,flex: this.parent.wrap ? 1 : 'auto' }"
+            :style="{ fontSize: labelSize_,flex: parent.wrap ? 1 : 'auto' }"
         >
             <slot />
         </view>

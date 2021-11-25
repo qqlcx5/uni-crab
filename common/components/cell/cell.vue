@@ -1,11 +1,12 @@
 <template>
     <view
-        class="c-cell"
+        class="c-cell c-cell2"
         :hover-class="hoverClass_"
-        :class="[
+        :class="[ 
             'c-cell--' + size,
             arrow ? 'c-cell__arrow': '',
             center ? 'c-cell__center': '',
+            flex ?'flex':''
         ]"
         :style="[ cellStyle ]"
         @tap="handleClick"
@@ -41,7 +42,7 @@
             ></c-icons>
         </view>
         <view
-            class="c-cell__title"
+            class="c-cell__title cell__title"
             :class="[
                 'c-cell__title--' + size,
             ]"
@@ -99,6 +100,7 @@
  * @property {Object} iconSize 左边图标的大小
  * @property {Object} iconRadius 左边图标圆角
  * @property {String} value 右侧内容
+ * @property {String} flex 是否左右显示
  * @property {String} label 标题下方的描述信息
  * @property {Boolean} border 是否显示cell的下边框（默认true）
  * @property {Boolean} center 是否使内容垂直居中（默认false）
@@ -156,6 +158,10 @@ export default {
             default() {
                 return {}
             }
+        },
+        flex: {
+            type: String,
+            default: ''
         },
         /**
          * cell 大小
@@ -321,6 +327,7 @@ export default {
 .c-cell {
     position: relative;
     @include flex(row);
+    align-items: center;
     justify-content: flex-start;
     padding: $spacing-col-lg $spacing-row-base * 2;
     font-size: $font-base;

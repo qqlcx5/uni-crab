@@ -78,6 +78,11 @@ export default {
             type: [String, Number],
             default: 0
         },
+        // 高度是否自动
+        heightAuto: {
+            type: Boolean,
+            default: true
+        },
         // 图片的最大高
         maxHeight: {
             type: [String, Number],
@@ -141,6 +146,7 @@ export default {
         }
     },
     computed: {
+
         isEffect_() {
             return String(this.effect) !== 'false'
         },
@@ -163,7 +169,8 @@ export default {
                 borderRadius: radius
             }
             // #ifndef APP-PLUS-NVUE
-            style.height = this.mode_ === 'widthFix' ? 'auto' : this.height_;
+            style.height = this.mode_ === 'widthFix' && this.heightAuto ? 'auto' : this.height_;
+
             // #endif
             // #ifdef APP-PLUS-NVUE
             (this.mode !== 'widthFix' || this.height) && (style.height = this.height_)
@@ -186,6 +193,8 @@ export default {
                 parentStyle.height = this.$c.formatUnit(this.height, 'rpx', this.size_)
                 parentStyle.backgroundColor = '#f5f5f5'
             }
+            // 当关闭自动高度的时候 改变垂直居中方式
+            !this.heightAuto && (parentStyle.alignItems = 'flex-start')
             return parentStyle
         },
         static_() {
@@ -308,6 +317,7 @@ export default {
         imgLoaded() {
             if (!this.loadStatus) {
                 this.loadStatus = true
+                this.$emit('imgLoaded', this.loadStatus)
             }
         },
         // 图片错误一律按404处理，之后可能分清空
@@ -337,7 +347,6 @@ export default {
     overflow: hidden;
     /* #endif */
     position: relative;
-
     &__image {
         width: 100%;
         height: 100%;

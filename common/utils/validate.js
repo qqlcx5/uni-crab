@@ -59,6 +59,9 @@ export default function validateReg(type, str, hasMsg = false) {
             case 'verify':
                 reg = /^\d{6}$/
                 break
+            case 'verify4':
+                reg = /^\d{4}$/
+                break
             case 'number':
                 reg = /^[0-9]*$/
                 break

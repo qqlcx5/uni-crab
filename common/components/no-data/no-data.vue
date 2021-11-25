@@ -1,6 +1,9 @@
 <template>
     <view class="c-no-data">
-        <block v-if="showImg_">
+        <view
+            v-if="showImg_"
+            :style="[style_]"
+        >
             <c-image
                 v-if="isImg_"
                 :static="isStatic_"
@@ -54,6 +57,12 @@ export default {
             default: () => {
                 return {}
             }
+        },
+        boxStyle: {
+            type: Object,
+            default: () => {
+                return {}
+            }
         }
     },
     computed: {
@@ -68,6 +77,9 @@ export default {
         },
         text_() {
             return String(this.text) === 'false' ? false : this.text
+        },
+        style_() {
+            return this.boxStyle
         }
     }
 }

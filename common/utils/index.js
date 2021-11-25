@@ -111,7 +111,7 @@ export function getUrlQuery(page) {
     return {
         path: urlArr[0],
         query: queryObj
-    }
+    };
 }
 
 /**
@@ -226,7 +226,8 @@ export const diffByObj = (obj1, obj2) => {
         if (t1 && t2) {
             isDif = diffByObj(obj1[o], obj2[o])
         } else if (obj1[o] !== obj2[o]) {
-            isDif = false
+            isDif = false;
+            break;
         }
         if (!isDif) break
     }

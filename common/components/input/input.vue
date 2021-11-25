@@ -50,6 +50,7 @@
                 :password="type === 'password' && !showPassword"
                 placeholder-class="c-input-placeholder"
                 :placeholder-style="placeholderStyle"
+                :cursor-spacing="cursorSpacing_"
                 @input="onInput"
                 @focus="onFocus"
                 @blur="onBlur"
@@ -251,6 +252,13 @@ export default {
         textAreaStyle: {
             type: Object,
             default: () => { }
+        },
+        /**
+         * H5无效
+         */
+        cursorSpacing: {
+            type: Number,
+            default: 0
         }
     },
     data() {
@@ -324,6 +332,10 @@ export default {
             return {
                 borderRadius: this.$c.formatUnit(this.radius)
             }
+        },
+        cursorSpacing_() {
+            const number = Number(this.cursorSpacing)
+            return isNaN(number) ? 0 : number
         },
         textAreaStyle_() {
             if (this.type === 'textarea') {
