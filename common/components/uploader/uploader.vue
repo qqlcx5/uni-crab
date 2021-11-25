@@ -8,11 +8,9 @@
         >
 
             <!--先循环视频集-->
-            <block
-                v-for="(item, index) in video_list_"
-                :key="item.src"
-            >
+            <template v-for="(item, index) in video_list_">
                 <view
+                    :key="item.src"
                     class="sunui-uploader-file"
                     :class="[item.upload_percent < 100 ? 'sunui-uploader-file-status' : '']"
                     @click="handleMediaClick('video', item, index)"
@@ -54,14 +52,12 @@
                         />
                     </view>
                 </view>
-            </block>
+            </template>
 
             <!-- 循环图片集 -->
-            <block
-                v-for="(item, index) in img_list_"
-                :key="index"
-            >
+            <template v-for="(item, index) in img_list_">
                 <view
+                    :key="index"
                     class="sunui-uploader-file"
                     :class="[item.upload_percent < 100 ? 'sunui-uploader-file-status' : '']"
                     @click="handleMediaClick('image', item, index)"
@@ -95,7 +91,7 @@
                         class="sunui-loader-filecontent"
                     >{{ item.upload_percent }}%</view>
                 </view>
-            </block>
+            </template>
 
             <!--图片上传按钮-->
             <view
@@ -156,11 +152,9 @@
             class="sunui-uploader-files"
         >
             <!-- 图片预览 -->
-            <block
-                v-for="(item, index) in imgPreviewList"
-                :key="item"
-            >
+            <template v-for="(item, index) in imgPreviewList">
                 <view
+                    :key="item"
                     class="sunui-uploader-file"
                     @click="previewMedia('image', item, index)"
                 >
@@ -172,14 +166,12 @@
                         mode="aspectFill"
                     />
                 </view>
-            </block>
+            </template>
 
             <!-- 视频预览 -->
-            <block
-                v-for="(item, index) in videoPreviewList"
-                :key="item"
-            >
+            <template v-for="(item, index) in videoPreviewList">
                 <view
+                    :key="item"
                     class="sunui-uploader-file"
                     @click="previewMedia('video', item, index)"
                 >
@@ -198,7 +190,7 @@
                         size="48"
                     />
                 </view>
-            </block>
+            </template>
         </view>
 
         <!--视频弹层，用于视频播放-->

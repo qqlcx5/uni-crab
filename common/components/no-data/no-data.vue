@@ -19,13 +19,13 @@
                 :size="size"
             ></c-icons>
             <!-- #endif -->
-        </block>
-        <text
-            v-if="text_"
-            class="c-no-data__text"
-            :style="[ textStyle ]"
-        >{{ text_ }}</text>
-        <slot></slot>
+            <text
+                v-if="text_"
+                class="c-no-data__text"
+                :style="[ textStyle ]"
+            >{{ text_ }}</text>
+            <slot></slot>
+        </view>
     </view>
 </template>
 

@@ -9,7 +9,7 @@
             :theme="theme_"
             :radius="radius"
         >
-            <block v-if="mode === 'button'">
+            <template v-if="mode === 'button'">
                 <c-button
                     :width="wudth"
                     :height="height"
@@ -21,10 +21,10 @@
                         @tap="getSmsCode"
                     >{{ btnText_ }}</view>
                 </c-button>
-            </block>
-            <block v-else>
+            </template>
+            <template v-else>
                 <view :style="[ textStyle_ ]">{{ btnText_ }}</view>
-            </block>
+            </template>
             <slot></slot>
         </c-colors>
     </view>

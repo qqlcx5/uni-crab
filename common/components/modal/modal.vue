@@ -14,7 +14,7 @@
                 :style="[ titleStyle ]"
             >{{ title }}</view>
             <view class="c-modal__content">
-                <block v-if="$slots.default || content">
+                <template v-if="$slots.default || content">
                     <view
                         class="c-modal-bd"
                         :style="[ contentStyle ]"
@@ -22,7 +22,7 @@
                         <view v-if="content">{{ content }}</view>
                         <slot></slot>
                     </view>
-                </block>
+                </template>
             </view>
             <view class="c-modal-ft">
                 <c-colors
