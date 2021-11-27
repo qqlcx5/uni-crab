@@ -62,7 +62,7 @@ export const isEmpty = (val) => {
 }
 
 export const isArrayEqual = (a, b, has = true) => {
-    if (a.length !== b.length) return has = false
+    if (a.length !== b.length) return false
     const s = new Set(b)
     for (let i = 0; i < a.length; i++) {
         if (!s.has(a[i])) has = false
