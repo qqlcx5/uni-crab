@@ -12,12 +12,12 @@
             <slot name="before" />
         </view>
         <view
-            class="c-radio__icon-wrap"
+            class="c-radio__zsuicon-wrap"
             @tap.stop="toggle"
         >
             <c-icons
-                class="c-radio__icon-wrap__icon"
-                :type="select_ ? 'icon-xuanzhong' : 'icon-weixuan'"
+                class="c-radio__zsuicon-wrap__icon"
+                :type="select_ ? 'zsuicon-xuanzhong' : 'zsuicon-weixuan'"
                 :size="elIconSize"
                 :color="iconColor"
             />
@@ -36,7 +36,7 @@
 /**
  * radio 单选框
  * @description 单选框用于有一个选择，用户只能选择其中一个的场景。搭配c-radio-group使用
- * @property {String Number} icon-size 图标大小，单位rpx（默认24）
+ * @property {String Number} zsuicon-size 图标大小，单位rpx（默认24）
  * @property {String Number} label-size label字体大小，单位rpx（默认28）
  * @property {String Number} name radio组件的标示符
  * @property {String} shape 形状，见上方说明（默认circle）
@@ -181,11 +181,11 @@ export default {
         },
         iconClass() {
             let classes = [];
-            classes.push('c-radio__icon-wrap--' + this.elShape);
-            if (this.name == this.parent.value) classes.push('c-radio__icon-wrap--checked');
-            if (this.elDisabled) classes.push('c-radio__icon-wrap--disabled');
+            classes.push('c-radio__zsuicon-wrap--' + this.elShape);
+            if (this.name == this.parent.value) classes.push('c-radio__zsuicon-wrap--checked');
+            if (this.elDisabled) classes.push('c-radio__zsuicon-wrap--disabled');
             if (this.name == this.parent.value && this.elDisabled) classes.push(
-                'c-radio__icon-wrap--disabled--checked');
+                'c-radio__zsuicon-wrap--disabled--checked');
             // 支付宝小程序无法动态绑定一个数组类名，否则解析出来的结果会带有","，而导致失效
             return classes.join(' ');
         },
@@ -263,7 +263,7 @@ export default {
     user-select: none;
     line-height: 1.8;
 
-    &__icon-wrap {
+    &__zsuicon-wrap {
         color: $color-sub-text;
         @include flex(row);
         flex: none;

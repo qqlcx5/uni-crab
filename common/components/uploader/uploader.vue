@@ -48,7 +48,7 @@
                         <c-icons
                             class="sunui-remove-icon"
                             size="34"
-                            type="icon-shanchu1"
+                            type="zsuicon-shanchu1"
                         />
                     </view>
                 </view>
@@ -81,7 +81,7 @@
                         <c-icons
                             class="sunui-remove-icon"
                             size="34"
-                            type="icon-shanchu1"
+                            type="zsuicon-shanchu1"
                         />
                     </view>
 
@@ -108,7 +108,7 @@
             >
                 <slot name="img_btn_slot">
                     <c-icons
-                        type="icon-shangchuantupian"
+                        type="zsuicon-shangchuantupian"
                         color="#999"
                         size="48"
                     ></c-icons>
@@ -134,7 +134,7 @@
             >
                 <slot name="video_btn_slot">
                     <c-icons
-                        type="icon-shangchuantupian"
+                        type="zsuicon-shangchuantupian"
                         color="#999"
                         size="48"
                     ></c-icons>

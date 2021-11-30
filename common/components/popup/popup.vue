@@ -47,7 +47,7 @@
                     <!-- #ifndef APP-PLUS-NVUE -->
                     <c-icons
                         v-if="showClose_"
-                        type="icon-guanbi"
+                        type="zsuicon-guanbi"
                         :color="closeColor"
                         :size="closeSize"
                         @click="close"

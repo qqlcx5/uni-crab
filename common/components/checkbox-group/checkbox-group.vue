@@ -13,7 +13,7 @@ import Emitter from '../../utils/emitter.js'
  * @property {String Number} max 最多能选中多少个checkbox（默认999）
  * @property {String Number} size 组件整体的大小，单位rpx（默认40）
  * @property {Boolean} disabled 是否禁用所有checkbox（默认false）
- * @property {String Number} icon-size 图标大小，单位rpx（默认20）
+ * @property {String Number} zsuicon-size 图标大小，单位rpx（默认20）
  * @property {Boolean} label-disabled 是否禁止点击文本操作checkbox(默认false)
  * @property {String} width 宽度，需带单位
  * @property {String} width 宽度，需带单位

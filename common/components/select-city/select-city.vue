@@ -53,7 +53,7 @@
                             <c-icons
                                 class="select-city__icon"
                                 color="false"
-                                type="icon-queding"
+                                type="zsuicon-queding"
                                 size="32"
                             ></c-icons>
                             {{ item.label }}

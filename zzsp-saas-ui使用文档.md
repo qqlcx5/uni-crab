@@ -25,9 +25,9 @@
     * 自己的iconfoot文件引入 默认icon   .iconfont:{font-family: 'iconfont';}  底部菜单栏 .tabbar:{font-family: 'tabbar';}（建议使用）或.tarbar{font-family: 'tarbar';}（不建议使用，旧版错误导致只能写这个兼容）
     * 如果是项目需要引入多风格icon，则需要全局变量配合,可以在use这个框架的时候 传入mixin  变量为 zzspIconStyle  确保这个变量在任意地方都能通过 this.zzspIconStyle 拿到值
     * 例如 zzspIconStyle值为'style1'  则css那边的样式名应该为.iconstyle1{font-family: 'iconstyle1';}  
-    * 这边可以在iconfont里面的项目配置 => 修改项目设置，修改里面的     FontClass/Symbol前缀 为 icon-style1-     Font Family 为 iconstyle1 
+    * 这边可以在iconfont里面的项目配置 => 修改项目设置，修改里面的     FontClass/Symbol前缀 为 zsuicon-style1-     Font Family 为 iconstyle1 
     * 使用实例：
-    * <c-icon type="icon-dianzan" /> 会自动加上class => iconstyle1 icon-style1-dianzan
+    * <c-icon type="zsuicon-dianzan" /> 会自动加上class => iconstyle1 zsuicon-style1-dianzan
     * <c-icon type="tabbar-wode" /> 会自动加上class => tabbar tabbar-wode
     */
     // 通用图标

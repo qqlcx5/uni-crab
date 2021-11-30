@@ -1,31 +1,35 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: sanhui
+ * @Date: 2021-11-25 18:12:44
+-->
 <template>
-    <view class="c-no-data">
-        <view
-            v-if="showImg_"
-            :style="[style_]"
-        >
-            <c-image
-                v-if="isImg_"
-                :static="isStatic_"
-                :src="icon"
-                :width="size"
-                mode="widthFix"
-            />
-            <!-- #ifndef APP-PLUS-NVUE -->
-            <c-icons
-                v-else
-                class="c-no-data__img"
-                :type="icon"
-                :size="size"
-            ></c-icons>
-            <!-- #endif -->
-            <text
-                v-if="text_"
-                class="c-no-data__text"
-                :style="[ textStyle ]"
-            >{{ text_ }}</text>
-            <slot></slot>
-        </view>
+    <view
+        class="c-no-data"
+        :style="[style_]"
+    >
+        <c-image
+            v-if="isImg_ && showImg_"
+            :static="isStatic_"
+            :src="icon"
+            :width="size"
+            mode="widthFix"
+        />
+        <!-- #ifndef APP-PLUS-NVUE -->
+        <c-icons
+            v-else
+            class="c-no-data__img"
+            :type="icon"
+            :size="size"
+        ></c-icons>
+        <!-- #endif -->
+        <text
+            v-if="text_"
+            class="c-no-data__text"
+            :style="[ textStyle ]"
+        >{{ text_ }}</text>
+        <slot></slot>
     </view>
 </template>
 

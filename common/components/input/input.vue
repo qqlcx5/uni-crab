@@ -80,7 +80,7 @@
         >
             <c-icons
                 color="#d4d4d4"
-                type="icon-guanbi"
+                type="zsuicon-guanbi"
                 size="32"
             ></c-icons>
         </view>
@@ -92,7 +92,7 @@
             <c-icons
                 v-if="arrows_"
                 color="#d4d4d4"
-                type="icon-tiaozhuan"
+                type="zsuicon-tiaozhuan"
                 size="32"
             ></c-icons>
         </view>

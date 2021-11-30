@@ -85,7 +85,7 @@
             class="c-cell__right-icon"
             :color="arrowColor"
             :size="arrowSize"
-            type="icon-tiaozhuan"
+            type="zsuicon-tiaozhuan"
             :rotate="rotate_"
         ></c-icons>
     </view>

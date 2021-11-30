@@ -5,11 +5,11 @@
         @tap="onClickLabel"
     >
         <view
-            class="c-checkbox__icon-wrap"
+            class="c-checkbox__zsuicon-wrap"
             @tap.stop="toggle"
         >
             <c-icons
-                class="c-radio__icon-wrap__icon"
+                class="c-radio__zsuicon-wrap__icon"
                 :type="iconType"
                 :size="checkboxIconSize"
                 :color="iconColor"
@@ -30,7 +30,7 @@
  * checkbox 复选框
  * @description 该组件需要搭配checkboxGroup组件使用，以便用户进行操作时，获得当前复选框组的选中情况。
  * @tutorial https://www.uviewui.com/components/checkbox.html
- * @property {String Number} icon-size 图标大小，单位rpx（默认20）
+ * @property {String Number} zsuicon-size 图标大小，单位rpx（默认20）
  * @property {String Number} label-size label字体大小，单位rpx（默认28）
  * @property {String Number} name checkbox组件的标示符
  * @property {String} shape 形状，见官网说明（默认circle）
@@ -172,12 +172,12 @@ export default {
         iconType() {
             const types = {
                 square: {
-                    icon: 'icon-checkbox',
-                    selIcon: 'icon-checkbox-checked'
+                    icon: 'zsuicon-checkbox',
+                    selIcon: 'zsuicon-checkbox-checked'
                 },
                 circle: {
-                    icon: 'icon-weixuan',
-                    selIcon: 'icon-xuanzhong'
+                    icon: 'zsuicon-weixuan',
+                    selIcon: 'zsuicon-xuanzhong'
                 }
             }
             return this.value ? types[this.elShape].selIcon : types[this.elShape].icon
@@ -261,7 +261,7 @@ export default {
     user-select: none;
     line-height: 1.8;
 
-    &__icon-wrap {
+    &__zsuicon-wrap {
         color: $color-sub-text;
         flex: none;
         display: -webkit-flex;

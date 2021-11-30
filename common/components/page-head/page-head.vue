@@ -14,7 +14,7 @@
                 <view class="c-page-head-hd">
                     <c-icons
                         v-if="back_"
-                        type="icon-tiaozhuan"
+                        type="zsuicon-tiaozhuan"
                         :size="leftSize_"
                         :color="color"
                         rotate="180"
@@ -42,7 +42,7 @@
             <c-status-bar />
             <view class="c-page-head__inner" :style="[ navbarInnerStyle_ ]">
                 <view class="c-page-head-hd">
-                    <c-icons @click="$back" type="icon-tiaozhuan" :size="leftSize_" :color="color" rotate="180" v-if="back_" />
+                    <c-icons @click="$back" type="zsuicon-tiaozhuan" :size="leftSize_" :color="color" rotate="180" v-if="back_" />
                     <slot name="before"></slot>
                 </view>
                 <view class="c-page-head-bd">
@@ -218,7 +218,7 @@ export default {
             maxSize = maxSize > 28 ? maxSize : 28
             maxSize = this.titleSize > maxSize ? maxSize : this.titleSize
             titleSize = uni.upx2px(maxSize)
-            fontWeight = 400
+            fontWeight = systemInfo.platform === 'ios' ? 'bold' : 400
             // #endif
             return {
                 fontSize: titleSize + 'px',

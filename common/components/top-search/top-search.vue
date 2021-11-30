@@ -27,7 +27,7 @@
                     <c-icons
                         size="32"
                         color="false"
-                        type="icon-sousuo"
+                        type="zsuicon-sousuo"
                     ></c-icons>
                 </c-colors>
             </view>
