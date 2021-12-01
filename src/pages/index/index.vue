@@ -13,7 +13,7 @@
         <view>
             <text class="title">{{ title }}</text>
 
-            <view class="mt24">
+            <!-- <view class="mt24">
                 使用c-colors有效
                 <c-colors
                     :pro="['bgc', 'c']"
@@ -35,7 +35,15 @@
                         radius="16"
                     >非继承按钮</c-button>
                 </c-colors>
-            </view>
+            </view> -->
+            <c-modal
+                v-model="modalFlag"
+                custom-class="saas-ui-modal"
+            >
+                <view class="flex-ajcenter">
+                    <image src="/static/logo.png" />
+                </view>
+            </c-modal>
             <c-fixed-menu
                 position="bottom"
                 height="124"
@@ -49,7 +57,8 @@
                         <c-button
                             type="success"
                             radius="16"
-                        >按钮测试</c-button>
+                            @click="handleModal"
+                        >弹窗测试</c-button>
                     </c-colors>
                 </view>
             </c-fixed-menu>
@@ -61,7 +70,8 @@
 export default {
     data() {
         return {
-            title: 'Hello'
+            title: 'Hello',
+            modalFlag: false
         }
     },
     async onLoad() {
@@ -84,12 +94,19 @@ export default {
         })
     },
     methods: {
-
+        handleModal() {
+            this.modalFlag = true
+        }
     }
 }
 </script>
 
-<style>
+<style lang="scss">
+.saas-ui-modal {
+    /deep/ .c-btn {
+        background-color: red !important;
+    }
+}
 .content {
     display: flex;
     flex-direction: column;

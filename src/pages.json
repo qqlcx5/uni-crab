@@ -2,7 +2,7 @@
     "easycom": {
         "autoscan": true,
         "custom": {
-            "^c-(((?!style).)*)$": "@common/components/$1/$1.vue" // 基础组件  c-input
+            "^c-(.*)$": "@common/components/$1/$1.vue" // 基础组件
         }
     },
     "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages

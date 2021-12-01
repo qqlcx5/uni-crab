@@ -13,7 +13,7 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 
 // 注入公共代码并载入配置
-import saasUI, { RouterMount } from '../common/index'
+import saasUI, { RouterMount } from '@common/index'
 Vue.use(saasUI, {
     // 如果需要多域名切换请把store实例传入
     store,

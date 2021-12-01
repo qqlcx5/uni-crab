@@ -19,7 +19,7 @@ import router from './router/index'
 import zzspuiStore from './store/request'
 
 export { RouterMount, router, setRequestList, setHttpConfig }
-let zzspVuex = null;
+let zzspVuex = null
 
 export const getVuex = () => {
     return zzspVuex
@@ -37,7 +37,7 @@ const globalFun = {
             router: routerConfig = {
             },
             mixins = [],
-            store = null,
+            store = null
         } = extra || {}
         const {
             apiList = []
@@ -53,11 +53,11 @@ const globalFun = {
             Vue.use(Router)
             const defaultRouterConfig = {
                 beforeEach: (to, from, next) => {
-                    console.log('路由默认的beforeEach');
+                    console.log('路由默认的beforeEach')
                     next()
                 },
                 afterEach: (to, from) => {
-                    console.log('路由默认的afterEach');
+                    console.log('路由默认的afterEach')
                 }
             }
             const newRouterConfig = Object.assign({}, defaultRouterConfig, routerConfig)
@@ -66,12 +66,12 @@ const globalFun = {
         }
 
         // 批量挂载在this上
-        Vue.prototype.$http = sendHttp;
+        Vue.prototype.$http = sendHttp
         setHttpConfig(http)
         setRequestList(apiList)
 
         // 基础配置
-        Vue.prototype.$config = Object.assign({}, baseConfig, config);
+        Vue.prototype.$config = Object.assign({}, baseConfig, config)
 
         // 常用工具
         Vue.prototype.$c = {
@@ -83,18 +83,18 @@ const globalFun = {
         // 批量通用方法
         const allConfig = Object.assign({}, baseCommon, common)
         Object.keys(allConfig).forEach(cKey => {
-            Vue.prototype[cKey] = allConfig[cKey];
+            Vue.prototype[cKey] = allConfig[cKey]
         })
 
         // 批量注入filter
         const allFilter = Object.assign({}, baseFilter, filter)
         Object.keys(allFilter).forEach(fKey => {
-            Vue.filter(fKey, allFilter[fKey]);
+            Vue.filter(fKey, allFilter[fKey])
         })
 
         mixins.unshift(globalMixin)
-        //混入全局minxins
-        mixins.forEach(v => Vue.mixin(v));
+        // 混入全局minxins
+        mixins.forEach(v => Vue.mixin(v))
     }
 }
 

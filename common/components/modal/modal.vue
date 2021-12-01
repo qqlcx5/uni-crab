@@ -1,6 +1,7 @@
 <template>
     <c-popup
         v-model="modalFlag"
+        :custom-class="customClass"
         radius="34"
         :close-pos="closePos"
         :show-close="showClose_"
@@ -32,6 +33,7 @@
                     plain
                     :pro="['bgc', 'c']"
                     :theme="['#EDEDED', '#333']"
+                    type="button"
                 >
                     <c-button
                         :size="buttonSize"
@@ -45,6 +47,7 @@
                     radius="16"
                     :pro="['bgc', 'c']"
                     :theme="['t', '#fff']"
+                    type="button"
                 >
                     <c-button
                         :size="buttonSize"
@@ -76,6 +79,10 @@ export default {
         value: {
             type: Boolean,
             default: false
+        },
+        customClass: {
+            type: String,
+            default: ''
         },
         /**
          * 提示的标题

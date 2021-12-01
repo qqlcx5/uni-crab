@@ -2,6 +2,7 @@
     <view
         v-if="popupFlag"
         hover-stop-propagation
+        :class="[customClass]"
         @click.stop
     >
         <view
@@ -68,6 +69,11 @@ import * as utilFn from '@/common/utils'
 export default {
     name: 'CModal',
     props: {
+        // 自定义class
+        customClass: {
+            type: String,
+            default: ''
+        },
         // 是否销毁弹窗
         destroyEle: {
             type: [Boolean, String],
