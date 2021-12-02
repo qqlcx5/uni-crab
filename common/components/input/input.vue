@@ -416,24 +416,30 @@ export default {
             this.inputValue = val
             if (this.type === 'price') {
                 var valIndexOf = val.indexOf('.') + 1
-                if (valIndexOf === val.length && val.length) { // 在ios端会进行小数点input输出
-                    if (isBlur || this.decimal_ === 0) {
-                        val = this.reservedDecimal(val, this.decimal_)
+                // 用户输入小数点(针对ios，安卓不会出现该问题)
+                if (valIndexOf === val.length && val.length) {
+                    if (this.decimal_ === 0) {
+                        val = parseInt(val)
+                    }
+                    if (isBlur) {
+                        val = Number(val)
                     }
                 } else {
                     val = /\d+(?:\.)?(?:\d*)?/.exec(val)
                     val = val ? val[0] : ''
-                    if (isBlur || valIndexOf > 0) {
+                    // 说明有小数点
+                    if (valIndexOf > 0) {
                         val !== '' && (val = this.reservedDecimal(val, this.decimal_))
                     }
-                    if (val.length > 1) {
-                        if (val * 1 === 0) {
+                    if (isBlur) {
+                        if (Number(val) === 0) {
                             val = ''
                         } else {
-                            val *= 1
+                            val = Number(val)
                         }
                     }
                 }
+
                 if (val && this.max_) {
                     val = val > this.max_ ? this.max_ : val
                 }

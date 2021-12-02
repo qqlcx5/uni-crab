@@ -214,10 +214,12 @@ export default {
         titleStyle_() {
             let titleSize = this.titleSize / 2; let fontWeight = 'bold'
             // #ifdef MP
-            let maxSize = this.height_ / 2
+            let maxSize = this.navHeight_ / 2
             maxSize = maxSize > 28 ? maxSize : 28
-            maxSize = this.titleSize > maxSize ? maxSize : this.titleSize
-            titleSize = uni.upx2px(maxSize)
+            titleSize = titleSize > maxSize ? maxSize : titleSize
+            if (systemInfo.platform !== 'devtools' && systemInfo.model.indexOf('iPad') !== -1 && systemInfo.windowWidth >= 768) {
+                titleSize = this.menuButtonInfo.height - 14
+            }
             fontWeight = systemInfo.platform === 'ios' ? 'bold' : 400
             // #endif
             return {

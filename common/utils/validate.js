@@ -70,7 +70,7 @@ export default function validateReg(type, str, hasMsg = false) {
                 break
             case 'bank':
                 str = str ? str.replace(/\s+/g, '') : ''
-                reg = /^([1-9]{1})(\d{14}|\d{18})$/
+                reg = /^([1-9]{1})(\d{15}|\d{16}|\d{18})$/
                 break
             case 'name':
                 reg = /^[\u4e00-\u9fa50-9A-Za-z]{2,20}$/

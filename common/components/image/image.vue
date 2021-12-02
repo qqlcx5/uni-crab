@@ -204,10 +204,10 @@ export default {
             return String(this.showMenuByLongpress) !== 'false'
         },
         errSrc_() {
-            if (this.errSrc) return this.getFullOssImg(this.errSrc)
+            if (this.errSrc) return this.getFullOssImg(this.errSrc, 'normal')
             const oWidth = parseInt(this.oWidth)
             const imgList = ['err-img/200_200.png', 'err-img/256_192.png', 'err-img/339_339.png', 'err-img/500_500.png', 'err-img/506_380.png', 'err-img/702_180.png', 'err-img/750_563.png', 'err-img/750_750.png']
-            if (!oWidth) return this.getFullOssImg(imgList[0])
+            if (!oWidth) return this.getFullOssImg(imgList[0], 'normal')
             const oHeight = parseInt(this.$c.formatUnit(this.height, 'rpx', this.size_))
             const imgInfoList = imgList.map((o, i) => {
                 const info = o.split('/').pop().split('.').shift().split('_')
@@ -247,7 +247,7 @@ export default {
                     }
                 }).sort((a, b) => a.disWidth - b.disWidth)[0]?.src || imgList[0]
             }
-            return this.getFullOssImg(curErrSrc)
+            return this.getFullOssImg(curErrSrc, 'normal')
         },
         imgUrl_() {
             const url = (this.src ? this.src : this.errSrc_)
@@ -305,13 +305,14 @@ export default {
             if (!data) return
             this.oWidth = data.width
         },
-        getFullOssImg(url) {
+        getFullOssImg(url, type = false) {
             if (url.indexOf('data:image') !== -1 || url.indexOf('wxfile:') !== -1 || url.indexOf('file:') !== -1 || url.indexOf('_doc') !== -1) {
                 return url
             } else if (/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g.test(url)) {
                 return url
             } else {
-                return (this.$config.ossImgUrl || '') + (this.type === 'normal' ? ('/' + this.$config.ossFileName + '/') : '') + url
+                const ossFileName = (type || this.type) === 'normal' ? `/${this.$config?.ossFileName || ''}/` : ''
+                return `${this.$config?.ossImgUrl || ''}${ossFileName}${url}`
             }
         },
         imgLoaded() {
