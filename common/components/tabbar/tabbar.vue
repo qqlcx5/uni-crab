@@ -13,7 +13,7 @@
                     class="flex-1"
                     @click="changeTab(item.app_page, index)"
                 >
-                    <c-colors :theme="[selectIndex_ === index ? 't' : color]">
+                    <c-colors :theme="[selectIndex_ === index ? selColor : color]">
                         <view class="c-tabbar__image">
                             <c-image
                                 v-if="isImg_(item.img)"
@@ -30,7 +30,7 @@
                     </c-colors>
                     <c-colors
                         class="c-tabbar__text"
-                        :theme="[selectIndex_ === index ? 't' : color]"
+                        :theme="[selectIndex_ === index ? selColor : color]"
                         :class="[!item.name ? 'bright-card' : '']"
                         :pro="['c']"
                     >
@@ -53,6 +53,10 @@ export default {
         color: {
             type: String,
             default: '#666'
+        },
+        selColor: {
+            type: String,
+            default: 't'
         },
         showTabbar: {
             type: [String, Boolean],

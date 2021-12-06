@@ -175,13 +175,13 @@ export const jumpPage = (name, params = {}, method = 'push', errFn) => {
     })
 }
 
-export const jumpPageDetail = (name, id, params = {}, method = 'push') => {
+export const jumpPageDetail = (name, id, params = {}, method = 'push', errFn) => {
     if (!id) return
     params = params || {}
     params.detailId = id
     params = formatParams(params) || {}
     if (!name) return
-    return jumpPage(name, params, method)
+    return jumpPage(name, params, method, errFn)
 }
 
 /**
@@ -190,7 +190,7 @@ export const jumpPageDetail = (name, id, params = {}, method = 'push') => {
  * @param {Object, null} extraQuery 上一页的值，不参数参数传递
  * @param {replace} 是否强制替掉所有页面（主要用于解决强登录带来的bug）
  */
-export const backRef = (params = {}, extraQuery = {}, replace = false) => {
+export const backRef = (params = {}, extraQuery = {}, replace = false, errFn) => {
     params = params || {}
     extraQuery = extraQuery || {}
     const that_ = Vue.prototype
@@ -209,7 +209,7 @@ export const backRef = (params = {}, extraQuery = {}, replace = false) => {
         // })
         const isExitQuery = false
         if (replace || isExitQuery || pages.length === 1 || ('/' + prevPage.route) !== decodeURIComponent(query.prevPath)) {
-            jumpPage(query.lastName, Object.assign({}, lastQuery, params), replace ? 'replaceAll' : 'replace')
+            jumpPage(query.lastName, Object.assign({}, lastQuery, params), replace ? 'replaceAll' : 'replace', errFn)
         } else {
             Object.keys(params).forEach(key => {
                 prevPage.$vm[key] = params[key]
@@ -239,24 +239,27 @@ export const serverJump = ({
     cat_id,
     hideTitle,
     is_example
-}) => {
+}, params = {}, method = 'push', errFn) => {
+    params = formatParams(params || {})
     // 实例数据
     if (is_example === 1) return
     if (!app_page) return
     if (/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g.test(app_page)) { // 远端地址
         jumpPage('webView', {
             url: app_page,
-            hideTitle
-        })
+            hideTitle,
+            ...params
+        }, method, errFn)
     } else if (cat_id || keyword) {
         jumpPage(app_page, {
             cat_id,
-            keyword
-        })
+            keyword,
+            ...params
+        }, method, errFn)
     } else if (id) {
-        jumpPageDetail(app_page, id)
+        jumpPageDetail(app_page, id, params, method, errFn)
     } else {
-        jumpPage(app_page)
+        jumpPage(app_page, params, method, errFn)
     }
 }
 
@@ -266,7 +269,7 @@ function formatParams(params = {}) {
         const item = String(params[o])
         !['undefined', 'null'].includes(item) && (newParams[o] = params[o])
     })
-    return newParams;
+    return newParams
 }
 
 /**
@@ -275,22 +278,22 @@ function formatParams(params = {}) {
  * @return {String} 2021-03-30
  */
 export const getData = (day) => {
-    var today = new Date();
-    var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
-    today.setTime(targetday_milliseconds); //注意，这行是关键代码
-    var tYear = today.getFullYear();
-    var tMonth = today.getMonth();
-    var tDate = today.getDate();
-    tMonth = doHandleMonth(tMonth + 1);
-    tDate = doHandleMonth(tDate);
-    return tYear + "-" + tMonth + "-" + tDate;
+    var today = new Date()
+    var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day
+    today.setTime(targetday_milliseconds) // 注意，这行是关键代码
+    var tYear = today.getFullYear()
+    var tMonth = today.getMonth()
+    var tDate = today.getDate()
+    tMonth = doHandleMonth(tMonth + 1)
+    tDate = doHandleMonth(tDate)
+    return tYear + '-' + tMonth + '-' + tDate
 }
 function doHandleMonth(month) {
-    var m = month;
+    var m = month
     if (month.toString().length == 1) {
-        m = "0" + month;
+        m = '0' + month
     }
-    return m;
+    return m
 }
 
 export default {

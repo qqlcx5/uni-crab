@@ -27,7 +27,7 @@ export default {
     computed: {
         ...mapState({
             // 当前请求域名
-            curDomain_: state => state.zzspui.domain
+            curDomain_: state => state.zzspui?.domain
         }),
         proxyImgUrl_() {
             return this.curDomain_ + '/Tools/reGetImg?img='

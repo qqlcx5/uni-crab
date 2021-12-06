@@ -262,7 +262,7 @@ export default {
             if (id && submit) {
                 const identify = this.identifys_[this.showRank]
                 // 选择不同后要重置后面的选中
-                if (this.valueObj[identify].value != id) {
+                if (this.valueObj[identify].value !== id) {
                     this.resetValueObj()
                 }
                 this.valueObj[identify].label = name

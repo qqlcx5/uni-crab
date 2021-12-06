@@ -17,6 +17,10 @@ export default {
         check: {
             type: [Boolean, String],
             default: false
+        },
+        validateToast: {
+            type: [Boolean, String],
+            default: true
         }
     },
     data() {
@@ -27,6 +31,9 @@ export default {
     computed: {
         check_() {
             return String(this.check) !== 'false'
+        },
+        validateToast_() {
+            return String(this.validateToast) !== 'false'
         }
     },
     created() {
@@ -43,7 +50,7 @@ export default {
             this.children.some(o => {
                 if (o.pattern) {
                     const name = o.inputName || o.checkBoxName || o.radioName
-                    validateData[name] = o.validate()
+                    validateData[name] = o.validate(this.validateToast_)
                     return !validateData[name].validate
                 }
                 return false
