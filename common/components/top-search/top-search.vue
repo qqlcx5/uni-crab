@@ -10,7 +10,7 @@
             :focus="focus_"
             class="search-box__input flex-1"
             :radius="32"
-            :disabled="!!linkUrl"
+            :disabled="!!linkUrl || disabled_"
             :placeholder="placeholder"
             :clearable="clearable"
             @click="inputClick"
@@ -46,6 +46,10 @@ export default {
         mode: {
             type: String,
             default: 'none'
+        },
+        disabled: {
+            type: [Boolean, String],
+            default: false
         },
         confirmBtn: {
             type: [Boolean, String],
@@ -110,6 +114,9 @@ export default {
         },
         cancleBtn_() {
             return String(this.cancleBtn) !== 'false'
+        },
+        disabled_() {
+            return String(this.disabled) !== 'false'
         }
     },
     watch: {
