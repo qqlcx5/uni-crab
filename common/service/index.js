@@ -14,10 +14,9 @@ import {
 import { deepClone, getVariableType } from '../utils/tools'
 
 let curPage = {}
-let needCatchList = {}
+const needCatchList = {}
 let infoFirstRequest = true
 const currentPath = ''
-
 
 /**
  * @description 判断对象是否存在键值
@@ -26,25 +25,25 @@ const currentPath = ''
  * @return {Boolean} 返回一个布尔值
  */
 function isExitValue(obj, key) {
-    if (obj.hasOwnProperty(key) === false || obj[key] === undefined || obj[key] === null || obj[key] === '') return false;
-    return true;
+    if (obj.hasOwnProperty(key) === false || obj[key] === undefined || obj[key] === null || obj[key] === '') return false
+    return true
 }
 
 // 设置请求列表
 export function setRequestList(reqList) {
     for (var key in reqList) {
-        var item = reqList[key];
-        item.persistence = isExitValue(item, 'persistence') ? item.persistence : true;
-        item.catchBefore = isExitValue(item, 'catchBefore') ? item.catchBefore : false;
-        item.showErr = isExitValue(item, 'showErr') ? item.showErr : true;
-        item.showModal = isExitValue(item, 'showModal') ? item.showModal : false;
-        item.modalBack = isExitValue(item, 'modalBack') ? item.modalBack : true;
-        item.source = isExitValue(item, 'source') ? item.source : 'any';
-        item.abort = isExitValue(item, 'abort') ? item.abort : true;
-        item.type = isExitValue(item, 'type') ? item.type : 'post';
-        needCatchList[key] = item;
+        var item = reqList[key]
+        item.persistence = isExitValue(item, 'persistence') ? item.persistence : true
+        item.catchBefore = isExitValue(item, 'catchBefore') ? item.catchBefore : false
+        item.showErr = isExitValue(item, 'showErr') ? item.showErr : true
+        item.showModal = isExitValue(item, 'showModal') ? item.showModal : false
+        item.modalBack = isExitValue(item, 'modalBack') ? item.modalBack : true
+        item.source = isExitValue(item, 'source') ? item.source : 'any'
+        item.abort = isExitValue(item, 'abort') ? item.abort : true
+        item.type = isExitValue(item, 'type') ? item.type : 'post'
+        needCatchList[key] = item
     }
-    console.log(needCatchList);
+    console.log(needCatchList)
 }
 /**
  * @description 请求前统一拦截

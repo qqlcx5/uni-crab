@@ -35,6 +35,10 @@
 <script>
 export default {
     props: {
+        destroyEle: {
+            type: [String, Boolean],
+            default: false
+        },
         // 浮动方向,值为top或者bottom
         position: {
             type: String,
@@ -98,6 +102,9 @@ export default {
         },
         hasTab_() {
             return String(this.hasTab) !== 'false'
+        },
+        destroyEle_() {
+            return String(this.destroyEle) !== 'false'
         },
         fixedHeight_() {
             return this.$c.formatUnit(

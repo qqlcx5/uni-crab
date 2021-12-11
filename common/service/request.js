@@ -18,11 +18,10 @@ import { getVuex } from '../index'
 let zzspApiConfig = {
     apiCatchTime: 3660 * 24 * 1000, // 域名缓存时间
     tokenApi: '', // 获取token的api
-    refreshApi: '',// 刷新的api
+    refreshApi: '', // 刷新的api
     domainList: [], // 备用域名列表
     header: {} // 请求头
 }
-
 
 /**
  * 修改全局配置示例
@@ -56,8 +55,8 @@ http.interceptors.request.use(async (config) => {
         zzspApiConfigHeader[key] = itemType === 'function' ? item() : item
     })
     config.header = {
-        ...zzspApiConfigHeader,
-        ...config.header
+        ...config.header,
+        ...zzspApiConfigHeader
     }
     return config
 }, (err) => {
@@ -174,8 +173,6 @@ http.interceptors.response.use((response) => {
     }
 })
 
-
-
 export function setHttpConfig({ apiConfig, header = {} }) {
     const newConfig = {
         ...apiConfig,
@@ -229,7 +226,7 @@ function saveAPIConfig(force = false) {
         url: zzspApiConfig.domainList[0] || ''
     }
     // #endif
-    console.log('apiCatchapiCatchapiCatchapiCatch', apiCatch);
+    console.log('apiCatchapiCatchapiCatchapiCatch', apiCatch)
     http && http.setConfig(_config => {
         return { ..._config, baseURL: apiCatch.url }
     })
@@ -243,7 +240,7 @@ function saveAPIConfig(force = false) {
     try {
         getVuex().commit('zzspui/SET_CUR_DOMAIN', saveAPI)
     } catch (error) {
-        console.log('这边没有注入保存当前请求域名的store');
+        console.log('这边没有注入保存当前请求域名的store')
     }
     return apiCatch
 }
