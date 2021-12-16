@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from '../router/index'
 import { getVariableType, isEmpty, deepClone } from './tools'
 import { getUrlQuery } from './index'
+import sendHttp from '../service'
 
 /*
     消息提示框
@@ -237,6 +238,7 @@ export const serverJump = ({
     id,
     keyword,
     cat_id,
+
     hideTitle,
     is_example
 }, params = {}, method = 'push', errFn) => {
@@ -244,7 +246,41 @@ export const serverJump = ({
     // 实例数据
     if (is_example === 1) return
     if (!app_page) return
-    if (/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g.test(app_page)) { // 远端地址
+    if (app_page === 'jumpMp') {
+        setTimeout(async () => {
+            const { data } = await sendHttp('/ModuleSet/getMpJumpInfo', {
+                id
+            }, {
+                loading: true
+            })
+            const { app_id: appId, path, param, h5_url: url } = data
+            // #ifdef MP
+            if (appId) {
+                uni.navigateToMiniProgram({
+                    appId,
+                    path,
+                    extraData: param || {}
+                })
+            }
+            // #endif
+            if (url) {
+                // #ifdef MP
+                if (!appId) {
+                    jumpPage('webView', {
+                        url,
+                        hideTitle: true
+                    })
+                }
+                // #endif
+                // #ifdef H5
+                jumpPage('webView', {
+                    url,
+                    hideTitle: true
+                })
+                // #endif
+            }
+        })
+    } else if (/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g.test(app_page)) { // 远端地址
         jumpPage('webView', {
             url: app_page,
             hideTitle,
