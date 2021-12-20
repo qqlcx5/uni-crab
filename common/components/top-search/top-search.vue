@@ -9,6 +9,7 @@
             confirm-type="search"
             :focus="focus_"
             class="search-box__input flex-1"
+            :style="{backgroundColor: inputColor}"
             :radius="32"
             :disabled="!!linkUrl || disabled_"
             :placeholder="placeholder"
@@ -38,6 +39,7 @@
 
 <script>
 export default {
+    options: { styleIsolation: 'shared' },
     props: {
         /**
          * listMode 列表模式，带切换的，会有@changeMode事件
@@ -81,6 +83,10 @@ export default {
         bgColor: {
             type: String,
             default: '#fff'
+        },
+        inputColor: {
+            type: String,
+            default: '#f5f5f5'
         },
         listMode: {
             type: String,
@@ -176,8 +182,10 @@ export default {
     padding: 16rpx 24rpx;
     &__input {
         padding: 8rpx 0;
-        background-color: $bg-color;
         border-radius: 32px;
+        /deep/ .c-input-view {
+            background-color: transparent;
+        }
     }
     &__before {
         padding-left: 16rpx;
