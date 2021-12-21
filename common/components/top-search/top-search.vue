@@ -6,13 +6,14 @@
         <slot name="before" />
         <c-input
             v-model="keyword"
-            confirm-type="search"
+            :confirm-type="confirmType"
             :focus="focus_"
             class="search-box__input flex-1"
             :style="{backgroundColor: inputColor}"
             :radius="32"
             :disabled="!!linkUrl || disabled_"
             :placeholder="placeholder"
+            :placeholder-style="placeholderStyle"
             :clearable="clearable"
             @click="inputClick"
             @confirm="confirmInput"
@@ -41,29 +42,9 @@
 export default {
     options: { styleIsolation: 'shared' },
     props: {
-        /**
-         * listMode 列表模式，带切换的，会有@changeMode事件
-         * searchText 搜索字眼  会有@confirm事件
-         */
-        mode: {
-            type: String,
-            default: 'none'
-        },
         disabled: {
             type: [Boolean, String],
             default: false
-        },
-        confirmBtn: {
-            type: [Boolean, String],
-            default: true
-        },
-        cancleBtn: {
-            type: [Boolean, String],
-            default: false
-        },
-        cancelText: {
-            type: String,
-            default: '取消'
         },
         /**
          * 传入Route的name值，点击会跳转
@@ -88,13 +69,13 @@ export default {
             type: String,
             default: '#f5f5f5'
         },
-        listMode: {
-            type: String,
-            default: 'column'
-        },
         placeholder: {
             type: String,
             default: '输入搜索关键词'
+        },
+        placeholderStyle: {
+            type: String,
+            default: ''
         },
         clearable: {
             type: Boolean,
@@ -108,18 +89,12 @@ export default {
     data() {
         return {
             keyword: '',
-            newListMode: ''
+            confirmType: 'search'
         }
     },
     computed: {
         focus_() {
             return String(this.focus) !== 'false'
-        },
-        confirmBtn_() {
-            return String(this.confirmBtn) !== 'false'
-        },
-        cancleBtn_() {
-            return String(this.cancleBtn) !== 'false'
         },
         disabled_() {
             return String(this.disabled) !== 'false'
@@ -132,26 +107,17 @@ export default {
             },
             immediate: true
         },
-        listMode: {
-            handler(val) {
-                this.newListMode = val
-            },
-            immediate: true
-        },
         keyword(val) {
             this.$emit('input', val)
         }
     },
+    mounted() {
+        // ios系统版本超过15会有搜索框
+        // #ifdef H5
+        if (uni.getSystemInfoSync().system.indexOf('iOS 15') !== -1) { this.confirmType = 'done' }
+        // #endif
+    },
     methods: {
-        changeMode() {
-            this.newListMode = this.newListMode === 'column' ? 'row' : 'column'
-            this.$emit('changeMode', {
-                type: 'change',
-                detail: {
-                    value: this.newListMode
-                }
-            })
-        },
         inputClick(e) {
             if (!this.linkUrl) return this.$emit('click', e)
             const pages = getCurrentPages()
@@ -168,9 +134,6 @@ export default {
                     value: this.keyword
                 }
             })
-        },
-        resetInput(e) {
-            this.$emit('reset')
         }
     }
 }

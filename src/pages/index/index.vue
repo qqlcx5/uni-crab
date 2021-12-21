@@ -12,8 +12,14 @@
         ></image>
         <view>
             <text class="title">{{ title }}</text>
+            <view style="width: 500rpx;">
+                <c-top-search
+                    v-model="pwd"
+                    placeholder-style="color: red"
+                />
+            </view>
 
-            <!-- <view class="mt24">
+            <view class="mt24">
                 使用c-colors有效
                 <c-colors
                     :pro="['bgc', 'c']"
@@ -35,7 +41,7 @@
                         radius="16"
                     >非继承按钮</c-button>
                 </c-colors>
-            </view> -->
+            </view>
             <c-modal
                 v-model="modalFlag"
                 custom-class="saas-ui-modal"
@@ -71,7 +77,8 @@ export default {
     data() {
         return {
             title: 'Hello',
-            modalFlag: false
+            modalFlag: false,
+            pwd: ''
         }
     },
     async onLoad() {

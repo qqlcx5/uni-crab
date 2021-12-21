@@ -68,9 +68,9 @@
             @click="display"
         >
             <c-icons
-                :color="showPassword ? '#f92028' : '#d4d4d4'"
-                type="crab-yanjing"
-                size="32"
+                color="#999"
+                :type="showPassword ? 'zsuicon-zhengyan' : 'zsuicon-biyan'"
+                size="40"
             ></c-icons>
         </view>
         <view

@@ -113,7 +113,6 @@
  * @property {Object} title-style 标题样式，对象形式
  * @property {Object} value-style 右侧内容样式，对象形式
  * @property {Object} label-style 标题下方描述信息的样式，对象形式
- * @property {String Number} index 用于在click事件回调中返回，标识当前是第几个Item
  * @property {String Number} title-width 标题的宽度，单位rpx
  */
 export default {
@@ -305,8 +304,8 @@ export default {
         }
     },
     methods: {
-        handleClick() {
-            this.$emit('click', this.index)
+        handleClick(e) {
+            this.$emit('click', e)
             if (this.to) {
                 if (typeof this.to === 'object') {
                     return this.$jump(this.to.name, this.to.params ? this.to.params : this.to.query)
