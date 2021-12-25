@@ -238,11 +238,11 @@ export const serverJump = ({
     id,
     keyword,
     cat_id,
-
+    store_id,
     hideTitle,
     is_example
 }, params = {}, method = 'push', errFn) => {
-    params = formatParams(params || {})
+    params = Object.assign({}, formatParams(params || {}), { store_id })
     // 实例数据
     if (is_example === 1) return
     if (!app_page) return
@@ -326,7 +326,7 @@ export const getData = (day) => {
 }
 function doHandleMonth(month) {
     var m = month
-    if (month.toString().length == 1) {
+    if (month.toString().length === 1) {
         m = '0' + month
     }
     return m

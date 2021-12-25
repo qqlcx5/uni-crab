@@ -99,6 +99,11 @@ function rgbToHex(rgb) {
  */
 function colorToRgba(color, alpha = 0.3) {
     if (!color) return
+    const rgba = color.replace(/(?:\(|\)|rgba|RGBA)*/g, '').split(',')
+    if (rgba?.length === 4) {
+        rgba[3] = rgba[3] * alpha
+        return `rgba(${rgba.join(',')})`
+    }
     color = rgbToHex(color)
     // 十六进制颜色值的正则表达式
     var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/

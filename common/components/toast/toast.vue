@@ -1,9 +1,9 @@
 <template>
     <c-popup
-        class="c-toast"
         v-model="modalFlag"
-        bgColor="rgba(0, 0, 0, .6)"
-        showClose="false"
+        class="c-toast"
+        bg-color="rgba(0, 0, 0, .6)"
+        show-close="false"
         radius="8"
         mask="false"
         zoom="false"
@@ -12,18 +12,20 @@
             class="c-toast__content"
             :class="[ row_ ? 'c-toast__content--row' : '']"
         >
-            <c-image
-                v-if="isImg_"
-                :src="icon"
-                :width="iconSize"
-                mode="widthFix"
-            />
-            <c-icons
-                v-else
-                :type="icon"
-                :size="iconSize"
-                color="#fff"
-            />
+            <template v-if="icon">
+                <c-image
+                    v-if="isImg_"
+                    :src="icon"
+                    :width="iconSize"
+                    mode="widthFix"
+                />
+                <c-icons
+                    v-else
+                    :type="icon"
+                    :size="iconSize"
+                    color="#fff"
+                />
+            </template>
             <view
                 class="c-toast__text"
                 :style="[ textStyle ]"
@@ -37,7 +39,7 @@
 
 <script>
 export default {
-    name: 'c-toast',
+    name: 'CToast',
     props: {
         value: {
             type: Boolean,
@@ -45,7 +47,7 @@ export default {
         },
         icon: {
             type: String,
-            default: 'zsuicon-queding'
+            default: ''
         },
         iconSize: {
             type: [String, Number],
@@ -65,21 +67,37 @@ export default {
             default: () => {
                 return {}
             }
+        },
+        // 动画时长 单位ms  200ms = 0.2s
+        duration: {
+            type: [String, Number],
+            default: 1500
         }
     },
     computed: {
         row_() {
-            return String(this.row) === 'false' ? false : true;
+            return String(this.row) !== 'false'
         },
         isImg_() {
-            return this.$c.isImg(this.icon);
+            return this.$c.isImg(this.icon)
         },
         modalFlag: {
             get(val) {
-                return val.value;
+                return val.value
             },
             set(val) {
-                this.$emit('input', val);
+                this.$emit('input', val)
+            }
+        }
+    },
+    watch: {
+        modalFlag: {
+            handler(val) {
+                if (val) {
+                    this.$c.throttle(() => {
+                        this.$emit('input', false)
+                    }, this.duration)
+                }
             }
         }
     }
