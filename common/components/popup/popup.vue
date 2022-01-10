@@ -8,7 +8,7 @@
         <view
             class="c-modal"
             :class="[`c-modal--${mode}`, innerPopupFlag ? 'c-modal--visible' : '',]"
-            :style="{ zIndex: zIndex }"
+            :style="{ zIndex: innerPopupFlag ? zIndex : -1 }"
         >
             <c-mask
                 v-if="mask_"

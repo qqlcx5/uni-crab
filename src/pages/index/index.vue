@@ -18,7 +18,10 @@
                     placeholder-style="color: red"
                 />
             </view>
-
+            <c-input
+                v-model="pwd"
+                displayable
+            />
             <view class="mt24">
                 使用c-colors有效
                 <c-colors
