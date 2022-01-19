@@ -13,6 +13,14 @@
                     class="flex-1"
                     @click="changeTab(item.app_page, index)"
                 >
+                    <view
+                        v-if="!isIm_ && item.app_page_type==='user_page' && getUnread_"
+                        class="c-tabbar-tip"
+                    ></view>
+                    <view
+                        v-if="item.app_page_type==='im_page' && getUnread_"
+                        class="c-tabbar-tip__badge"
+                    >{{ getUnread_ }}</view>
                     <c-colors :theme="[selectIndex_ === index ? selColor : color]">
                         <view class="c-tabbar__image">
                             <c-image
@@ -43,6 +51,9 @@
 </template>
 
 <script>
+import {
+    mapGetters
+} from 'vuex'
 export default {
     name: 'CTabbar',
     props: {
@@ -101,6 +112,10 @@ export default {
 
             return tabbarArr
         },
+        ...mapGetters('im', ['getUnread']),
+        getUnread_() {
+            return this.getUnread > 99 ? '99+' : this.getUnread
+        },
         selectIndex_() {
             return this.list_.findIndex(o => {
                 const routeObj = this.$c.getUrlQuery(o.app_page)
@@ -158,7 +173,26 @@ export default {
             padding-top: 6px;
         }
     }
-
+    &-tip {
+        @include abs(10rpx, null, null, 50%);
+        width: 15rpx;
+        margin-left: 20rpx;
+        height: 15rpx;
+        border-radius: 50%;
+        background: #fa543e;
+    }
+    &-tip__badge {
+        @include abs(6rpx, null, null, 50%);
+        z-index: 1;
+        font-size: 24rpx;
+        margin-left: 14rpx;
+        color: #fff;
+        background: #fa543e;
+        border-radius: 20rpx;
+        padding: 0 10rpx;
+        text-align: center;
+        min-width: 34rpx;
+    }
     &__image {
         width: 20px;
         height: 20px;

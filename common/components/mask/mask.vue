@@ -15,6 +15,7 @@
             :style="[ parentStyle_ ]"
             catchtouchmove="true"
             @click="handleClick"
+            @touchend="touchendClick"
             @touchmove.stop.prevent
         ></view>
         <view
@@ -92,6 +93,10 @@ export default {
         handleClick() {
             if (!this.maskabled_) return
             this.$emit('click')
+        },
+        touchendClick() {
+            if (!this.maskabled_) return
+            this.$emit('touchend')
         }
     }
 }
