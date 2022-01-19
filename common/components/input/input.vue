@@ -259,7 +259,8 @@ export default {
         cursorSpacing: {
             type: Number,
             default: 0
-        }
+        },
+        require: Boolean
     },
     data() {
         return {
@@ -393,8 +394,8 @@ export default {
             this.parent && this.parent.validate && this.parent.validate()
         },
         validate(hasMsg = true) {
-            console.log(this.pattern, 'validate：inputValue = ', this.inputValue)
             if (!this.pattern) return true
+            if (!this.require && !this.inputValue) return true
             const validateObj = this.$c.validate(this.pattern, this.inputValue, hasMsg)
             if (hasMsg) {
                 if (!validateObj.validate) {
