@@ -142,7 +142,7 @@ http.interceptors.response.use((response) => {
             console.log('域名不存在或已宕机，正在切换域名')
             // 正在切换域名
             if (!refreshToken.isChangeDomain) {
-                saveAPIConfig(true)
+                setApiConfig(true)
                 refreshToken.setDomainType(true)
                 // 刷新token
                 return resendChangeDomainRequest().then((res) => {
@@ -183,50 +183,50 @@ export function setHttpConfig({ apiConfig, header = {} }) {
         console.error('-----------至少设置一个baseURL地址(domainList)---------')
         return
     }
-    uni.removeStorageSync(commonConfig.curApiCatch)
-    saveAPIConfig(false)
+    const apiCatch = uni.getStorageSync(commonConfig.curApiCatch)
+    setApiConfig(false, apiCatch && apiCatch.url)
 }
 
 /**
  * 切换域名
  * force {boolean} 暴力切换
+ * url {string} 指定域名
 */
-function saveAPIConfig(force = false) {
+export function setApiConfig(force = false, url = '') {
     const newTime = +new Date()
     let apiCatch = uni.getStorageSync(commonConfig.curApiCatch)
     // #ifdef MP-WEIXIN
     // 切换的域名有效
     if (apiCatch) {
-        // 时间超过缓存时间 要切回来
-        if (apiCatch.saveTime < newTime - zzspApiConfig.apiCatchTime || force || !apiCatch.url) {
-            console.log('-----------请求域名缓存超时了---------')
+        // 时间超过缓存时间 要切回来,特殊域名不过期
+        if ((!apiCatch.isSpecial && apiCatch.saveTime < newTime - zzspApiConfig.apiCatchTime) || force || url) {
+            console.log('-----------请求域名缓存超时或被强行切换---------')
             apiCatch = {
                 saveTime: newTime,
-                url: zzspApiConfig.domainList.find(o => o !== apiCatch.url)
+                url: url || zzspApiConfig.domainList[0],
+                isSpecial: !!url
             }
             uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
         }
     } else {
+        console.log('-----------重新设置域名请求---------')
         apiCatch = {
             saveTime: newTime,
-            url: zzspApiConfig.domainList[0] || ''
+            url: url || zzspApiConfig.domainList[0] || '',
+            isSpecial: !!url
         }
         uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
     }
     // #endif
+    if (!apiCatch) {
+        apiCatch = {}
+    }
     // #ifdef H5
-    apiCatch = {
-        saveTime: newTime,
-        url: process.env.NODE_ENV === 'production' ? zzspApiConfig.domainList[0] : zzspApiConfig.proxyName
+    // H5本地走代理
+    if (process.env.NODE_ENV !== 'production') {
+        apiCatch.url = zzspApiConfig.proxyName
     }
     // #endif
-    // #ifndef MP-WEIXIN || H5
-    apiCatch = {
-        saveTime: newTime,
-        url: zzspApiConfig.domainList[0] || ''
-    }
-    // #endif
-    console.log('apiCatchapiCatchapiCatchapiCatch', apiCatch)
     http && http.setConfig(_config => {
         return { ..._config, baseURL: apiCatch.url }
     })

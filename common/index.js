@@ -7,7 +7,7 @@
 // 路由插件
 import Router, { RouterMount } from 'uni-simple-router'
 import sendHttp, { setRequestList } from './service'
-import { setHttpConfig } from './service/request'
+import { setHttpConfig, setApiConfig } from './service/request'
 
 import baseConfig from './config'
 import globalMixin from './mixins/globalMixin'
@@ -69,6 +69,8 @@ const globalFun = {
         Vue.prototype.$http = sendHttp
         setHttpConfig(http)
         setRequestList(apiList)
+
+        Vue.prototype.$setApiConfig = setApiConfig
 
         // 基础配置
         Vue.prototype.$config = Object.assign({}, baseConfig, config)

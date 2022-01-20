@@ -53,6 +53,16 @@
                     <image src="/static/logo.png" />
                 </view>
             </c-modal>
+            <c-button
+                class="mt24"
+                type="success"
+                radius="16"
+                @click="calendarFlag = true"
+            >显示日历</c-button>
+            <c-calendar
+                v-model="calendarFlag"
+                range
+            />
             <c-fixed-menu
                 position="bottom"
                 height="124"
@@ -81,7 +91,8 @@ export default {
         return {
             title: 'Hello',
             modalFlag: false,
-            pwd: ''
+            pwd: '',
+            calendarFlag: false
         }
     },
     async onLoad() {

@@ -1,8 +1,8 @@
 @font-face {
     font-family: "zsuicon"; /* Project id 2308537 */
-    src: url("//at.alicdn.com/t/font_2308537_m5a5lifr52n.woff2?t=1639985662436") format("woff2"),
-        url("//at.alicdn.com/t/font_2308537_m5a5lifr52n.woff?t=1639985662436") format("woff"),
-        url("//at.alicdn.com/t/font_2308537_m5a5lifr52n.ttf?t=1639985662436") format("truetype");
+    src: url("//at.alicdn.com/t/font_2308537_yracbvw09p.woff2?t=1642643222009") format("woff2"),
+        url("//at.alicdn.com/t/font_2308537_yracbvw09p.woff?t=1642643222009") format("woff"),
+        url("//at.alicdn.com/t/font_2308537_yracbvw09p.ttf?t=1642643222009") format("truetype");
 }
 
 .zsuicon {
@@ -11,6 +11,14 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.zsuicon-tiaozhuan:before {
+    content: "\e639";
+}
+
+.zsuicon-towards-the-right:before {
+    content: "\eb09";
 }
 
 .zsuicon-zhengyan:before {
@@ -43,10 +51,6 @@
 
 .zsuicon-guanbi:before {
     content: "\e641";
-}
-
-.zsuicon-tiaozhuan:before {
-    content: "\e650";
 }
 
 .zsuicon-queding:before {
