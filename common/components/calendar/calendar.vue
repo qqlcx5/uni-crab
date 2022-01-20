@@ -205,7 +205,8 @@ export default {
             }
         },
         expandIndex() {
-            const index = Object.values(this.weeks).findIndex(week => week.filter(o => o.isDay).length)
+            const fullDate = this.nowDate.fullDate
+            const index = Object.values(this.weeks).findIndex(week => week.filter(o => o.fullDate === fullDate).length)
             return index === -1 ? 0 : index
         },
         hasExitToday() {
