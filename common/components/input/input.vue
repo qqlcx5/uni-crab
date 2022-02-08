@@ -34,6 +34,7 @@
                 @focus="onFocus"
                 @blur="onBlur"
                 @confirm="onConfirm"
+                @keyboardheightchange="onKeyboardheightchange"
             />
             <textarea
                 v-else
@@ -372,6 +373,9 @@ export default {
         }
     },
     methods: {
+        onKeyboardheightchange(e) {
+            this.$emit('keyboardheightchange', e)
+        },
         onClick(e) {
             this.$emit('click', e)
         },
