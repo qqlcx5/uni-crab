@@ -139,6 +139,10 @@ export default {
             const showTabbar = String(this.showTabbar) !== 'false'
             return showTabbar && this.selectIndex_ !== -1
         },
+        // 是否有开启 im 导航
+        isIm_() {
+            return this.list_.filter(item => item.app_page_type === 'im_page').length
+        },
         isImg_() {
             return (icon) => {
                 return this.$c.isImg(icon)
