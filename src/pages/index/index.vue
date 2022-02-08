@@ -6,34 +6,61 @@
 -->
 <template>
     <view class="content">
-        <image
-            class="logo"
-            src="/static/logo.png"
-        ></image>
-        <view>
-            <text class="title">{{ title }}</text>
-            <view style="width: 500rpx;">
-                <c-top-search
-                    v-model="pwd"
-                    placeholder-style="color: red"
-                />
+        <c-top-search
+            v-model="pwd"
+            placeholder-style="color: red"
+        />
+        <c-input
+            v-model="pwd"
+            displayable
+        />
+        <view class="mt24">
+            使用c-colors有效
+            <c-colors
+                :pro="['bgc', 'c']"
+                :theme="['#f00', '#fff']"
+                type="button"
+            >
+                <c-button radius="16">继承按钮</c-button>
+            </c-colors>
+        </view>
+        <view class="mt24">
+            使用c-colors无效
+            <c-colors
+                :pro="['bgc', 'c']"
+                :theme="['#f00', '#fff']"
+                type="button"
+            >
+                <c-button
+                    type="success"
+                    radius="16"
+                >非继承按钮</c-button>
+            </c-colors>
+        </view>
+        <c-modal
+            v-model="modalFlag"
+            custom-class="saas-ui-modal"
+        >
+            <view class="flex-ajcenter">
+                <image src="/static/logo.png" />
             </view>
-            <c-input
-                v-model="pwd"
-                displayable
-            />
-            <view class="mt24">
-                使用c-colors有效
-                <c-colors
-                    :pro="['bgc', 'c']"
-                    :theme="['#f00', '#fff']"
-                    type="button"
-                >
-                    <c-button radius="16">继承按钮</c-button>
-                </c-colors>
-            </view>
-            <view class="mt24">
-                使用c-colors无效
+        </c-modal>
+        <c-button
+            class="mt24"
+            type="success"
+            radius="16"
+            @click="calendarFlag = true"
+        >显示日历</c-button>
+        <c-calendar
+            v-model="calendarFlag"
+            :popup="false"
+            range
+        />
+        <c-fixed-menu
+            position="bottom"
+            height="124"
+        >
+            <view class="p24">
                 <c-colors
                     :pro="['bgc', 'c']"
                     :theme="['#f00', '#fff']"
@@ -42,36 +69,11 @@
                     <c-button
                         type="success"
                         radius="16"
-                    >非继承按钮</c-button>
+                        @click="handleModal"
+                    >弹窗测试</c-button>
                 </c-colors>
             </view>
-            <c-modal
-                v-model="modalFlag"
-                custom-class="saas-ui-modal"
-            >
-                <view class="flex-ajcenter">
-                    <image src="/static/logo.png" />
-                </view>
-            </c-modal>
-            <c-fixed-menu
-                position="bottom"
-                height="124"
-            >
-                <view class="p24">
-                    <c-colors
-                        :pro="['bgc', 'c']"
-                        :theme="['#f00', '#fff']"
-                        type="button"
-                    >
-                        <c-button
-                            type="success"
-                            radius="16"
-                            @click="handleModal"
-                        >弹窗测试</c-button>
-                    </c-colors>
-                </view>
-            </c-fixed-menu>
-        </view>
+        </c-fixed-menu>
     </view>
 </template>
 
@@ -81,7 +83,8 @@ export default {
         return {
             title: 'Hello',
             modalFlag: false,
-            pwd: ''
+            pwd: '',
+            calendarFlag: false
         }
     },
     async onLoad() {
@@ -120,7 +123,6 @@ export default {
 .content {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
 }
 

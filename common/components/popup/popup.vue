@@ -7,7 +7,7 @@
     >
         <view
             class="c-modal"
-            :class="[`c-modal--${mode}`, innerPopupFlag ? 'c-modal--visible' : '',]"
+            :class="[`c-modal--${mode}`, innerPopupFlag ? 'c-modal--visible' : '',fixed ? 'c-modal--fixed': '']"
             :style="{ zIndex: innerPopupFlag ? zIndex : -1 }"
         >
             <c-mask
@@ -86,6 +86,11 @@ export default {
         mode: {
             type: String,
             default: 'middle'
+        },
+        // 默认使用fixed模式，否则是relative
+        fixed: {
+            type: Boolean,
+            default: true
         },
         /**
          * 是否含有tabbar，仅在H5下生效
@@ -260,6 +265,9 @@ export default {
             } else if (this.mode === 'right') {
                 otherStyle.transform = 'translate3d(100%, 0px, 0px)'
             }
+            if (!this.popup) {
+                otherStyle.transform = null
+            }
             if (this.mode === 'left' || this.mode === 'right') {
                 otherStyle.width = this.$c.formatUnit(this.width)
             } else {
@@ -352,10 +360,69 @@ export default {
 <style lang="scss" scoped>
 // 弹窗公用样式
 .c-modal {
-    @include fixed(0, 0, 0, 0);
     overflow: hidden;
-    pointer-events: none;
-    z-index: -1;
+    flex: 1;
+    &--fixed {
+        @include fixed(0, 0, 0, 0);
+        pointer-events: none;
+        z-index: -1;
+        .c-modal {
+            &-hd {
+                position: relative;
+                z-index: 10;
+                transition-delay: 0ms;
+                transition-timing-function: linear;
+                transition-duration: 200ms;
+                transition-property: transform, opacity, top;
+
+                &--middle {
+                    opacity: 0;
+                    /* #ifndef APP-PLUS-NVUE */
+                    max-width: 600rpx;
+                    /* #endif */
+                }
+
+                &--zoom {
+                    transform: scale(1.2);
+                }
+
+                &--top {
+                    @include fixed(0, 0, null, 0);
+                }
+
+                &--bottom {
+                    @include fixed(null, 0, 0, 0);
+                    @include iosSafeArea(padding, 0px, bottom, bottom);
+                }
+
+                &--left {
+                    @include fixed(0, null, 0, 0);
+                    @include iosSafeArea(padding, 0px, bottom, bottom);
+                }
+
+                &--right {
+                    @include fixed(0, 0, 0, null);
+                    @include iosSafeArea(padding, 0px, bottom, bottom);
+                }
+
+                &--cover {
+                    @include fixed(0, 0, 0, 0);
+                }
+
+                &--visible {
+                    opacity: 1;
+                    transform: scale(1) translateZ(0) !important;
+                }
+
+                /* #ifndef H5 || APP-PLUS-NVUE */
+                &--hastabbar {
+                    @include iosSafeArea(bottom, 50px, bottom);
+                }
+
+                /* #endif */
+            }
+        }
+    }
 
     &--visible {
         pointer-events: auto;
@@ -366,61 +433,6 @@ export default {
         @include flex(row);
         align-items: center;
         justify-content: center;
-    }
-
-    &-hd {
-        position: relative;
-        z-index: 10;
-        transition-delay: 0ms;
-        transition-timing-function: linear;
-        transition-duration: 200ms;
-        transition-property: transform, opacity, top;
-
-        &--middle {
-            opacity: 0;
-            /* #ifndef APP-PLUS-NVUE */
-            max-width: 600rpx;
-            /* #endif */
-        }
-
-        &--zoom {
-            transform: scale(1.2);
-        }
-
-        &--top {
-            @include fixed(0, 0, null, 0);
-        }
-
-        &--bottom {
-            @include fixed(null, 0, 0, 0);
-            @include iosSafeArea(padding, 0px, bottom, bottom);
-        }
-
-        &--left {
-            @include fixed(0, null, 0, 0);
-            @include iosSafeArea(padding, 0px, bottom, bottom);
-        }
-
-        &--right {
-            @include fixed(0, 0, 0, null);
-            @include iosSafeArea(padding, 0px, bottom, bottom);
-        }
-
-        &--cover {
-            @include fixed(0, 0, 0, 0);
-        }
-
-        &--visible {
-            opacity: 1;
-            transform: scale(1) translateZ(0) !important;
-        }
-
-        /* #ifndef H5 || APP-PLUS-NVUE */
-        &--hastabbar {
-            @include iosSafeArea(bottom, 50px, bottom);
-        }
-
-        /* #endif */
     }
 
     &__close {
