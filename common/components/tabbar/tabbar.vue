@@ -22,25 +22,22 @@
                         class="c-tabbar-tip__badge"
                     >{{ getUnread_ }}</view>
                     <c-colors :theme="[selectIndex_ === index ? selColor : color]">
-                        <view class="c-tabbar__image">
-                            <c-image
-                                v-if="isImg_(item.img)"
-                                :src="selectIndex_ === index ? item.img_active : item.img"
-                                size="20px"
-                            ></c-image>
-                            <c-icons
-                                v-else
-                                color="false"
-                                :type="selectIndex_ === index ? item.img_active : item.img"
-                                size="20px"
-                            ></c-icons>
-                        </view>
+                        <c-image
+                            v-if="isImg_(item.img)"
+                            :src="selectIndex_ === index ? item.img_active : item.img"
+                            size="20px"
+                        ></c-image>
+                        <c-icons
+                            v-else
+                            color="false"
+                            :type="selectIndex_ === index ? item.img_active : item.img"
+                            size="20px"
+                        ></c-icons>
                     </c-colors>
                     <c-colors
                         class="c-tabbar__text"
                         :theme="[selectIndex_ === index ? selColor : color]"
                         :class="[!item.name ? 'bright-card' : '']"
-                        :pro="['c']"
                     >
                         <view>{{ item.name }}</view>
                     </c-colors>
@@ -196,12 +193,6 @@ export default {
         padding: 0 10rpx;
         text-align: center;
         min-width: 34rpx;
-    }
-    &__image {
-        width: 20px;
-        height: 20px;
-        position: relative;
-        overflow: hidden;
     }
 
     &__text {

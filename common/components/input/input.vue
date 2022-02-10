@@ -261,7 +261,7 @@ export default {
             type: Number,
             default: 0
         },
-        require: Boolean
+        required: Boolean
     },
     data() {
         return {
@@ -399,7 +399,7 @@ export default {
         },
         validate(hasMsg = true) {
             if (!this.pattern) return true
-            if (!this.require && !this.inputValue) return true
+            if (!this.required && !this.inputValue) return true
             const validateObj = this.$c.validate(this.pattern, this.inputValue, hasMsg)
             if (hasMsg) {
                 if (!validateObj.validate) {

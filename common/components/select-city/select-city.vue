@@ -5,7 +5,6 @@
             v-model="modalFlag"
             mode="bottom"
             maskabled="false"
-            destroy-ele="false"
             radius="24rpx 24rpx 0 0"
         >
             <view class="select-city">

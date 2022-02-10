@@ -51,10 +51,9 @@
             radius="16"
             @click="calendarFlag = true"
         >显示日历</c-button>
-        <c-calendar
+        <c-keyboard
             v-model="calendarFlag"
-            :popup="false"
-            range
+            mode="car"
         />
         <c-fixed-menu
             position="bottom"
@@ -84,7 +83,7 @@ export default {
             title: 'Hello',
             modalFlag: false,
             pwd: '',
-            calendarFlag: false
+            calendarFlag: true
         }
     },
     async onLoad() {

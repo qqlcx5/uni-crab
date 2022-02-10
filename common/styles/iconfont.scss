@@ -1,8 +1,8 @@
 @font-face {
     font-family: "zsuicon"; /* Project id 2308537 */
-    src: url("//at.alicdn.com/t/font_2308537_yracbvw09p.woff2?t=1642643222009") format("woff2"),
-        url("//at.alicdn.com/t/font_2308537_yracbvw09p.woff?t=1642643222009") format("woff"),
-        url("//at.alicdn.com/t/font_2308537_yracbvw09p.ttf?t=1642643222009") format("truetype");
+    src: url("//at.alicdn.com/t/font_2308537_24j6ye3d10b.woff2?t=1644486989002") format("woff2"),
+        url("//at.alicdn.com/t/font_2308537_24j6ye3d10b.woff?t=1644486989002") format("woff"),
+        url("//at.alicdn.com/t/font_2308537_24j6ye3d10b.ttf?t=1644486989002") format("truetype");
 }
 
 .zsuicon {
@@ -11,6 +11,14 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.zsuicon-enter:before {
+    content: "\e629";
+}
+
+.zsuicon-delete:before {
+    content: "\e921";
 }
 
 .zsuicon-tiaozhuan:before {

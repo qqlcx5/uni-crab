@@ -4,7 +4,7 @@
  * @Author: sanhui
  * @Date: 2021-05-29 09:58:21
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-01-07 10:04:55
+ * @LastEditTime: 2022-02-09 14:26:09
 -->
 <template>
     <view
@@ -97,6 +97,7 @@ export default {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    vertical-align: middle;
     line-height: 0;
     font-size: 0;
     @include tst(transform);

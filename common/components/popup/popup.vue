@@ -8,7 +8,7 @@
         <view
             class="c-modal"
             :class="[`c-modal--${mode}`, innerPopupFlag ? 'c-modal--visible' : '',fixed ? 'c-modal--fixed': '']"
-            :style="{ zIndex: innerPopupFlag ? zIndex : -1 }"
+            :style="{ zIndex: zIndex }"
         >
             <c-mask
                 v-if="mask_"
@@ -77,7 +77,7 @@ export default {
         // 是否销毁弹窗
         destroyEle: {
             type: [Boolean, String],
-            default: true
+            default: false
         },
         /**
          * 参数说明（定位）
@@ -265,7 +265,7 @@ export default {
             } else if (this.mode === 'right') {
                 otherStyle.transform = 'translate3d(100%, 0px, 0px)'
             }
-            if (!this.popup) {
+            if (!this.fixed) {
                 otherStyle.transform = null
             }
             if (this.mode === 'left' || this.mode === 'right') {
