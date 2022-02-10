@@ -51,9 +51,24 @@
             radius="16"
             @click="calendarFlag = true"
         >显示日历</c-button>
+        <!-- 日历弹窗 -->
+        <c-calendar v-model="calendarFlag" />
+        <c-button
+            class="mt24"
+            type="success"
+            radius="16"
+            @click="keyboardFlag = true,keyboardMode = 'number'"
+        >显示数字键盘</c-button>
+        <c-button
+            class="mt24"
+            type="success"
+            radius="16"
+            @click="keyboardFlag = true,keyboardMode = 'car'"
+        >显示车牌键盘</c-button>
+        <!-- 键盘弹窗 -->
         <c-keyboard
-            v-model="calendarFlag"
-            mode="car"
+            v-model="keyboardFlag"
+            :mode="keyboardMode"
         />
         <c-fixed-menu
             position="bottom"
@@ -83,7 +98,9 @@ export default {
             title: 'Hello',
             modalFlag: false,
             pwd: '',
-            calendarFlag: true
+            calendarFlag: false,
+            keyboardFlag: false,
+            keyboardMode: 'number'
         }
     },
     async onLoad() {
@@ -123,6 +140,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 0 24rpx;
 }
 
 .logo {

@@ -268,6 +268,7 @@ export default {
                         }
                     })
                     this.keyboardKeys = this.getKeyboardKey()
+                    console.log(this.keyboardKeys)
                     // #ifndef H5
                     uni.getClipboardData({
                         success: (res) => {
@@ -286,6 +287,9 @@ export default {
                 }
             },
             immediate: true
+        },
+        popupValue(val) {
+            this.$emit('input', val)
         }
     },
     methods: {
