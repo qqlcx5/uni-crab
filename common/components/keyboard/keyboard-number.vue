@@ -84,7 +84,7 @@ export default {
         background-color: rgba(255, 255, 255, 0.5);
     }
     &--confirm {
-        height: calc(212rpx + $keyboard-spacing-base);
+        height: 212rpx + $keyboard-spacing-base;
     }
     &--reset {
         font-size: 32rpx;

@@ -371,7 +371,7 @@ function removeStorageSync(list) {
                 })
             } else {
                 console.warn('删除缓存：' + catchName)
-                storage.remove(catchName)
+                catchName && storage.remove(catchName)
             }
         }
     })

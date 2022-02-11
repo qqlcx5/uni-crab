@@ -57,8 +57,14 @@
             class="mt24"
             type="success"
             radius="16"
-            @click="keyboardFlag = true,keyboardMode = 'number'"
+            @click="keyboardFlag = true,keyboardMode = 'number',keyboardSimple = true"
         >显示数字键盘</c-button>
+        <c-button
+            class="mt24"
+            type="success"
+            radius="16"
+            @click="keyboardFlag = true,keyboardMode = 'number',keyboardSimple = false"
+        >显示数字键盘-含清空</c-button>
         <c-button
             class="mt24"
             type="success"
@@ -69,6 +75,7 @@
         <c-keyboard
             v-model="keyboardFlag"
             :mode="keyboardMode"
+            :simple="keyboardSimple"
         />
         <c-fixed-menu
             position="bottom"
@@ -100,6 +107,7 @@ export default {
             pwd: '',
             calendarFlag: false,
             keyboardFlag: false,
+            keyboardSimple: false,
             keyboardMode: 'number'
         }
     },
