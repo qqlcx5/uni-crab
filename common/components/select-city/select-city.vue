@@ -143,7 +143,7 @@ export default {
         },
         checked_() {
             return (id) => {
-                return this.valueObj[this.cityList[this.showRank].identify].value == id
+                return this.valueObj[this.cityList[this.showRank].identify].value === id
             }
         },
         defaultValue_() {
@@ -235,7 +235,9 @@ export default {
         },
         curReq(submit = false) {
             const showRank = this.showRank - 1
-            if (this.showRank === -1 || !Object.keys(this.curList_).length) {
+            const lastValue = this.valueObj[this.identifys_[this.showRank]].value
+            console.log('curReq', lastValue)
+            if (this.showRank === -1 || !Object.keys(this.curList_).length || this.curList_.findIndex(o => o.value === lastValue) === -1) {
                 const curArea = this.valueObj[this.identifys_[showRank]] || {}
                 this.onChooseClick(curArea.label, curArea.value, submit)
             }
