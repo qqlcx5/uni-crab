@@ -14,7 +14,6 @@
             bg-color="#e2e3e7"
             mode="bottom"
             :mask="mask"
-            :height="height"
             show-close="false"
             :hd-style="contentStyle_"
         >
@@ -89,6 +88,7 @@
                             >
                                 <keyboard-number
                                     :config="item"
+                                    :ripple="ripple"
                                     @choose="handleKeyClick"
                                 />
                             </view>
@@ -105,6 +105,7 @@
                                 <keyboard-car
                                     :active="keyboardTabIndex"
                                     :config="item"
+                                    :ripple="ripple"
                                     @choose="handleKeyClick"
                                 />
                             </view>
@@ -121,6 +122,7 @@
                         >
                             <keyboard-number
                                 :config="item"
+                                :ripple="ripple"
                                 @choose="handleKeyClick"
                             />
                         </view>
@@ -199,6 +201,15 @@ export default {
         mask: {
             type: Boolean,
             default: true
+        },
+        // 开启按键震动
+        vibrate: {
+            type: Boolean,
+            default: true
+        },
+        clipboard: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -210,7 +221,7 @@ export default {
             // 键盘的输出值
             codeInputValue: '',
             // 剪切板内容
-            clipboardData: '',
+            clipboardData: '1111',
             height: 580,
             popupValue: false
         }
@@ -268,19 +279,20 @@ export default {
                         }
                     })
                     this.keyboardKeys = this.getKeyboardKey()
-                    console.log(this.keyboardKeys)
                     // #ifndef H5
-                    uni.getClipboardData({
-                        success: (res) => {
-                            // 格式一致才会设置剪切板的值
-                            if (res.data && validateReg(this.mode, res.data).validate) {
-                                this.$c.throttle(() => {
-                                    this.clipboardData = res.data
-                                    this.$c.throttle(this.clearClipboardData, 5000)
-                                }, 1000)
+                    if (this.clipboard) {
+                        uni.getClipboardData({
+                            success: (res) => {
+                                // 格式一致才会设置剪切板的值
+                                if (res.data && validateReg(this.mode, res.data)) {
+                                    this.$c.throttle(() => {
+                                        this.clipboardData = res.data
+                                        this.$c.throttle(this.clearClipboardData, 5000)
+                                    }, 1000)
+                                }
                             }
-                        }
-                    })
+                        })
+                    }
                     // #endif
                 } else {
                     this.clearClipboardData()
@@ -294,6 +306,13 @@ export default {
     },
     methods: {
         handleKeyClick(e) {
+            if (this.vibrate && e.detail.operation !== 'empty') {
+                try {
+                    uni.vibrateShort()
+                } catch (error) {
+                    console.log(error)
+                }
+            }
             const operation = e.detail.operation
             switch (operation) {
                 case 'switchTab':
@@ -316,7 +335,7 @@ export default {
                     })
                 }, 200 * i)
             })
-            this.$c.throttle(this.clearClipboardData, clipboardDataArr.length * 200)
+            this.$c.throttle(this.clearClipboardData, 200)
         },
         // 清空裁剪版的内容
         clearClipboardData() {
@@ -381,12 +400,13 @@ export default {
         }
     }
     &-hd {
+        padding-top: $keyboard-spacing-base;
         &__left,
         &__middle,
         &__right {
             font-size: 34rpx;
             height: 88rpx;
-            padding: $keyboard-spacing-base $spacing-row-lg 0;
+            padding: 0 $spacing-row-lg;
         }
         &__left {
             padding-right: 0;

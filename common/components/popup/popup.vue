@@ -55,9 +55,17 @@
                     />
                     <!-- #endif -->
                 </view>
-                <slot></slot>
+                <view
+                    v-if="!hasTabbar_ && ['top', 'left', 'right'].includes(mode)"
+                    class="c-safe-area c-safe-area-inset-top"
+                ></view>
+                <slot />
+                <view
+                    v-if="!hasTabbar_ && ['bottom', 'left', 'right'].includes(mode)"
+                    class="c-safe-area c-safe-area-inset-bottom"
+                ></view>
             </view>
-            <slot name="other"></slot>
+            <slot name="other" />
         </view>
     </view>
 </template>
@@ -278,7 +286,6 @@ export default {
                 ...this.hdStyle,
                 backgroundColor: this.bgColor,
                 borderRadius: this.radius_,
-                overflow: 'hidden',
                 transitionDuration: `${this.duration}ms`,
                 ...otherStyle
             }
@@ -392,17 +399,14 @@ export default {
 
                 &--bottom {
                     @include fixed(null, 0, 0, 0);
-                    @include iosSafeArea(padding, 0px, bottom, bottom);
                 }
 
                 &--left {
                     @include fixed(0, null, 0, 0);
-                    @include iosSafeArea(padding, 0px, bottom, bottom);
                 }
 
                 &--right {
                     @include fixed(0, 0, 0, null);
-                    @include iosSafeArea(padding, 0px, bottom, bottom);
                 }
 
                 &--cover {
@@ -416,9 +420,8 @@ export default {
 
                 /* #ifndef H5 || APP-PLUS-NVUE */
                 &--hastabbar {
-                    @include iosSafeArea(bottom, 50px, bottom);
+                    bottom: 50px;
                 }
-
                 /* #endif */
             }
         }

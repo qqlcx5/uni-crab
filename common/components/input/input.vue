@@ -50,6 +50,7 @@
                 :placeholder="placeholder"
                 :password="type === 'password' && !showPassword"
                 placeholder-class="c-input-placeholder"
+                disable-default-padding
                 :placeholder-style="placeholderStyle"
                 :cursor-spacing="cursorSpacing_"
                 @input="onInput"

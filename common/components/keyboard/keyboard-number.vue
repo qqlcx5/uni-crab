@@ -8,7 +8,8 @@
     <view
         class="ca-keyboard-number"
         :class="[
-            `ca-keyboard-number--${config_.operation}`
+            `ca-keyboard-number--${config_.operation}`,
+            config_.operation !== 'empty' && ripple ? 'ripple': ''
         ]"
         @click.stop="handleClick($event)"
     >
@@ -34,6 +35,11 @@ export default {
         showDotted: {
             type: Boolean,
             default: null
+        },
+        // 开启水波特效
+        ripple: {
+            type: Boolean,
+            default: true
         }
     },
     computed: {
@@ -89,33 +95,6 @@ export default {
     &--reset {
         background-color: #c2c6cf;
         color: #fff;
-    }
-    &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        //设置径向渐变
-        background-image: radial-gradient(
-            circle,
-            rgba(0, 0, 0, 0.65) 20%,
-            transparent 20%
-        );
-        background-repeat: no-repeat;
-        background-position: 50%;
-        transform: scale(5);
-        opacity: 0;
-        transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
-    }
-    &:active::after {
-        transform: scale(0);
-        opacity: 0.5;
-        //设置初始状态
-        transition: 0s;
     }
 }
 </style>

@@ -6,9 +6,10 @@
 -->
 <template>
     <view
-        class="ca-keyboard-text"
+        class="ca-keyboard-car"
         :class="[
-            `ca-keyboard-text--${config_.operation}`
+            `ca-keyboard-car--${config_.operation}`,
+            config_.operation !== 'empty' && ripple ? 'ripple': ''
         ]"
         @click.stop="handleClick"
     >
@@ -19,9 +20,9 @@
             <text
                 v-for="(item, index) in config_.value"
                 :key="index"
-                class="ca-keyboard-text__tab"
+                class="ca-keyboard-car__tab"
                 :class="[
-                    active === index ? 'ca-keyboard-text__tab--active' : ''
+                    active === index ? 'ca-keyboard-car__tab--active' : ''
                 ]"
             >
                 {{ item }}
@@ -82,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss">
-.ca-keyboard-text {
+.ca-keyboard-car {
     overflow: hidden;
     position: relative;
     background-color: #ffffff;
@@ -121,33 +122,6 @@ export default {
             font-size: 30rpx;
             color: #fff;
         }
-    }
-    &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        //设置径向渐变
-        background-image: radial-gradient(
-            circle,
-            rgba(0, 0, 0, 0.65) 20%,
-            transparent 20%
-        );
-        background-repeat: no-repeat;
-        background-position: 50%;
-        transform: scale(5);
-        opacity: 0;
-        transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
-    }
-    &:active::after {
-        transform: scale(0);
-        opacity: 0.5;
-        //设置初始状态
-        transition: 0s;
     }
 }
 </style>
