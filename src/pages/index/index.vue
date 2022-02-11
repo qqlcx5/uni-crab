@@ -13,6 +13,8 @@
         <c-input
             v-model="pwd"
             displayable
+            placeholder="呵呵哈哈哈"
+            :placeholder-style="{color:'red'}"
         />
         <view class="mt24">
             使用c-colors有效

@@ -29,7 +29,7 @@
                 :placeholder="placeholder"
                 :password="type === 'password' && !showPassword"
                 placeholder-class="c-input-placeholder"
-                :placeholder-style="placeholderStyle"
+                :placeholder-style="placeholderStyle_"
                 @input="onInput"
                 @focus="onFocus"
                 @blur="onBlur"
@@ -51,7 +51,7 @@
                 :password="type === 'password' && !showPassword"
                 placeholder-class="c-input-placeholder"
                 disable-default-padding
-                :placeholder-style="placeholderStyle"
+                :placeholder-style="placeholderStyle_"
                 :cursor-spacing="cursorSpacing_"
                 @input="onInput"
                 @focus="onFocus"
@@ -248,7 +248,7 @@ export default {
             }
         },
         placeholderStyle: {
-            type: String,
+            type: [String, Object],
             default: ''
         },
         textAreaStyle: {
@@ -345,6 +345,13 @@ export default {
                 return this.textAreaStyle
             }
             return {}
+        },
+        placeholderStyle_() {
+            if (this.$typeOf(this.placeholderStyle) === 'String') {
+                return this.placeholderStyle
+            } else {
+                return Object.keys(this.placeholderStyle).reduce((a, b) => a + `${b}:${this.placeholderStyle[b]};`, '')
+            }
         }
     },
     watch: {
