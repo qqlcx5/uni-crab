@@ -1,4 +1,4 @@
-import http from './request.js'
+import http, { zzspApiConfig } from './request.js'
 import {
     backPage,
     showLoading,
@@ -154,14 +154,14 @@ export default function requestBefore(name, query = {}, modifyObj = {}, type) {
 async function forceLogin(catchObj, name, res) {
     if (name === 'shopInfo' && res.data && res.data.force_login === 1 && infoFirstRequest) {
         // 第一次进来,一般是在中转页
-        // if(!curPage) return showLoginModal(catchObj, res.msg, false);
+        // if(!curPage) return showLoginModal({ catchObj, content: res.msg, showCancel: false });
         if (curPage && curPage.$config && !curPage.$config.forceLoginWhite.includes(curPage.$Route.name)) {
             infoFirstRequest = false
             const { data: { token = false } } = await requestBefore('wxuserinfo', {}, {
                 source: 'catch'
             })
             if (!token) {
-                showLoginModal(catchObj, res.msg, false)
+                showLoginModal({ catchObj, content: res.msg, showCancel: false })
             }
         }
     }
@@ -217,20 +217,20 @@ async function responseSuccess(res, catchObj, query) {
         }
         catchObj.toast && showToast(getVariableType(catchObj.toast) === 'Boolean' ? res.msg : catchObj.toast, 1)
     } else {
-        if (res.code === 20200 || (res.code === 20202 && catchObj.url === 'WxApp/shuaxin')) { // token错误，需要登录，可能未登录
-            showLoginModal(catchObj, res.data ? res.data.msg : res.msg)
+        if (res.code === 20200 || (res.code === 20202 && catchObj.url === zzspApiConfig.tokenApi)) { // token错误，需要登录，可能未登录
+            showLoginModal({ catchObj, content: res.data ? res.data.msg : res.msg })
         } else if (res.code !== 20202) {
             catchObj.showErr && showToast(res.msg)
-            catchObj.showModal ? showLoginModal(catchObj, res.msg, false, '错误提示', '我知道了') : ''
+            catchObj.showModal ? showLoginModal({ catchObj, content: res.msg, showCancel: false, title: '错误提示', confirmTex: '我知道了', clearLogin: false }) : ''
         }
     }
 }
 
-export function showLoginModal(catchObj, content = '您还未登录或登录已过期，请登录后操作', showCancel = true, title = '温馨提示', confirmText = '确定') {
+export function showLoginModal({ catchObj = {}, content = '您还未登录或登录已过期，请登录后操作', showCancel = true, title = '温馨提示', confirmText = '确定', clearLogin = true } = {}) {
     // 第一次进来,一般是在中转页
     if (!curPage) return
     if (curPage.$config && curPage.$config.forceLoginWhite.includes(curPage.$Route.name)) return
-    removeUserInfo()
+    clearLogin && removeUserInfo()
     if (!getApp().globalData.errModalFlag) {
         getApp().globalData.errModalFlag = true
         showModal({
@@ -241,6 +241,7 @@ export function showLoginModal(catchObj, content = '您还未登录或登录已�
             showCancel,
             confirmText,
             success: res => {
+                if (!clearLogin) return
                 getApp().globalData.errModalFlag = false
                 if (res.confirm) {
                     // #ifdef APP-PLUS-NVUE

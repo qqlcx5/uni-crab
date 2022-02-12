@@ -15,7 +15,7 @@ import Refresh from './refreshToken'
 import { getVuex } from '../index'
 
 // 传入的api配置
-let zzspApiConfig = {
+export let zzspApiConfig = {
     apiCatchTime: 3660 * 24 * 1000, // 域名缓存时间
     tokenApi: '', // 获取token的api
     refreshApi: '', // 刷新的api
