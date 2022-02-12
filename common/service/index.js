@@ -241,8 +241,8 @@ export function showLoginModal({ catchObj = {}, content = '您还未登录或登
             showCancel,
             confirmText,
             success: res => {
-                if (!clearLogin) return
                 getApp().globalData.errModalFlag = false
+                if (!clearLogin) return
                 if (res.confirm) {
                     // #ifdef APP-PLUS-NVUE
                     uni.redirectTo({
