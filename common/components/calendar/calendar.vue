@@ -175,7 +175,7 @@ import props from './props.js'
  * @property {Array} selected 打点，期待格式[{date: '2019-06-27', info: '签到', data: { custom: '自定义信息', name: '自定义消息头',xxx:xxx... }}]
  * @property {Boolean} showMonth 是否选择月份为背景
  * @event {Function} change 日期改变，`popup :ture` 时生效
- * @event {Function} confirm 确认选择`popup :false` 时生效
+ * @event {Function} confirm 确认选择`popup :true` 时生效
  * @event {Function} monthSwitch 切换月份时触发
  * @example <c-calendar :popup="true":lunar="true" :start-date="'2019-3-2'":end-date="'2019-5-20'"@change="change" />
  */
