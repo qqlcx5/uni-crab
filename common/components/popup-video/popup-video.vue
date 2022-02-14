@@ -35,7 +35,7 @@ export default {
             type: Boolean,
             default: false
         },
-        // 弹层出现方式
+        // 弹层出现方式 right | left | bottom | top
         popupMode: {
             type: String,
             default: 'right'
