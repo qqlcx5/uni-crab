@@ -54,18 +54,25 @@ import {
 export default {
     name: 'CTabbar',
     props: {
+        // 背景颜色
         bgColor: {
             type: String,
             default: '#fff'
         },
+        // 字体颜色
         color: {
             type: String,
             default: '#666'
         },
+        /**
+         * 选中颜色
+         * t 主题颜色
+         */
         selColor: {
             type: String,
             default: 't'
         },
+        // 是否展示tabbar
         showTabbar: {
             type: [String, Boolean],
             default: true

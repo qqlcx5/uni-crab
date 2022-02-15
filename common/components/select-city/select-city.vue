@@ -68,20 +68,24 @@
 export default {
     name: 'CSelectCity',
     props: {
+        // 城级
         level: {
             type: [String, Number],
             default: 2
         },
+        // 是否显示	
         value: {
             type: Boolean,
             default: false
         },
+        // 默认值	
         defaultValue: {
             type: Array,
             default: () => {
                 return []
             }
         },
+        // 请求接口
         apiUrl: {
             type: String,
             default: 'getRegion'

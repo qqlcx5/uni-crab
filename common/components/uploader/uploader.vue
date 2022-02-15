@@ -262,7 +262,7 @@ export default {
             type: [Number, String],
             default: 15
         },
-        // 图片上传数量
+        // 视频上传数量
         videoUploadCount: {
             type: [Number, String],
             default: 5

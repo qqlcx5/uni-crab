@@ -76,19 +76,21 @@ export default {
             type: [String, Number, Boolean, Array],
             default: false
         },
+        // 选中文案
         onText: {
             type: String,
             default: ''
         },
+        // 未选中文案
         offText: {
             type: String,
             default: ''
         },
-        textColor: {// 滑动球颜色
+        textColor: {// 滑动球文案颜色
             type: String,
             default: '#fff'
         },
-        textSelColor: {// 滑动球颜色
+        textSelColor: {// 滑动球文案选中颜色
             type: String,
             default: '#fff'
         },
@@ -120,7 +122,7 @@ export default {
             type: [Number, String],
             default: 1
         },
-        asyncSwitch: {
+        asyncSwitch: { // 异步请求限制
             type: [Boolean, String],
             default: false
         },

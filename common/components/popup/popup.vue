@@ -3,7 +3,7 @@
         v-if="popupFlag"
         hover-stop-propagation
         :class="[customClass]"
-        @click.stop
+        @click.stop="moveHandle"
     >
         <view
             class="c-modal"
@@ -179,6 +179,9 @@ export default {
             type: String,
             default: '#fff'
         },
+        /**
+         * mask组件的背景颜色
+         */
         maskBgColor: {
             type: [String],
             default: 'rgba(0, 0, 0, 0.55)'

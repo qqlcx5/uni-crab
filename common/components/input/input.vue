@@ -137,6 +137,9 @@ export default {
             type: String,
             default: 'done'
         },
+        /**
+         * placeholder显示值
+         */
         placeholder: {
             type: String,
             default: ''
@@ -169,18 +172,30 @@ export default {
             type: Boolean,
             default: false
         },
+        /**
+         * 最小高度
+         */
         minHeight: {
             type: [Number, String],
             default: 0
         },
+        /**
+         * 是否显示箭头
+         */
         arrows: {
             type: [Boolean, String],
             default: false
         },
+        /**
+         * 是否禁用输入框	
+         */
         disabled: {
             type: [Boolean, String],
             default: false
         },
+        /**
+         * 输入框的最大可输入长度	
+         */
         maxlength: {
             type: [Number, String],
             default: 140
@@ -192,14 +207,23 @@ export default {
             type: [Boolean, String],
             default: false
         },
+        /**
+         * 精度
+         */
         decimal: {
             type: [Number, String],
             default: 2
         },
+        /**
+         * 最大值
+         */
         max: {
             type: [Number, String],
             default: 0 // 0表示不限制
         },
+        /**
+         * 最小值
+         */
         min: {
             type: [Number, String],
             default: 0
@@ -219,6 +243,7 @@ export default {
             type: [String, Number],
             default: 'auto'
         },
+        // 正则校验	
         pattern: {
             type: String,
             default: ''
@@ -227,30 +252,31 @@ export default {
             type: String,
             default: ''
         },
-        label: {
-            type: String,
-            default: ''
-        },
+        // 消息提示语
         msgName: {
             type: String,
             default: ''
         },
+        // 之前样式
         beforeStyle: {
             type: Object,
             default() {
                 return {}
             }
         },
+        // 之后样式
         afterStyle: {
             type: Object,
             default() {
                 return {}
             }
         },
+        // placeholder样式
         placeholderStyle: {
             type: [String, Object],
             default: ''
         },
+        // textArea样式
         textAreaStyle: {
             type: Object,
             default: () => { }
@@ -262,6 +288,7 @@ export default {
             type: Number,
             default: 0
         },
+        // 是否必须校验
         required: Boolean
     },
     data() {
