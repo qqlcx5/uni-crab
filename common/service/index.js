@@ -1,4 +1,4 @@
-import http, { zzspApiConfig } from './request.js'
+import http, { zzspApiConfig, setApiConfig } from './request.js'
 import {
     backPage,
     showLoading,
@@ -180,10 +180,14 @@ export function resendRefreshRequest() {
     })
 }
 
-export function resendChangeDomainRequest() {
+export function resendChangeDomainRequest(depthNum) {
+    setApiConfig(true)
+    if (depthNum <= 1) {
+        return Promise.reject()
+    }
     return requestBefore('shopInfo', null, {
         abort: false
-    })
+    }).catch(() => resendChangeDomainRequest(depthNum - 1))
 }
 
 function responseFail(res, catchObj = {}) {

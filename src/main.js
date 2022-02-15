@@ -7,6 +7,7 @@
 import Vue from 'vue'
 import App from './App'
 import store from './store'
+import config from '@/config'
 
 Vue.config.productionTip = false
 
@@ -36,30 +37,33 @@ Vue.use(saasUI, {
     // 路由相关的配置
     router: {
         beforeEach: (to, from, next) => {
-            console.log('自定义beforeEach');
+            console.log('自定义beforeEach')
             next()
         },
         afterEach: (to, from) => {
-            console.log('自定义afterEach');
+            console.log('自定义afterEach')
         }
     },
     // 请求相关的配置
     http: {
         // 请求头字段配置（baseURL无效），设置请求地址请在下面的apiConfig里面进行配置
         header: {
-
+            // 对应的值支持传入方法，动态拿值
+            // 'uuid': () => uni.getStorageSync('xxxx'),
+            'app-version': config.version, // 版本号
+            'app-type': config.platformType, // 平台类型
+            'shop-uid': config.shopUid, // 商家id
+            // #ifdef MP-WEIXIN
+            'applet-appid': config.appId, // 商家id
+            'template-id': config.templateId, // 小程序模板id
+            'user-version': config.userVersion || '', // 小程序模板id
+            // #endif
+            'app-from': () => encodeURIComponent(uni.getStorageSync(config.fullPageCatch) || '')
         },
         apiConfig: {
             tokenApi: '/WxApp/wxuserinfo',
             // 备用域名配置,至少配置一个
-            domainList: [
-                // #ifdef H5
-                process.env.NODE_ENV === 'production' ? 'http://betaapp-saas.zzsupei.com' : '/ssApi'
-                // #endif
-                // #ifndef H5
-                'http://betaapp-saas.zzsupei.com'
-                // #endif
-            ]
+            domainList: ['http://11111111dfsdsfsd.com', 'http://2222dfsdsfsd.com', 'http://betaapp-saas4.zzsupei.com']
         },
         apiList: {
             shopInfo: {
@@ -70,6 +74,15 @@ Vue.use(saasUI, {
                 catchName: 'jscode2session',
                 toast: true
             },
+            home: {
+                url: '/Shop/home'
+            },
+            getGoodsModuleList: {
+                url: '/Goods/getGoodsModuleList'
+            },
+            getGoodsModuleList1111: {
+                url: '/Goods1111/getGoodsModuleList1111'
+            }
         }
     }
 })

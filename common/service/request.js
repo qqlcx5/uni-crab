@@ -137,35 +137,40 @@ http.interceptors.response.use((response) => {
 }, response => {
     // 接口请求不通是不存在statusCode状态码，所以只要根据statusCode判断切域名
     const { statusCode = 0 } = response
+
     if (!statusCode) {
         if (zzspApiConfig.domainList.length > 1) {
             console.log('域名不存在或已宕机，正在切换域名')
             // 正在切换域名
             if (!refreshToken.isChangeDomain) {
-                setApiConfig(true)
                 refreshToken.setDomainType(true)
                 // 刷新token
-                return resendChangeDomainRequest().then((res) => {
+                return resendChangeDomainRequest(zzspApiConfig.domainList.length).then((res) => {
                     console.log('域名切换成功，正在重发请求', res)
                     refreshToken.notifyTaskReload()
                     refreshToken.setDomainType(false)
                     return http.request(response.config)
                 }).catch((e) => {
+                    console.log(uni.getStorageSync(commonConfig.curApiCatch), '------当前域名-----------------')
                     console.log('切换之后还是失败了', e)
                     refreshToken.clearTask()
                     refreshToken.setDomainType(false)
                     return response
                 })
             }
-            return new Promise((r, s) => {
-                // 将需要重新请求的接口添加到队列中
-                refreshToken.addTask((isError) => {
-                    if (isError) {
-                        return r(response)
-                    }
-                    http.request(response.config).then(r).catch(s)
+            if (!(response.config.url === '/Shop/info')) {
+                return new Promise((r, s) => {
+                    // 将需要重新请求的接口添加到队列中
+                    refreshToken.addTask((isError) => {
+                        console.log(isError, '-----------------isError')
+                        if (isError) {
+                            return r(response)
+                        }
+                        http.request(response.config).then(r).catch(s)
+                    })
                 })
-            })
+            }
+            return response
         }
         return response
     } else {
@@ -201,9 +206,11 @@ export function setApiConfig(force = false, url = '') {
         // 时间超过缓存时间 要切回来,特殊域名不过期
         if ((!apiCatch.isSpecial && apiCatch.saveTime < newTime - zzspApiConfig.apiCatchTime) || force || url) {
             console.log('-----------请求域名缓存超时或被强行切换---------')
+            let currentIndex = zzspApiConfig.domainList.findIndex(o => o === apiCatch.url)
+            currentIndex = currentIndex === -1 ? 0 : currentIndex + 1 >= zzspApiConfig.domainList.length ? 0 : currentIndex + 1
             apiCatch = {
                 saveTime: newTime,
-                url: url || zzspApiConfig.domainList[0],
+                url: url || zzspApiConfig.domainList[currentIndex],
                 isSpecial: !!url
             }
             uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
