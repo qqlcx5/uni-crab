@@ -103,6 +103,7 @@ export default {
             type: [String, Boolean],
             default: false
         },
+        // 背景颜色	
         bgColor: {
             type: String,
             default: 'transparent'
@@ -117,6 +118,7 @@ export default {
             type: [Boolean, String],
             default: false
         },
+        // 边框颜色
         borderColor: {
             type: String,
             default: '#fff'
@@ -126,6 +128,7 @@ export default {
             type: [Number, String],
             default: 300
         },
+        // 是否开启图片长按识别小程序码菜单
         showMenuByLongpress: {
             type: [String, Boolean],
             default: false

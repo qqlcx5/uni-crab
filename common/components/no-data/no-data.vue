@@ -36,32 +36,39 @@
 <script>
 export default {
     props: {
+        // 是否显示图片
         showImg: {
             type: [String, Boolean],
             default: false
         },
+        // 图片地址
         icon: {
             type: String,
             default: 'common/no-data.png'
         },
+        // 图片宽度
         size: {
             type: [String, Number],
             default: 350
         },
+        // 是否是本地静态图片
         static: {
             type: [String, Boolean],
             default: false
         },
+        // 显示的文本内容
         text: {
             type: [String, Boolean],
             default: '暂无数据'
         },
+        // 文本样式
         textStyle: {
             type: Object,
             default: () => {
                 return {}
             }
         },
+        // 组件样式
         boxStyle: {
             type: Object,
             default: () => {

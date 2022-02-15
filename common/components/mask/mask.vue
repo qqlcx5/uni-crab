@@ -34,6 +34,7 @@
 <script>
 export default {
     props: {
+        // 是否显示遮罩
         show: {
             type: [Boolean, String],
             default: false
@@ -50,22 +51,27 @@ export default {
             type: [String, Number],
             default: 250
         },
+        // 位置
         position: {
             type: String,
             default: 'fixed'
         },
+        // z-index 层级
         zIndex: {
             type: [String, Number],
             default: 1000
         },
+        // 背景颜色
         bgColor: {
             type: [String],
             default: 'rgba(0, 0, 0, 0.55)'
         },
+        // 是否阻止默认行为
         stopPrevent: {
             type: [Boolean, String],
             default: true
         },
+        // 圆角
         radius: {
             type: [String, Number],
             default: 0

@@ -27,22 +27,27 @@ const specialIcons = ['tarbar', 'tabbar', 'zsuicon']
 export default {
     name: 'CIcons',
     props: {
+        // 图标名称
         type: {
             type: String,
             default: ''
         },
+        // 图标颜色
         color: {
             type: [String, Boolean],
             default: false
         },
+        // 图标大小
         size: {
             type: [Number, String],
             default: 28
         },
+        // 是否开启旋转动画
         spin: {
             type: Boolean,
             default: false
         },
+        // 是否旋转
         rotate: {
             type: [Number, String, Boolean],
             default: false

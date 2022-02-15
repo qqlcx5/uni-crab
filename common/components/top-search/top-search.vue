@@ -42,6 +42,7 @@
 export default {
     options: { styleIsolation: 'shared' },
     props: {
+        // 是否禁用
         disabled: {
             type: [Boolean, String],
             default: false
@@ -53,18 +54,22 @@ export default {
             type: String,
             default: ''
         },
+        // 默认值
         value: {
             type: String,
             default: ''
         },
+        // 是否聚焦
         focus: {
             type: [String, Boolean],
             default: false
         },
+        // 背景颜色
         bgColor: {
             type: String,
             default: '#fff'
         },
+        // 搜索框背景颜色
         inputColor: {
             type: String,
             default: '#f5f5f5'
@@ -73,14 +78,17 @@ export default {
             type: String,
             default: '输入搜索关键词'
         },
+        // placeholder样式
         placeholderStyle: {
             type: String,
             default: ''
         },
+        // 清除按钮
         clearable: {
             type: Boolean,
             default: false
         },
+        // 搜索icon颜色
         searchIconColor: {
             type: String,
             default: '#999'
@@ -107,6 +115,7 @@ export default {
             },
             immediate: true
         },
+
         keyword(val) {
             this.$emit('input', val)
         }

@@ -155,6 +155,7 @@ export default {
             type: String,
             default: 'goods'
         },
+        // 头部标题
         title: {
             type: String,
             default: ''
@@ -168,6 +169,7 @@ export default {
                 return {}
             }
         },
+        // 标题样式
         titleStyle: {
             type: Object,
             default: () => {

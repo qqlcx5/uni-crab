@@ -256,6 +256,7 @@ export default {
             type: String,
             default: 'right'
         },
+        // 右侧图标	
         rightIcon: {
             type: String,
             default: ''
@@ -265,6 +266,7 @@ export default {
             type: [String, Number],
             default: 24
         },
+        // 箭头颜色	
         rightIconColor: {
             type: String,
             default: '#B8B8B8'

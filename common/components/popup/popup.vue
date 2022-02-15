@@ -179,6 +179,9 @@ export default {
             type: String,
             default: '#fff'
         },
+        /**
+         * mask组件的背景颜色
+         */
         maskBgColor: {
             type: [String],
             default: 'rgba(0, 0, 0, 0.55)'

@@ -5,8 +5,8 @@
         @tap="onClickLabel"
     >
         <view
-            class="c-radio__label c-radio__label--before"
             v-if="$slots.before"
+            class="c-radio__label c-radio__label--before"
             :style="{ fontSize: labelSize_,flex: this.parent.wrap ? 1 : 'auto' }"
         >
             <slot name="before" />
@@ -23,8 +23,8 @@
             />
         </view>
         <view
-            class="c-radio__label"
             v-if="$slots.default"
+            class="c-radio__label"
             :style="{ fontSize: labelSize_,flex: this.parent.wrap ? 1 : 'auto', color: activeFontColor_ }"
         >
             <slot />
@@ -48,7 +48,7 @@
  */
 import { mapState } from 'vuex'
 export default {
-    name: "c-radio",
+    name: 'CRadio',
     props: {
         // radio的名称
         name: {
@@ -85,15 +85,16 @@ export default {
             type: [String, Number],
             default: ''
         },
+        // 单个按钮是否可以取消选中
         cancelEnble: {
             type: [String, Boolean],
             default: false
         },
-        //文字选中颜色
+        // 文字选中颜色
         activeFontColor: {
             type: String,
             default: ''
-        },
+        }
     },
     data() {
         return {
@@ -116,13 +117,13 @@ export default {
                 subColor1: '#FFAE37',
                 subColor2: '#FF5D0C'
             }
-        };
+        }
     },
     created() {
         // 支付宝小程序不支持provide/inject，所以使用这个方法获取整个父组件，在created定义，避免循环引用
-        this.parent = this.$c.getParent.call(this, 'CRadioGroup');
-        if (!this.parent) return this.$toast('请嵌套c-radio-group使用');
-        this.parent.children.push(this);
+        this.parent = this.$c.getParent.call(this, 'CRadioGroup')
+        if (!this.parent) return this.$toast('请嵌套c-radio-group使用')
+        this.parent.children.push(this)
         this.parentData.value = this.parent.value
     },
     computed: {
@@ -130,86 +131,88 @@ export default {
             shopConfig_: state => state.config ? state.config.shopConfig : null
         }),
         cancelEnble_() {
-            return String(this.cancelEnble) === 'true';
+            return String(this.cancelEnble) === 'true'
         },
         colors_() {
-            return this.shopConfig_ ? this.shopConfig_.color : this.defaultColors;
+            return this.shopConfig_ ? this.shopConfig_.color : this.defaultColors
         },
         // 是否禁用，如果父组件c-raios-group禁用的话，将会忽略子组件的配置
         elDisabled() {
-            return this.disabled !== '' ? this.disabled : this.parent.disabled !== null ? this.parent.disabled : false;
+            return this.disabled !== '' ? this.disabled : this.parent.disabled !== null ? this.parent.disabled : false
         },
         // 是否禁用label点击
         elLabelDisabled() {
-            return this.labelDisabled !== '' ? this.labelDisabled : this.parent.labelDisabled !== null ? this.parent.labelDisabled : false;
+            return this.labelDisabled !== '' ? this.labelDisabled : this.parent.labelDisabled !== null ? this.parent.labelDisabled : false
         },
         // 组件尺寸，对应size的值，默认值为34rpx
         elSize() {
-            return this.size ? this.size : (this.parent.size ? this.parent.size : 34);
+            return this.size ? this.size : (this.parent.size ? this.parent.size : 34)
         },
         // 组件的勾选图标的尺寸，默认20
         elIconSize() {
-            return this.iconSize ? this.iconSize : (this.parent.iconSize ? this.parent.iconSize : 36);
+            return this.iconSize ? this.iconSize : (this.parent.iconSize ? this.parent.iconSize : 36)
         },
         // 组件选中激活时的颜色
         elActiveColor() {
-            return this.activeColor ? this.activeColor : (this.parent && this.parent.activeColor ? this.parent.activeColor : this.colors_.theme);
+            return this.activeColor ? this.activeColor : (this.parent && this.parent.activeColor ? this.parent.activeColor : this.colors_.theme)
         },
         // 组件的形状
         elShape() {
-            return this.shape ? this.shape : (this.parent.shape ? this.parent.shape : 'circle');
+            return this.shape ? this.shape : (this.parent.shape ? this.parent.shape : 'circle')
         },
         // 设置radio的状态，要求radio的name等于parent的value时才为选中状态
         labelSize_() {
-            return this.$c.formatUnit(this.labelSize, 'rpx', '28');
+            return this.$c.formatUnit(this.labelSize, 'rpx', '28')
         },
         iconStyle() {
-            let style = {};
+            const style = {}
             if (this.elActiveColor && this.parent.value == this.name && !this.elDisabled) {
-                style.borderColor = this.elActiveColor;
-                style.backgroundColor = this.elActiveColor;
+                style.borderColor = this.elActiveColor
+                style.backgroundColor = this.elActiveColor
             }
-            style.width = this.$c.formatUnit(this.elSize);
-            style.height = this.$c.formatUnit(this.elSize);
-            return style;
+            style.width = this.$c.formatUnit(this.elSize)
+            style.height = this.$c.formatUnit(this.elSize)
+            return style
         },
         select_() {
-            return this.name == this.parent.value;
+            return this.name == this.parent.value
         },
         iconColor() {
-            return this.select_ ? this.elActiveColor : '#E0E0E0';
+            return this.select_ ? this.elActiveColor : '#E0E0E0'
         },
         iconClass() {
-            let classes = [];
-            classes.push('c-radio__zsuicon-wrap--' + this.elShape);
-            if (this.name == this.parent.value) classes.push('c-radio__zsuicon-wrap--checked');
-            if (this.elDisabled) classes.push('c-radio__zsuicon-wrap--disabled');
-            if (this.name == this.parent.value && this.elDisabled) classes.push(
-                'c-radio__zsuicon-wrap--disabled--checked');
+            const classes = []
+            classes.push('c-radio__zsuicon-wrap--' + this.elShape)
+            if (this.name == this.parent.value) classes.push('c-radio__zsuicon-wrap--checked')
+            if (this.elDisabled) classes.push('c-radio__zsuicon-wrap--disabled')
+            if (this.name == this.parent.value && this.elDisabled) {
+                classes.push(
+                    'c-radio__zsuicon-wrap--disabled--checked')
+            }
             // 支付宝小程序无法动态绑定一个数组类名，否则解析出来的结果会带有","，而导致失效
-            return classes.join(' ');
+            return classes.join(' ')
         },
         radioStyle() {
-            let style = {};
+            const style = {}
             if (this.parent.width) {
-                style.width = this.$c.formatUnit(this.parent.width);
+                style.width = this.$c.formatUnit(this.parent.width)
                 // #ifdef MP
                 // 各家小程序因为它们特殊的编译结构，使用float布局
-                style.float = 'left';
+                style.float = 'left'
                 // #endif
                 // #ifndef MP
                 // H5和APP使用flex布局
-                style.flex = `0 0 ${this.$c.formatUnit(this.parent.width)}`;
+                style.flex = `0 0 ${this.$c.formatUnit(this.parent.width)}`
                 // #endif
             }
             if (this.parent.wrap) {
-                style.width = '100%';
+                style.width = '100%'
                 // #ifndef MP
                 // H5和APP使用flex布局，将宽度设置100%，即可自动换行
-                style.flex = '0 0 100%';
+                style.flex = '0 0 100%'
                 // #endif
             }
-            return style;
+            return style
         },
         activeFontColor_() {
             if (this.activeFontColor && this.select_) {
@@ -222,35 +225,35 @@ export default {
     methods: {
         onClickLabel() {
             if (!this.elLabelDisabled && !this.elDisabled) {
-                this.setRadioCheckedStatus();
+                this.setRadioCheckedStatus()
             }
         },
         toggle() {
             if (!this.elDisabled) {
-                this.setRadioCheckedStatus();
+                this.setRadioCheckedStatus()
             }
         },
         emitEvent(name) {
             // c-radio的name不等于父组件的v-model的值时(意味着未选中)，才发出事件，避免多次点击触发事件
             if (this.cancelEnble_) {
-                this.$emit('change', name);
+                this.$emit('change', name)
             } else {
-                if (this.parentData.value != this.name) this.$emit('change', this.name);
+                if (this.parentData.value != this.name) this.$emit('change', this.name)
             }
         },
         // 改变组件选中状态
         // 这里的改变的依据是，更改本组件的parent.value值为本组件的name值，同时通过父组件遍历所有c-radio实例
         // 将本组件外的其他c-radio的parent.value都设置为空(由computed计算后，都被取消选中状态)，因而只剩下一个为选中状态
         setRadioCheckedStatus() {
-            let name = this.cancelEnble_ && this.parentData.value === this.name ? '' : this.name;
-            this.emitEvent(name);
+            const name = this.cancelEnble_ && this.parentData.value === this.name ? '' : this.name
+            this.emitEvent(name)
             if (this.parent) {
-                this.parent.setValue(name);
-                this.parentData.value = name;
+                this.parent.setValue(name)
+                this.parentData.value = name
             }
         }
     }
-};
+}
 </script>
 
 <style lang="scss" scoped>

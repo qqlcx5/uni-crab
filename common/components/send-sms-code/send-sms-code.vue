@@ -11,7 +11,7 @@
         >
             <template v-if="mode === 'button'">
                 <c-button
-                    :width="wudth"
+                    :width="width"
                     :height="height"
                     :plain="plain_"
                     @click="getSmsCode"
@@ -69,19 +69,22 @@ export default {
             type: String,
             default: '重新获取'
         },
-        // 再次获取验证码提示
+        // 获取验证码等待提示
         loadText: {
             type: String,
             default: '正在发送'
         },
+        // 为button时候按钮宽度
         width: {
             type: [String, Number],
             default: ''
         },
+        // 为button时候按钮高度
         height: {
             type: [String, Number],
             default: ''
         },
+        // 字体大小
         fontSize: {
             type: [String, Number],
             default: 28

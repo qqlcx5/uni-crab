@@ -82,6 +82,7 @@
         <c-fixed-menu
             position="bottom"
             height="124"
+            destroy-ele
         >
             <view class="p24">
                 <c-colors

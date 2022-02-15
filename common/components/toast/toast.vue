@@ -41,14 +41,19 @@
 export default {
     name: 'CToast',
     props: {
+        /**
+         * 是否显示
+         */
         value: {
             type: Boolean,
             default: false
         },
+        // 图标
         icon: {
             type: String,
             default: ''
         },
+        // 图标大小
         iconSize: {
             type: [String, Number],
             default: 110
@@ -58,10 +63,12 @@ export default {
             type: [Boolean, String],
             default: false
         },
+        // 文本
         text: {
             type: String,
             default: ''
         },
+        // 文本样式
         textStyle: {
             type: Object,
             default: () => {

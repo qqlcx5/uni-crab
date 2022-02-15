@@ -76,10 +76,12 @@
 <script>
 export default {
     props: {
+        // 是否显示modal框	
         value: {
             type: Boolean,
             default: false
         },
+        // popup组件自定义class
         customClass: {
             type: String,
             default: ''
@@ -103,10 +105,16 @@ export default {
             type: [String, Boolean],
             default: false
         },
+        /**
+         * popup组件点击蒙板是否关闭,默认true关闭
+         */
         maskabled: {
             type: [String, Boolean],
             default: false
         },
+        /**
+         * 关闭按钮位置  可选值 top-right | top-left | bottom-right | bottom-left
+         */
         closePos: {
             type: String,
             default: 'top-left'
@@ -181,10 +189,12 @@ export default {
                 return {}
             }
         },
+        // 按钮提交类型
         openType: {
             type: String,
             default: ''
         },
+        // 按钮大小
         buttonSize: {
             type: String,
             default: 'large'

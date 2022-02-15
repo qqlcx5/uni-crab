@@ -49,18 +49,22 @@ export default {
             type: [String, Number],
             default: 88
         },
+        // 固定底部高度	
         fixedHeight: {
             type: [String, Number],
             default: 'inherit'
         },
+        // 是否浮动显示	
         value: {
             type: Boolean,
             default: true
         },
+        // 背景颜色	
         bgColor: {
             type: String,
             default: '#fff'
         },
+        // 是否显示描边	
         border: {
             type: [Boolean, String],
             default: false
@@ -70,6 +74,7 @@ export default {
             type: [String, Number],
             default: 0
         },
+        // 是否留出底部tabbar位置
         hasTab: {
             type: [Boolean, String],
             default: false
@@ -79,6 +84,7 @@ export default {
             type: [String, Number],
             default: 300
         },
+        // 是否留出顶部标题位置
         hasNav: {
             type: [Boolean, String],
             default: true

@@ -32,6 +32,7 @@
 export default {
     name: 'CButton',
     props: {
+        // 按钮的样式类型	
         type: {
             type: String,
             default: 'inherit'
@@ -78,18 +79,22 @@ export default {
             type: String,
             default: ''
         },
+        // 按钮高度
         height: {
             type: [String, Number],
             default: ''
         },
+        // 按钮宽度
         width: {
             type: [String, Number],
             default: ''
         },
+        // 按钮字体大小
         fontSize: {
             type: [String, Number],
             default: ''
         },
+        // 按钮圆角
         radius: {
             type: [String, Number],
             default: ''

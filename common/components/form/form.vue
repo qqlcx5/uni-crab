@@ -14,6 +14,7 @@
 export default {
     name: 'CForm',
     props: {
+        // 是否开启时事校验
         check: {
             type: [Boolean, String],
             default: false

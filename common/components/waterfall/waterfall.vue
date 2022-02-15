@@ -50,6 +50,7 @@ export default {
             type: String,
             default: 'id'
         },
+        // 其他数据
         otherAttr: {
             type: Object,
             default: () => {

@@ -143,10 +143,12 @@ export default {
     name: 'CKeyboard',
     components: { keyboardNumber, keyboardCar },
     props: {
+        // 虚拟键盘类型 number 数字键盘 | idcard 身份证键盘 | car 汽车车牌键盘
         mode: {
             type: String,
             default: 'number'
         },
+        // 是否显示
         value: {
             type: Boolean,
             default: false
@@ -156,23 +158,27 @@ export default {
             type: Boolean,
             default: true
         },
-        // 取消文字，最多4个字符
+        // 取消按钮文字，最多4个字符
         cancelText: {
             type: String,
             default: '取消'
         },
+        // 取消按钮文字颜色
         cancelColor: {
             type: String,
             default: '#acafb6'
         },
+        // 是否显示确定
         showSubmit: {
             type: Boolean,
             default: true
         },
+        // 确定按钮文字，最多4个字符
         submitText: {
             type: String,
             default: '确定'
         },
+        // 确定按钮文字颜色
         submitColor: {
             type: String,
             default: '#4fa5e1'
@@ -207,6 +213,7 @@ export default {
             type: Boolean,
             default: true
         },
+        // 是否获取剪切板信息
         clipboard: {
             type: Boolean,
             default: false
