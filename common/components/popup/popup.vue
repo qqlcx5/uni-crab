@@ -3,7 +3,7 @@
         v-if="popupFlag"
         hover-stop-propagation
         :class="[customClass]"
-        @click.stop
+        @click.stop="moveHandle"
     >
         <view
             class="c-modal"
