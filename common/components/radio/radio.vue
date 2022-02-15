@@ -17,7 +17,7 @@
         >
             <c-icons
                 class="c-radio__zsuicon-wrap__icon"
-                :type="select_ ? 'zsuicon-xuanzhong' : 'zsuicon-weixuan'"
+                :type="iconType_"
                 :size="elIconSize"
                 :color="iconColor"
             />
@@ -55,7 +55,7 @@ export default {
             type: [String, Number],
             default: ''
         },
-        // 形状，square为方形，circle为原型
+        // 形状，square为方形，circle为原型 dot圆点
         shape: {
             type: String,
             default: ''
@@ -191,6 +191,23 @@ export default {
             }
             // 支付宝小程序无法动态绑定一个数组类名，否则解析出来的结果会带有","，而导致失效
             return classes.join(' ')
+        },
+        iconType_() {
+            const types = {
+                square: {
+                    icon: 'zsuicon-checkbox',
+                    selIcon: 'zsuicon-checkbox-checked'
+                },
+                circle: {
+                    icon: 'zsuicon-weixuan',
+                    selIcon: 'zsuicon-xuanzhong'
+                },
+                dot: {
+                    icon: 'zsuicon-weixuan',
+                    selIcon: 'zsuicon-xuanzhong-dot'
+                }
+            }
+            return this.select_ ? types[this.elShape].selIcon : types[this.elShape].icon
         },
         radioStyle() {
             const style = {}
