@@ -230,9 +230,7 @@ export function setApiConfig(force = false, url = '') {
     }
     // #ifdef H5
     // H5本地走代理
-    if (process.env.NODE_ENV !== 'production') {
-        apiCatch.url = zzspApiConfig.proxyName
-    }
+    apiCatch.url = process.env.NODE_ENV === 'production' ? zzspApiConfig.domainList[0] : zzspApiConfig.proxyName
     // #endif
     http && http.setConfig(_config => {
         return { ..._config, baseURL: apiCatch.url }
