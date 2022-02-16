@@ -10,7 +10,7 @@
         >
             <c-icons
                 class="c-radio__zsuicon-wrap__icon"
-                :type="iconType"
+                :type="iconType_"
                 :size="checkboxIconSize"
                 :color="iconColor"
             />
@@ -49,7 +49,7 @@ export default {
             type: [String, Number],
             default: ''
         },
-        // 形状，square为方形，circle为原型
+        // 形状，square为方形，circle为原型 dot圆点
         shape: {
             type: String,
             default: ''
@@ -169,7 +169,7 @@ export default {
         iconColor() {
             return this.value == true ? this.elActiveColor : '#E0E0E0'
         },
-        iconType() {
+        iconType_() {
             const types = {
                 square: {
                     icon: 'zsuicon-checkbox',
@@ -178,6 +178,10 @@ export default {
                 circle: {
                     icon: 'zsuicon-weixuan',
                     selIcon: 'zsuicon-xuanzhong'
+                },
+                dot: {
+                    icon: 'zsuicon-weixuan',
+                    selIcon: 'zsuicon-xuanzhong-dot'
                 }
             }
             return this.value ? types[this.elShape].selIcon : types[this.elShape].icon
