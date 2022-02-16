@@ -16,7 +16,7 @@
             catchtouchmove="true"
             @click="handleClick"
             @touchend="touchendClick"
-            @touchmove.stop.prevent
+            @touchmove.stop.prevent="moveHandle"
         ></view>
         <view
             v-else
@@ -96,6 +96,9 @@ export default {
         }
     },
     methods: {
+        moveHandle() {
+            return
+        },
         handleClick() {
             if (!this.maskabled_) return
             this.$emit('click')
