@@ -153,7 +153,7 @@ export default {
         */
         titleSize: {
             type: [String, Number],
-            default: 32
+            default: 36
         },
         /**
          * header-ft的字体颜色
