@@ -149,7 +149,7 @@ export default {
         },
         /**
          * title的字体大小
-         * 默认为32
+         * 默认为32 --- 2022年2月21日16:08:50更新为36
         */
         titleSize: {
             type: [String, Number],
