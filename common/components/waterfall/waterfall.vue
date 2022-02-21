@@ -111,7 +111,7 @@ export default {
             console.log(e)
         },
         async splitData() {
-            // 前4个直接展示，不做瀑布流
+            // 前4个不做瀑布流或this.copyLength - this.fixedNum个做瀑布流
             if (this.tempList.length >= this.copyLength - this.fixedNum) {
                 // if (this.tempList.length >= this.fixedNum && this.leftList.length === 0 && this.rightList.length === 0) {
                 const firstList = this.tempList.splice(0, this.fixedNum)
