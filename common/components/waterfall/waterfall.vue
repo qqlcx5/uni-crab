@@ -70,7 +70,8 @@ export default {
             tempList: [],
             children: [],
             timer: null,
-            setTimeoutNum: 0
+            setTimeoutNum: 0,
+            copyLength: 0
         }
     },
     computed: {
@@ -93,6 +94,7 @@ export default {
             this.tempList = this.tempList.concat(this.$deepClone(nVal.slice(startIndex)))
             // console.log('copyFlowListcopyFlowListcopyFlowListcopyFlowList')
             this.setTimeoutNum = 0
+            this.copyLength = nVal.length
             this.splitData()
         }
     },
@@ -110,7 +112,7 @@ export default {
         },
         async splitData() {
             // 前4个直接展示，不做瀑布流
-            if (this.tempList.length >= this.fixedNum) {
+            if (this.tempList.length >= this.copyLength - this.fixedNum) {
                 // if (this.tempList.length >= this.fixedNum && this.leftList.length === 0 && this.rightList.length === 0) {
                 const firstList = this.tempList.splice(0, this.fixedNum)
                 this.leftList = this.leftList.concat(firstList.filter((o, i) => i % 2 === 0))
