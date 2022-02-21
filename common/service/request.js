@@ -184,12 +184,12 @@ export function setHttpConfig({ apiConfig, header = {} }) {
         header
     }
     zzspApiConfig = Object.assign({}, zzspApiConfig, newConfig)
+    zzspApiConfig.domainList = zzspApiConfig.domainList.filter(o => o)
     if (!apiConfig.domainList || !apiConfig.domainList.length) {
         console.error('-----------至少设置一个baseURL地址(domainList)---------')
         return
     }
-    const apiCatch = uni.getStorageSync(commonConfig.curApiCatch)
-    setApiConfig(false, apiCatch && apiCatch.url)
+    setApiConfig()
 }
 
 /**
@@ -199,15 +199,17 @@ export function setHttpConfig({ apiConfig, header = {} }) {
 */
 export function setApiConfig(force = false, url = '') {
     const newTime = +new Date()
-    let apiCatch = uni.getStorageSync(commonConfig.curApiCatch)
+    let apiCatch = uni.getStorageSync(commonConfig.curApiCatch) || {}
     // #ifdef MP-WEIXIN
     // 切换的域名有效
-    if (apiCatch) {
+    if (Object.keys(apiCatch).length) {
         // 时间超过缓存时间 要切回来,特殊域名不过期
         if ((!apiCatch.isSpecial && apiCatch.saveTime < newTime - zzspApiConfig.apiCatchTime) || force || url) {
             console.log('-----------请求域名缓存超时或被强行切换---------')
             let currentIndex = zzspApiConfig.domainList.findIndex(o => o === apiCatch.url)
-            currentIndex = currentIndex === -1 ? 0 : currentIndex + 1 >= zzspApiConfig.domainList.length ? 0 : currentIndex + 1
+            if (force || url) {
+                currentIndex = currentIndex === -1 ? 0 : currentIndex + 1 >= zzspApiConfig.domainList.length ? 0 : currentIndex + 1
+            }
             apiCatch = {
                 saveTime: newTime,
                 url: url || zzspApiConfig.domainList[currentIndex],
@@ -225,9 +227,6 @@ export function setApiConfig(force = false, url = '') {
         uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
     }
     // #endif
-    if (!apiCatch) {
-        apiCatch = {}
-    }
     // #ifdef H5
     // H5本地走代理
     apiCatch.url = process.env.NODE_ENV === 'production' ? zzspApiConfig.domainList[0] : zzspApiConfig.proxyName
