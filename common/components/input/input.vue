@@ -46,6 +46,7 @@
                 :maxlength="maxlength_"
                 :focus="focus_"
                 :type="inputType"
+                :fixed="fixed"
                 :value="inputValue_"
                 :placeholder="placeholder"
                 :password="type === 'password' && !showPassword"
@@ -289,7 +290,10 @@ export default {
             default: 0
         },
         // 是否必须校验
-        required: Boolean
+        required: Boolean,
+        // 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true
+        // 仅在type = textarea下生效
+        fixed: Boolean
     },
     data() {
         return {
