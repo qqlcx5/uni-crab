@@ -14,7 +14,7 @@
                     @click="changeTab(item.app_page, index)"
                 >
                     <view
-                        v-if="!isIm_ && item.app_page_type==='user_page' && getUnread_"
+                        v-if="!isIm_ && is_show_ws_ && item.app_page_type==='user_page' && getUnread_"
                         class="c-tabbar-tip"
                     ></view>
                     <view
@@ -49,7 +49,7 @@
 
 <script>
 import {
-    mapGetters
+    mapGetters, mapState
 } from 'vuex'
 export default {
     name: 'CTabbar',
@@ -89,6 +89,9 @@ export default {
         }
     },
     computed: {
+        ...mapState({
+            shopInfo_: (state) => state.config.shopInfo ? state.config.shopInfo : {}
+        }),
         list_() {
             let tabbarArr = []
             // 初始化空
@@ -151,7 +154,12 @@ export default {
             return (icon) => {
                 return this.$c.isImg(icon)
             }
-        }
+        },
+        // 是否隐藏im入口
+        is_show_ws_() {
+            const { is_show_ws } = this.shopInfo_
+            return is_show_ws
+        },
     },
     created() {
         // #ifdef H5
