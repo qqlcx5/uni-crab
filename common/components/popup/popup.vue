@@ -11,7 +11,7 @@
             :style="{ zIndex: zIndex }"
         >
             <c-mask
-                v-if="mask_"
+                v-if="mask_ && fixed"
                 :show="innerPopupFlag"
                 z-index="1"
                 :maskabled="maskabled"

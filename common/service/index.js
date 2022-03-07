@@ -154,7 +154,6 @@ export default function requestBefore(name, query = {}, modifyObj = {}, type) {
 async function forceLogin(catchObj, name, res) {
     if (name === 'shopInfo' && res.data && res.data.force_login === 1 && infoFirstRequest) {
         // 第一次进来,一般是在中转页
-        // if(!curPage) return showLoginModal({ catchObj, content: res.msg, showCancel: false });
         if (curPage && curPage.$config && !curPage.$config.forceLoginWhite.includes(curPage.$Route.name)) {
             infoFirstRequest = false
             const { data: { token = false } } = await requestBefore('wxuserinfo', {}, {

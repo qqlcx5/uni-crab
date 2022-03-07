@@ -55,9 +55,6 @@ const stockNullText = ''
 // 强制登录白名单[路由名称， 路由名称]
 const forceLoginWhite = ['login', 'sms-login', 'wechatAuth', 'storeClose', 'bindMobile', 'redirect', 'agreement']
 
-// 埋点白名单
-const trajectoryWhite = ['home', 'redirect', 'businessCard']
-
 export default {
     env,
     invitationCodeCatchName,
@@ -70,7 +67,6 @@ export default {
     stockNullText,
     uuidCatchName,
     forceLoginWhite,
-    trajectoryWhite,
     loginQueryCatchName,
     shareBusinessCardName,
     firstIntPageCatchName,
