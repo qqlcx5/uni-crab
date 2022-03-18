@@ -1,10 +1,10 @@
 export default class CountDown {
-    constructor() {
+    constructor(showDays = false) {
         this.timer = null;
         this.taskList = [];
         this.callback = null;
         this.isRun = false;
-        this.showDays = false;
+        this.showDays = showDays;
     }
     formatTime(timestamp) {
       // 小于等于0的话，结束倒计时
