@@ -131,7 +131,7 @@ export default {
         // 是否开启图片长按识别小程序码菜单
         showMenuByLongpress: {
             type: [String, Boolean],
-            default: false
+            default: true
         },
         // 可选值有normal/update
         type: {
