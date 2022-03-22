@@ -1,5 +1,5 @@
 <template>
-    <view class="c-tabbar">
+    <view class="c-tabbar" id="cTabbar">
         <c-fixed-menu
             v-model="showTabbar_"
             duration="0"
