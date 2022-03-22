@@ -177,7 +177,8 @@ export default {
                 type: e.type || 'getphonenumber',
                 detail: {
                     encryptedData: e.detail.encryptedData,
-                    iv: e.detail.iv
+                    iv: e.detail.iv,
+                     newCode: e.detail.code
                 }
             })
         },

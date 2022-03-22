@@ -103,6 +103,10 @@
                                         'in-range': day.multiple,
                                         'end-date':day.afterMultiple,
                                     }"
+									:style="[
+										rangColor(day),
+										checkUserThemeColor(day,(calendar.fullDate === day.fullDate && !day.isDay))
+									]"
                                     @click="choiceDate(day)"
                                 >
                                     <!-- 有额外信息，则添加小圆点 -->
@@ -111,9 +115,15 @@
                                         class="c-calendar-item__circle"
                                     ></text>
                                     <!-- 当前日期 -->
-                                    <text class="c-calendar-item__text">{{ day.date }}</text>
+                                    <text class="c-calendar-item__text"
+									:style="[
+										textColor(day)
+									]"
+									>{{ day.date }}</text>
                                     <!-- 额外信息 -->
-                                    <text class="c-calendar-item__lunar-text">{{ day.extraInfo ? day.extraInfo.text : day.isDay ? '今天' : lunar ? (day.lunar.IDayCn === '初一'?day.lunar.IMonthCn:day.lunar.IDayCn) : '' }}</text>
+                                    <text class="c-calendar-item__lunar-text" :style="[
+										textColor(day)
+									]">{{ day.extraInfo ? day.extraInfo.text : day.isDay ? '今天' : lunar ? (day.lunar.IDayCn === '初一'?day.lunar.IMonthCn:day.lunar.IDayCn) : '' }}</text>
                                 </view>
                             </template>
                         </view>
@@ -211,7 +221,7 @@ export default {
         },
         hasExitToday() {
             return Object.values(this.weeks).filter(week => week.filter(o => o.isDay).length).length > 0
-        }
+        },
     },
     watch: {
         value(value) {
@@ -250,6 +260,32 @@ export default {
         }
     },
     methods: {
+		textColor(day){
+			const {beforeMultiple,afterMultiple,isDay,multiple}  = day;
+			if(this.checkThemeColor  && (beforeMultiple|| afterMultiple)){
+				return {color:'#fff'} 
+			}else if(this.checkThemeColor  && (day.isDay || day.multiple)){
+				return {color:this.checkThemeColor} 
+			}
+			return ""
+		},
+		rangColor(day){
+		    if(this.checkThemeColor && day.multiple){
+				return {
+					backgroundColor:this.$c.colorToRgba(this.checkThemeColor, 0.1)
+				}
+		    }
+			return ""
+		},
+		checkUserThemeColor(day,isChecked){
+			const {beforeMultiple,afterMultiple}  = day;
+			if(this.checkThemeColor && (beforeMultiple || afterMultiple || isChecked)){
+				return {
+					backgroundColor:this.checkThemeColor
+				};
+			}
+			return "";
+		},
         /**
          * 初始化日期显示
          * @param {Object} date
