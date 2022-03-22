@@ -88,6 +88,20 @@ export default {
             }
         }
     },
+    watch: {
+        showTabbar_: {
+            async handler() {
+                const data = await this.$c.getRect.call(this, '#cTabbar')
+                this.$emit('tabbarheightchange', {
+                    type: 'change',
+                    detail: {
+                        height: data?.height ?? 0
+                    }
+                })
+            },
+            immediate: true
+        }
+    },
     computed: {
         ...mapState({
             shopInfo_: (state) => state.config.shopInfo ? state.config.shopInfo : {}
