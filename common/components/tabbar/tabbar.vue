@@ -11,7 +11,7 @@
                     v-for="(item, index) in list_"
                     :key="index"
                     class="flex-1"
-                    @click="changeTab(item.app_page, index)"
+                    @click="changeTab(item.app_page, index,item.query)"
                 >
                     <view
                         v-if="!isIm_ && is_show_ws_ && item.app_page_type==='user_page' && getUnread_"
@@ -172,9 +172,9 @@ export default {
         // #endif
     },
     methods: {
-        changeTab(url, index) {
+        changeTab(url, index, query = {}) {
             if (this.selectIndex_ === index || !url) return
-            this.$jump(url.length <= 1 ? 'home' : url, {}, 'replace')
+            this.$jump(url.length <= 1 ? 'home' : url, query, 'replace')
         }
     }
 }
