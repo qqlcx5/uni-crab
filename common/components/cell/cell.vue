@@ -100,7 +100,7 @@
  * @property {Object} iconSize 左边图标的大小
  * @property {Object} iconRadius 左边图标圆角
  * @property {String} value 右侧内容
- * @property {String} flex 是否左右显示
+ * @property {String} c-flex 是否左右显示
  * @property {String} label 标题下方的描述信息
  * @property {Boolean} border 是否显示cell的下边框（默认true）
  * @property {Boolean} center 是否使内容垂直居中（默认false）
@@ -384,7 +384,7 @@ export default {
         font-weight: 400;
         line-height: 1.4;
         margin-top: $spacing-col-base / 2;
-        color: $color-gray;
+        color: $color-grey;
         font-size: $font-sm;
 
         &--large {
@@ -400,7 +400,7 @@ export default {
         @include flex(row);
         justify-content: flex-end;
         flex: 2;
-        color: $color-gray;
+        color: $color-grey;
         font-size: $font-sm;
 
         &--large {

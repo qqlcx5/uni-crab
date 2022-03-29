@@ -1,0 +1,11 @@
+@for $i from 20 through 80 {
+    @if $i % 2 == 0 {
+        .c-fs-#{$i} {
+            font-size: #{$i}rpx;
+        }
+    }
+}
+
+.c-bold {
+    font-weight: bold;
+}

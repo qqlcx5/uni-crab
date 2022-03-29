@@ -159,7 +159,9 @@ export default {
 
 <style lang="scss" scoped>
 .c-radio-group {
-    display: block;
-    width: 100%;
+    /* #ifndef MP || APP-NVUE */
+    display: flex;
+    flex-wrap: wrap;
+    /* #endif */
 }
 </style>

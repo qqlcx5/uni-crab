@@ -86,5 +86,9 @@ export default {
     showExpand: {
         type: Boolean,
         default: true
-    }
+    },
+	checkThemeColor:{
+		type:String,
+		default:""
+	}
 }

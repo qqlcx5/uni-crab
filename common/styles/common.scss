@@ -4,24 +4,6 @@ scroll-view ::-webkit-scrollbar {
     color: transparent;
     display: none;
 }
-
-.c-content {
-    // max-width: $max-width;
-    // margin: 0 auto;
-}
-.bg-fff {
-    background-color: #fff;
-}
-.c-333 {
-    color: #333;
-}
-.c-666 {
-    color: #666;
-}
-.c-999 {
-    color: #999;
-}
-
 // 字体对齐方式
 .c-tl {
     text-align: left;
@@ -32,43 +14,9 @@ scroll-view ::-webkit-scrollbar {
 .c-tr {
     text-align: right;
 }
-// 字体大小
-.c-font-sm {
-    font-size: $font-sm;
-}
-.c-font {
-    font-size: $font-base;
-}
-.c-font-lg {
-    font-size: $font-lg;
-}
-.c-font-xl {
-    font-size: $font-xl;
-}
-// 基础颜色
-.c-text {
-    color: $color-text;
-}
-.c-sub-text {
-    color: $color-sub-text;
-}
-.c-text-inverse {
-    color: $color-text-inverse;
-}
-.c-gray {
-    color: $color-gray;
-}
-.c-placeholder {
-    color: $color-placeholder;
-}
-.c-disable {
-    color: $color-disable;
-}
 // 通过基础的 12 分栏，迅速简便地创建布局
 .c-row {
     padding: $spacing-col-base $spacing-row-base;
-    @include flex(row);
-    flex-wrap: wrap;
     &-sm {
         padding: $spacing-col-base / 2 $spacing-col-base / 2;
         [class*="c-col-"] {
@@ -86,66 +34,15 @@ scroll-view ::-webkit-scrollbar {
 [class*="c-col-"] {
     padding: $spacing-col-base $spacing-row-base;
     position: relative;
-    min-height: 1px;
-    @include flex(column);
 }
 .c-col-1 {
     padding: 0;
-    width: 8.33333333%;
 }
 .c-col-2 {
     padding: 0;
-    width: 16.66666667%;
 }
 .c-col-3 {
     padding: 0;
-    width: 25%;
-}
-.c-col-4 {
-    width: 33.33333333%;
-}
-.c-col-5 {
-    width: 41.66666667%;
-}
-.c-col-6 {
-    width: 50%;
-}
-.c-col-7 {
-    width: 58.33333333%;
-}
-.c-col-8 {
-    width: 66.66666667%;
-}
-.c-col-9 {
-    width: 75%;
-}
-.c-col-10 {
-    width: 83.33333333%;
-}
-.c-col-11 {
-    width: 91.66666667%;
-}
-.c-col-12 {
-    width: 100%;
-}
-
-// 圆角
-.c-radius-sm {
-    border-radius: $border-radius-sm;
-    overflow: hidden;
-}
-.c-radius,
-.c-radius-base {
-    border-radius: $border-radius-base;
-    overflow: hidden;
-}
-.c-radius-lg {
-    border-radius: $border-radius-lg;
-    overflow: hidden;
-}
-.c-radius-circle {
-    $border-radius-circle: 50%;
-    overflow: hidden;
 }
 
 // 旋转动画
@@ -156,148 +53,6 @@ scroll-view ::-webkit-scrollbar {
     to {
         transform: rotate(360deg);
     }
-}
-
-/*
-  字体换行
-*/
-.c-ellipsis,
-.c-ellipsis-1 {
-    @include ellipsis();
-}
-
-.c-ellipsis-2 {
-    @include ellipsis(2);
-}
-
-.c-ellipsis-3 {
-    @include ellipsis(3);
-}
-
-/*
-  流式布局
-*/
-.flex {
-    @include flex(row);
-}
-
-/*
-  不加宽度会有溢出bug
-*/
-.flex-1 {
-    position: relative;
-    flex: 1;
-    width: 50%;
-}
-
-.flex-wrap {
-    flex-wrap: wrap;
-}
-.flex-ajcenter {
-    @include flex(row);
-    align-items: center;
-    justify-content: center;
-}
-.flex-space-between {
-    @include flex(row);
-    align-items: center;
-    justify-content: space-between;
-}
-
-.flex-column {
-    @include flex;
-}
-
-.align-stretch {
-    align-items: stretch;
-}
-
-.align-center {
-    align-items: center;
-}
-
-.align-start {
-    align-items: flex-start;
-}
-
-.align-end {
-    align-items: flex-end;
-}
-
-.align-baseline {
-    align-items: baseline;
-}
-
-.align-inherit {
-    align-items: inherit;
-}
-
-.justify-start {
-    justify-content: flex-start;
-}
-
-.justify-center {
-    justify-content: center;
-}
-
-.justify-end {
-    justify-content: flex-end;
-}
-
-.justify-between {
-    justify-content: space-between;
-}
-
-.justify-around {
-    justify-content: space-around;
-}
-
-.justify-inherit {
-    justify-content: inherit;
-}
-
-.self-align-stretch {
-    align-self: stretch;
-}
-
-.self-align-center {
-    align-self: center;
-}
-
-.self-align-start {
-    align-self: start;
-}
-
-.self-align-end {
-    align-self: end;
-}
-
-.self-align-inherit {
-    align-self: inherit;
-}
-
-.self-justify-start {
-    justify-self: start;
-}
-
-.self-justify-center {
-    justify-self: center;
-}
-
-.self-justify-end {
-    justify-self: end;
-}
-
-.self-justify-between {
-    justify-self: between;
-}
-
-.self-justify-around {
-    justify-self: around;
-}
-
-.self-justify-inherit {
-    justify-self: inherit;
 }
 
 // ios安全区域
@@ -321,7 +76,7 @@ scroll-view ::-webkit-scrollbar {
     }
 }
 
-// 金额
+// 金额相关
 .price-com {
     display: inline-flex;
     align-items: flex-end;
@@ -363,30 +118,6 @@ scroll-view ::-webkit-scrollbar {
     font-weight: bold;
 }
 
-/*
-	下划线
-*/
-.c-underline,
-.c-underline__top,
-.c-modal__title {
-    position: relative;
-}
-
-.c-underline::after,
-.c-underline__top::after {
-    content: "";
-    @include abs(null, 0, 0, 0);
-    z-index: 2;
-    height: 1px;
-    transform: scaleY(0.5);
-    background-color: #ededed;
-}
-
-.c-underline__top:after {
-    top: 0;
-    bottom: auto;
-}
-
 // 亮牌特效
 .bright-card {
     position: relative;
@@ -421,62 +152,7 @@ scroll-view ::-webkit-scrollbar {
     }
 }
 
-// 定义内外边距，历遍1-80
-@for $i from 0 through 80 {
-    // 只要双数和能被5除尽的数
-    @if $i % 4 == 0 or $i % 12 == 0 {
-        .hr#{$i} {
-            height: $i + rpx;
-            background-color: $bg-color;
-            display: block;
-        }
-        // ptb30 plr30 p24
-        .ptb#{$i} {
-            padding-top: $i + rpx !important;
-            padding-bottom: $i + rpx !important;
-        }
-        .plr#{$i} {
-            padding-left: $i + rpx !important;
-            padding-right: $i + rpx !important;
-        }
-        .p#{$i} {
-            padding: $i + rpx !important;
-        }
-
-        @each $short, $long in l left, t top, r right, b bottom {
-            // 缩写版，结果如： ml30
-            .m#{$short}#{$i} {
-                margin-#{$long}: $i + rpx !important;
-            }
-            .p#{$short}#{$i} {
-                padding-#{$long}: $i + rpx !important;
-            }
-        }
-    }
-}
-
-.fs20 {
-    font-size: 20rpx !important;
-}
-.fs22 {
-    font-size: 22rpx !important;
-}
-.fs24 {
-    font-size: 24rpx !important;
-}
-.fs26 {
-    font-size: 26rpx !important;
-}
-.fs28 {
-    font-size: 28rpx !important;
-}
-.fs30 {
-    font-size: 30rpx !important;
-}
-.fs32 {
-    font-size: 32rpx !important;
-}
-
+// 按键点击特效
 .ripple {
     position: relative;
     &::after {
@@ -502,4 +178,105 @@ scroll-view ::-webkit-scrollbar {
         //设置初始状态
         transition: 0s;
     }
+}
+// 文字截断省略号
+$ellipsis-lines: 1, 2, 3, 4, 5;
+.c-ellipsis {
+    @include ellipsis(1);
+}
+@each $i in $ellipsis-lines {
+    .c-ellipsis-#{$i} {
+        @include ellipsis($i);
+    }
+}
+// 对其方式
+$vertical-value: baseline, sub, super, top, text-top, middle, bottom, text-bottom, inherit;
+@each $i in $vertical-value {
+    .c-vertical-#{$i} {
+        vertical-align: $i;
+    }
+}
+// 文字不换行
+.c-nowrap {
+    white-space: nowrap;
+}
+// 线
+.c-line {
+    height: 1px;
+    background-color: $border-color;
+    transform: scaleY(0.5);
+    width: 100%;
+}
+// 上下边框
+.c-underline,
+.c-underline__top {
+    position: relative;
+    &::after {
+        content: "";
+        @include abs(null, 0, 0, 0);
+        height: 1px;
+        background-color: $border-color;
+        transform: scaleY(0.5);
+    }
+}
+.c-underline__top::after {
+    top: 0;
+    bottom: auto;
+}
+// 4边边框
+.c-border {
+    position: relative;
+    &::after {
+        content: "";
+        @include abs(0, null, null, 0);
+        width: 200%;
+        height: 200%;
+        transform-origin: 0 0;
+        color: inherit;
+        border: 1px solid $border-color;
+        transform: scale(0.5);
+    }
+}
+// ios安全区域
+.c-safe-area {
+    width: 100%;
+    &-inset-top {
+        @include iosSafeArea(padding-top, 0rpx, top);
+    }
+    &-inset-bottom {
+        @include iosSafeArea(padding-bottom, 0rpx, bottom);
+    }
+}
+// 圆角
+.c-radius-sm {
+    border-radius: $border-radius-sm;
+    overflow: hidden;
+}
+.c-radius {
+    border-radius: $border-radius-base;
+    overflow: hidden;
+}
+.c-radius-lg {
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+}
+.c-radius-circle {
+    border-radius: $border-radius-circle;
+    overflow: hidden;
+}
+
+// 字体位置
+.c-tc {
+    text-align: center;
+}
+.c-tl {
+    text-align: left;
+}
+.c-tr {
+    text-align: right;
+}
+
+// 元素隐藏
+.c-hidden {
+    display: none;
 }

@@ -1,0 +1,71 @@
+.c-flex {
+    @include flex(row);
+}
+
+.c-flex-column {
+    @include flex(column);
+}
+
+.c-flex-wrap {
+    flex-wrap: wrap;
+}
+
+.c-reverse {
+    flex-direction: row-reverse;
+}
+
+.c-column-reverse {
+    flex-direction: column-reverse;
+}
+
+.c-justify-between {
+    justify-content: space-between;
+}
+
+.c-justify-around {
+    justify-content: space-around;
+}
+
+.c-justify-end {
+    justify-content: flex-end;
+}
+
+.c-align-center {
+    align-items: center;
+}
+
+.c-align-start {
+    align-items: flex-start;
+}
+
+.c-align-end {
+    align-items: flex-end;
+}
+
+.c-justify-center {
+    justify-content: center;
+}
+
+.c-row {
+    @include flex(row);
+    flex-wrap: wrap;
+}
+@for $i from 1 through 12 {
+    .c-col-#{$i} {
+        flex: 0 0 calc(#{100 * $i + "%"} / 12);
+        min-width: 0;
+    }
+    @if $i <= 6 {
+        .c-flex-#{$i} {
+            flex: #{$i};
+            min-width: 0;
+        }
+        .c-flex-column {
+            .c-flex-#{$i},
+            .c-col-#{$i} {
+                min-width: auto;
+                min-height: 0;
+            }
+        }
+    }
+}

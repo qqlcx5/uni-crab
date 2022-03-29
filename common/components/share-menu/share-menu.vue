@@ -20,7 +20,7 @@
                 <view
                     class="share-menu-title__right"
                     :style="[titleStyle_]"
-                    :class="[mode !== 'article' ? 'flex align-center' : 'flex-column justify-center']"
+                    :class="[mode !== 'article' ? 'c-flex align-center' : 'flex-column justify-center']"
                 >
                     <slot name="header">
                         <view
@@ -44,7 +44,7 @@
                                 v-else-if="mode === 'integral'"
                                 class="share-menu-bd__price line-block"
                             >
-                                <view class="flex align-center">
+                                <view class="c-flex align-center">
                                     <c-image
                                         src="integral/gold-coin.png"
                                         size="30"
@@ -58,7 +58,7 @@
                                 v-else-if="mode ==='live'"
                                 class="flex-1 line-block"
                             >
-                                <view class="flex align-center">
+                                <view class="c-flex align-center">
                                     <c-image
                                         size="48"
                                         radius="24"

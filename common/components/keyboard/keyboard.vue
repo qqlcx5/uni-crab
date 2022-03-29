@@ -26,7 +26,7 @@
                 ]"
             >
                 <view
-                    class="keyboard-clipboard flex align-center justify-center"
+                    class="keyboard-clipboard c-flex align-center justify-center"
                     :class="[
                         clipboardData.length ? 'keyboard-clipboard--active' : ''
                     ]"
@@ -34,9 +34,9 @@
                 >
                     {{ clipboardData }}
                 </view>
-                <view class="keyboard-hd flex">
+                <view class="c-flex c-plr-24 c-pt-12">
                     <view
-                        class="keyboard-hd__left flex align-center"
+                        class="c-flex c-align-center c-plr-24 c-ptb-20"
                         @click="handleClick($event, 'cancel')"
                     >
                         <slot name="cancel" />
@@ -48,7 +48,7 @@
                             }"
                         >{{ cancelText }}</text>
                     </view>
-                    <view class="keyboard-hd__middle flex flex-1 align-center justify-center">
+                    <view class="c-flex c-flex-1 c-align-center c-justify-center">
                         <c-icons
                             type="zsuicon-tiaozhuan"
                             size="40"
@@ -58,7 +58,7 @@
                         />
                     </view>
                     <view
-                        class="keyboard-hd__right flex align-center justify-end"
+                        class="c-plr-24 c-ptb-20 c-flex c-align-center c-justify-end"
                         @click="handleClick($event, 'submit')"
                     >
                         <slot name="submit" />
@@ -71,20 +71,20 @@
                         >{{ submitText }}</text>
                     </view>
                 </view>
-                <view class="keyboard-bd flex">
+                <view class="keyboard-bd c-flex c-p-6">
                     <view
                         v-if="!simple && keyboardKeys.left && keyboardKeys.left.length"
                         class="keyboard-bd__left"
                     ></view>
                     <view
                         v-if="middle_"
-                        class="keyboard-bd__middle flex flex-wrap"
+                        class="keyboard-bd__middle c-flex c-flex-wrap"
                     >
                         <template v-if="['idcard', 'number'].includes(mode)">
                             <view
                                 v-for="(item, index) in middle_"
                                 :key="index"
-                                class="keyboard-bd__item"
+                                class="keyboard-bd__item c-p-6"
                             >
                                 <keyboard-number
                                     :config="item"
@@ -97,7 +97,7 @@
                             <view
                                 v-for="(item, index) in middle_"
                                 :key="index"
-                                class="keyboard-bd__item"
+                                class="keyboard-bd__item c-p-6"
                                 :class="[
                                     `keyboard-bd__item--${item.type}`
                                 ]"
@@ -118,7 +118,7 @@
                         <view
                             v-for="(item, index) in keyboardKeys.right"
                             :key="index"
-                            class="keyboard-bd__item"
+                            class="keyboard-bd__item c-p-6"
                         >
                             <keyboard-number
                                 :config="item"
@@ -406,35 +406,7 @@ export default {
             pointer-events: auto;
         }
     }
-    &-hd {
-        padding-top: $keyboard-spacing-base;
-        &__left,
-        &__middle,
-        &__right {
-            font-size: 34rpx;
-            height: 88rpx;
-            padding: 0 $spacing-row-lg;
-        }
-        &__left {
-            padding-right: 0;
-        }
-        &__right {
-            padding-left: 0;
-        }
-        &__middle {
-            max-width: calc(100% - 320rpx);
-        }
-        &__left,
-        &__right {
-            font-size: 32rpx;
-            width: 160rpx;
-        }
-    }
     &-bd {
-        padding: $keyboard-spacing-base / 2;
-        &__item {
-            padding: $keyboard-spacing-base / 2;
-        }
         &__middle {
             flex: 1;
         }
