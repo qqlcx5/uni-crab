@@ -233,52 +233,30 @@ export const backPage = () => {
 /**
  *@description 专题页跳转以及后端配置地址跳转
  */
-export const serverJump = ({
-    app_page,
-    id,
-    keyword,
-    cat_id,
-    store_id,
-    hideTitle,
-    is_example
-}, params = {}, method = 'push', errFn) => {
+export const serverJump = (serverData, params = {}, method = 'push', errFn) => {
+    const {
+        app_page,
+        id,
+        keyword,
+        cat_id,
+        store_id,
+        hideTitle,
+        is_example
+    } = serverData
     params = Object.assign({}, formatParams(params || {}), { store_id })
     // 实例数据
     if (is_example === 1) return
     if (!app_page) return
-    if (app_page === 'jumpMp') {
+    if (app_page === 'customMp') {
+        navigateToMiniProgram(serverData)
+    } else if (app_page === 'jumpMp') {
         setTimeout(async () => {
             const { data } = await sendHttp('/ModuleSet/getMpJumpInfo', {
                 id
             }, {
                 loading: true
             })
-            const { app_id: appId, path, param, h5_url: url } = data
-            // #ifdef MP
-            if (appId) {
-                uni.navigateToMiniProgram({
-                    appId,
-                    path,
-                    extraData: param || {}
-                })
-            }
-            // #endif
-            if (url) {
-                // #ifdef MP
-                if (!appId) {
-                    jumpPage('webView', {
-                        url,
-                        hideTitle: true
-                    })
-                }
-                // #endif
-                // #ifdef H5
-                jumpPage('webView', {
-                    url,
-                    hideTitle: true
-                })
-                // #endif
-            }
+            navigateToMiniProgram(data)
         })
     } else if (/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g.test(app_page)) { // 远端地址
         jumpPage('webView', {
@@ -298,7 +276,34 @@ export const serverJump = ({
         jumpPage(app_page, params, method, errFn)
     }
 }
-
+function navigateToMiniProgram(data) {
+    const { app_id: appId, path, param, h5_url: url, hideTitle } = data
+    // #ifdef MP
+    if (appId) {
+        uni.navigateToMiniProgram({
+            appId,
+            path,
+            extraData: param || {}
+        })
+    }
+    // #endif
+    if (url) {
+        // #ifdef MP
+        if (!appId) {
+            jumpPage('webView', {
+                url,
+                hideTitle
+            })
+        }
+        // #endif
+        // #ifdef H5
+        jumpPage('webView', {
+            url,
+            hideTitle
+        })
+        // #endif
+    }
+}
 function formatParams(params = {}) {
     const newParams = {}
     Object.keys(params).forEach(o => {

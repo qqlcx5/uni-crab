@@ -1,5 +1,8 @@
 <template>
-    <view class="c-tabbar" id="cTabbar">
+    <view
+        id="cTabbar"
+        class="c-tabbar"
+    >
         <c-fixed-menu
             v-model="showTabbar_"
             duration="0"
@@ -173,7 +176,7 @@ export default {
         is_show_ws_() {
             const { is_show_ws } = this.shopInfo_
             return is_show_ws
-        },
+        }
     },
     created() {
         // #ifdef H5
@@ -187,8 +190,9 @@ export default {
     },
     methods: {
         changeTab(url, index, query = {}) {
-            if (this.selectIndex_ === index || !url) return
-            this.$jump(url.length <= 1 ? 'home' : url, query, 'replace')
+            if (this.selectIndex_ === index) return
+            if (!url) return this.$toast('暂未开放，敬请期待')
+            this.$jump(url.length === 1 ? 'home' : url, query, 'replace')
         }
     }
 }
