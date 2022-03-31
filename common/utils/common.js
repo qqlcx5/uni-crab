@@ -277,13 +277,13 @@ export const serverJump = (serverData, params = {}, method = 'push', errFn) => {
     }
 }
 function navigateToMiniProgram(data) {
-    const { app_id: appId, path, param, h5_url: url, hideTitle } = data
+    const { app_id: appId, path, param = {}, extraData, h5_url: url, hideTitle } = data
     // #ifdef MP
     if (appId) {
         uni.navigateToMiniProgram({
             appId,
-            path,
-            extraData: param || {}
+            path: path + (param ? `?${param}` : ''),
+            extraData: extraData
         })
     }
     // #endif
