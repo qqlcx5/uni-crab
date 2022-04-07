@@ -87,8 +87,13 @@ export default {
         type: Boolean,
         default: true
     },
-	checkThemeColor:{
-		type:String,
-		default:""
-	}
+    checkThemeColor: {
+        type: String,
+        default: ""
+    },
+    //纯净版本只显示当前月
+    pureMode: {
+        type: Boolean,
+        default: false
+    }
 }

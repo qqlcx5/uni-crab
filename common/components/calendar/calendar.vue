@@ -5,10 +5,11 @@
             :mask="popup"
             :fixed="popup"
             :mode="mode"
+            :show-close="popup"
         >
             <view class="c-calendar__content">
                 <!-- 当前日期 -->
-                <view class="c-calendar-hd flex justify-center align-center">
+            <view class="c-calendar-hd flex justify-center align-center" v-if="!pureMode">
                     <view
                         class="p24"
                         @click.stop="prev('year')"
@@ -61,10 +62,10 @@
                         class="c-calendar__backtoday flex align-center"
                         @click="backToToday"
                     >今天</text>
-                </view>
+                </view> 
                 <view class="c-calendar-bd">
                     <!-- 周日 - 周一 -->
-                    <view class="flex justify-around p24 c-underline">
+                    <view class="flex justify-around p24 c-underline" v-if="!pureMode">
                         <view
                             v-for="week in weekTexts"
                             :key="week"
@@ -91,7 +92,10 @@
                             ]"
                         >
                             <template v-for="(day,dayIndex) in week">
+								<!-- 纯净版 -->
+								<view class="c-calendar-item" v-if="pureMode && day.isGrey"></view>
                                 <view
+									v-else
                                     :key="dayIndex"
                                     class="c-calendar-item"
                                     :class="{
@@ -112,8 +116,10 @@
                                     <!-- 有额外信息，则添加小圆点 -->
                                     <text
                                         v-if="day.extraInfo"
+										:style="day.extraInfo.style"
                                         class="c-calendar-item__circle"
-                                    ></text>
+                                    >										
+									</text>
                                     <!-- 当前日期 -->
                                     <text class="c-calendar-item__text"
 									:style="[
@@ -253,7 +259,8 @@ export default {
             selected: this.selected,
             startDate: this.startDate,
             endDate: this.endDate,
-            range: this.range
+            range: this.range,
+			pureMode:this.pureMode
         })
         if (this.value) {
             this.init(this.date)

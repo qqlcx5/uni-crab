@@ -5,7 +5,8 @@ class Calendar {
         selected,
         startDate,
         endDate,
-        range
+        range,
+		pureMode
     } = {}) {
         // 当前日期
         this.date = this.getDate(new Date()) // 当前初入日期
@@ -23,6 +24,8 @@ class Calendar {
         this.weeks = {}
         // 所有日期信息
         this.calender = []
+		//是否纯净版
+		this.pureMode = (pureMode === undefined) ? false : pureMode;
     }
 
     /**
@@ -299,7 +302,7 @@ class Calendar {
         this.calender = [].concat(
             this._getLastMonthDays(firstDay, dateData), // 上个月末尾几天
             this._currentMonthDys(currentDay, dateData),  // 本月天数
-            this._getNextMonthDays(42 - firstDay - currentDay, dateData)// 下个月开始几天
+           this.pureMode ? [] : this._getNextMonthDays(42 - firstDay - currentDay, dateData)// 下个月开始几天
         )
         this.weeks = this._setArrData(this.calender, 7)
     }
