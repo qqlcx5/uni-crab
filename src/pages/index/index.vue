@@ -54,7 +54,8 @@
             @click="calendarFlag = true"
         >显示日历</c-button>
         <!-- 日历弹窗 -->
-        <c-calendar v-model="calendarFlag" />
+        <!-- v-model="calendarFlag" -->
+        <c-calendar :popup="false" />
         <c-button
             class="mt24"
             type="success"

@@ -6,12 +6,12 @@ class Calendar {
         startDate,
         endDate,
         range,
-		pureMode
+        pureMode
     } = {}) {
         // 当前日期
         this.date = this.getDate(new Date()) // 当前初入日期
         // 打点信息
-        this.selected = selected || [];
+        this.selected = selected || []
         // 范围开始
         this.startDate = startDate
         // 范围结束
@@ -24,8 +24,8 @@ class Calendar {
         this.weeks = {}
         // 所有日期信息
         this.calender = []
-		//是否纯净版
-		this.pureMode = (pureMode === undefined) ? false : pureMode;
+        // 是否纯净版
+        this.pureMode = (pureMode === undefined) ? false : pureMode
     }
 
     /**
@@ -102,7 +102,7 @@ class Calendar {
      * 获取上月剩余天数
      */
     _getLastMonthDays(firstDay, date) {
-        let dateArr = []
+        const dateArr = []
         const full = this.getDate(date, -1, 'month')
         for (let i = firstDay; i > 0; i--) {
             dateArr.push(this._formatDay(`${full.year}-${full.month}-${this._zeroFill(new Date(full.year, full.month, -i + 1).getDate())}`, true))
@@ -126,7 +126,7 @@ class Calendar {
      * 获取下月天数
      */
     _getNextMonthDays(surplus, date) {
-        let dateArr = []
+        const dateArr = []
         const full = this.getDate(date, 1, 'month')
         for (let i = 1; i < surplus + 1; i++) {
             dateArr.push(this._formatDay(`${full.year}-${full.month}-${this._zeroFill(i)}`, true))
@@ -146,9 +146,9 @@ class Calendar {
         const fullDate = this.date.fullDate
         const full = this.getDate(nowDate)
         // 是否今天
-        let isDay = fullDate === nowDate
+        const isDay = fullDate === nowDate
         // 获取打点信息
-        let info = this.selected && this.selected.find((item) => this.dateEqual(nowDate, item.date))
+        const info = this.selected && this.selected.find((item) => this.dateEqual(nowDate, item.date))
 
         // 日期禁用
         let disableBefore = true
@@ -160,7 +160,7 @@ class Calendar {
         if (this.endDate) {
             disableAfter = this.dateCompare(nowDate, this.endDate)
         }
-        let multiples = this.multipleStatus.data
+        const multiples = this.multipleStatus.data
         let checked = false
         let multiplesStatus = -1
         if (this.range) {
@@ -284,7 +284,7 @@ class Calendar {
                 this.multipleStatus.before = fullDate
             }
         }
-        this.multipleStatus.data = this.geDateAll(this.multipleStatus.before, this.multipleStatus.after);
+        this.multipleStatus.data = this.geDateAll(this.multipleStatus.before, this.multipleStatus.after)
         this._getWeek(fullDate)
     }
 
@@ -295,14 +295,14 @@ class Calendar {
     _getWeek(dateData) {
         const {
             year,
-            month,
+            month
         } = this.getDate(dateData)
-        let firstDay = new Date(year, month - 1, 1).getDay()
-        let currentDay = new Date(year, month, 0).getDate()
+        const firstDay = new Date(year, month - 1, 1).getDay()
+        const currentDay = new Date(year, month, 0).getDate()
         this.calender = [].concat(
             this._getLastMonthDays(firstDay, dateData), // 上个月末尾几天
-            this._currentMonthDys(currentDay, dateData),  // 本月天数
-           this.pureMode ? [] : this._getNextMonthDays(42 - firstDay - currentDay, dateData)// 下个月开始几天
+            this._currentMonthDys(currentDay, dateData), // 本月天数
+            this.pureMode ? [] : this._getNextMonthDays(42 - firstDay - currentDay, dateData)// 下个月开始几天
         )
         this.weeks = this._setArrData(this.calender, 7)
     }
