@@ -11,7 +11,7 @@
     >
         <c-popup
             v-model="popupValue"
-            bg-color="#e2e3e7"
+            :bg-color="bgColor"
             mode="bottom"
             :mask="mask"
             show-close="false"
@@ -26,6 +26,7 @@
                 ]"
             >
                 <view
+                    v-if="clipboard"
                     class="keyboard-clipboard c-flex align-center justify-center"
                     :class="[
                         clipboardData.length ? 'keyboard-clipboard--active' : ''
@@ -34,7 +35,10 @@
                 >
                     {{ clipboardData }}
                 </view>
-                <view class="c-flex c-plr-24 c-pt-12">
+                <view
+                    v-if="showTools"
+                    class="c-flex c-plr-24 c-pt-12"
+                >
                     <view
                         class="c-flex c-align-center c-plr-24 c-ptb-20"
                         @click="handleClick($event, 'cancel')"
@@ -48,7 +52,10 @@
                             }"
                         >{{ cancelText }}</text>
                     </view>
-                    <view class="c-flex c-flex-1 c-align-center c-justify-center">
+                    <view
+                        v-if="showDown"
+                        class="c-flex c-flex-1 c-align-center c-justify-center c-ptb-20"
+                    >
                         <c-icons
                             type="zsuicon-tiaozhuan"
                             size="40"
@@ -148,10 +155,23 @@ export default {
             type: String,
             default: 'number'
         },
+        // 背景颜色
+        bgColor: {
+            type: String,
+            default: '#e2e3e7'
+        },
         // 是否显示
         value: {
             type: Boolean,
             default: false
+        },
+        showTools: {
+            type: Boolean,
+            default: true
+        },
+        showDown: {
+            type: Boolean,
+            default: true
         },
         // 是否显示取消
         showCancel: {
@@ -228,7 +248,7 @@ export default {
             // 键盘的输出值
             codeInputValue: '',
             // 剪切板内容
-            clipboardData: '1111',
+            clipboardData: '',
             height: 580,
             popupValue: false
         }
@@ -238,7 +258,7 @@ export default {
         contentStyle_() {
             const contentStyle = {
             }
-            if (this.clipboardData.length) {
+            if (this.clipboard && this.clipboardData.length) {
                 contentStyle.marginTop = '100rpx'
             }
             return contentStyle

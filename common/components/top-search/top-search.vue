@@ -1,39 +1,42 @@
 <template>
     <view
-        class="search-box flex-ajcenter"
+        class="search-box c-flex-ajcenter"
         :style="{backgroundColor: bgColor}"
     >
         <slot name="before" />
-        <c-input
-            v-model="keyword"
-            :confirm-type="confirmType"
-            :focus="focus_"
-            class="search-box__input flex-1"
+        <view
+            class="c-ptb-8 search-box__input c-flex-1"
             :style="{backgroundColor: inputColor}"
-            :radius="32"
-            :disabled="!!linkUrl || disabled_"
-            :placeholder="placeholder"
-            :placeholder-style="placeholderStyle"
-            :clearable="clearable"
-            @click="inputClick"
-            @confirm="confirmInput"
         >
-            <view
-                slot="before"
-                class="search-box__before flex-ajcenter"
+            <c-input
+                v-model="keyword"
+                :confirm-type="confirmType"
+                :focus="focus_"
+                radius="32"
+                :disabled="!!linkUrl || disabled_"
+                :placeholder="placeholder"
+                :placeholder-style="placeholderStyle"
+                :clearable="clearable"
+                @click="inputClick"
+                @confirm="confirmInput"
             >
-                <c-colors
-                    :theme="[searchIconColor]"
-                    :pro="['c']"
+                <view
+                    slot="before"
+                    class="search-box__before c-flex-ajcenter"
                 >
-                    <c-icons
-                        size="32"
-                        color="false"
-                        type="zsuicon-sousuo"
-                    ></c-icons>
-                </c-colors>
-            </view>
-        </c-input>
+                    <c-colors
+                        :theme="[searchIconColor]"
+                        :pro="['c']"
+                    >
+                        <c-icons
+                            size="32"
+                            color="false"
+                            type="zsuicon-sousuo"
+                        ></c-icons>
+                    </c-colors>
+                </view>
+            </c-input>
+        </view>
         <slot name="after" />
     </view>
 </template>
@@ -153,8 +156,7 @@ export default {
     background-color: #fff;
     padding: 16rpx 24rpx;
     &__input {
-        padding: 8rpx 0;
-        border-radius: 32px;
+        border-radius: 32rpx;
         /deep/ .c-input-view {
             background-color: transparent;
         }

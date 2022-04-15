@@ -61,8 +61,8 @@
             min-width: 0;
         }
         .c-flex-column {
-            .c-flex-#{$i},
-            .c-col-#{$i} {
+            & > .c-flex-#{$i},
+            & > .c-col-#{$i} {
                 min-width: auto;
                 min-height: 0;
             }
