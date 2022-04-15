@@ -1,6 +1,6 @@
 {
     "name": "zzsp-saas-ui",
-    "version": "2.3.3",
+    "version": "2.3.9",
     "files": [
         "common",
         "types"
