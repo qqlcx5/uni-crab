@@ -7,183 +7,166 @@
             :mode="mode"
             :show-close="popup"
         >
-            <template v-slot:[dynamicSlotName_]>
-                <view class="c-calendar__content">
-                    <!-- 当前日期 -->
+            <view class="c-calendar__content">
+                <!-- 当前日期 -->
+            <view class="c-calendar-hd flex justify-center align-center" v-if="!pureMode">
                     <view
-                        v-if="!pureMode"
-                        class="c-calendar-hd flex justify-center align-center"
+                        class="p24"
+                        @click.stop="prev('year')"
                     >
-                        <view
-                            class="p24"
-                            @click.stop="prev('year')"
-                        >
-                            <c-icons
-                                type="zsuicon-towards-the-right"
-                                size="36"
-                                rotate="180"
-                            />
-                        </view>
-                        <view
-                            class="p24"
-                            @click.stop="prev('month')"
-                        >
-                            <c-icons
-                                type="zsuicon-tiaozhuan"
-                                size="36"
-                                rotate="180"
-                            />
-                        </view>
-                        <picker
-                            class="p24"
-                            mode="date"
-                            :value="date"
-                            fields="month"
-                            @change="bindDateChange"
-                        >
-                            <text class="c-fs-32 c-text-color">{{ `${nowDate.year ? nowDate.year + '年' : ''}${nowDate.month ? nowDate.month + '月' : ''}` }}</text>
-                        </picker>
-                        <view
-                            class="p24"
-                            @click.stop="next('month')"
-                        >
-                            <c-icons
-                                type="zsuicon-tiaozhuan"
-                                size="36"
-                            />
-                        </view>
-                        <view
-                            class="p24"
-                            @click.stop="next('year')"
-                        >
-                            <c-icons
-                                type="zsuicon-towards-the-right"
-                                size="36"
-                            />
-                        </view>
-                        <text
-                            v-if="backtoday && !hasExitToday"
-                            class="c-calendar__backtoday flex align-center"
-                            @click="backToToday"
-                        >今天</text>
-                    </view>
-                    <view class="c-calendar-bd">
-                        <!-- 周日 - 周一 -->
-                        <view
-                            v-if="!pureMode"
-                            class="flex justify-around p24 c-underline"
-                        >
-                            <view
-                                v-for="week in weekTexts"
-                                :key="week"
-                                class="c-gray c-fs-24"
-                            >
-                                {{ week }}
-                            </view>
-                        </view>
-                        <!-- 所有日期列表 -->
-                        <view class="c-calendar-box">
-                            <!-- 是否显示当前日期 -->
-                            <view
-                                v-if="showMonth && isExpand"
-                                class="c-calendar__month"
-                            >
-                                <text class="c-calendar__month-text">{{ Number(nowDate.month) }}</text>
-                            </view>
-                            <view
-                                v-for="(week,weekIndex) in weeks"
-                                :key="weekIndex"
-                                class="c-calendar-list flex justify-around c-plr-24"
-                                :class="[
-                                    isExpand || expandIndex === weekIndex ? 'c-calendar-list--expand c-ptb-8' : ''
-                                ]"
-                            >
-                                <block
-                                    v-for="(day,dayIndex) in week"
-                                    :key="dayIndex"
-                                >
-                                    <!-- 纯净版 -->
-                                    <view
-                                        v-if="pureMode && day.isGrey"
-                                        class="c-calendar-item"
-                                    ></view>
-                                    <view
-                                        v-else
-                                        class="c-calendar-item"
-                                        :class="{
-                                            'is-disable':day.disable,
-                                            'is-grey':day.isGrey,
-                                            'is-today': day.isDay,
-                                            'is-checked':(calendar.fullDate === day.fullDate && !day.isDay) ,
-                                            'start-date':day.beforeMultiple,
-                                            'in-range': day.multiple,
-                                            'end-date':day.afterMultiple,
-                                        }"
-                                        :style="[
-                                            rangColor(day),
-                                            checkUserThemeColor(day,(calendar.fullDate === day.fullDate && !day.isDay))
-                                        ]"
-                                        @click="choiceDate(day)"
-                                    >
-                                        <!-- 有额外信息，则添加小圆点 -->
-                                        <text
-                                            v-if="day.extraInfo"
-                                            :style="day.extraInfo.style"
-                                            class="c-calendar-item__circle"
-                                        >
-                                        </text>
-                                        <!-- 当前日期 -->
-                                        <text
-                                            class="c-calendar-item__text"
-                                            :style="[
-                                                textColor(day)
-                                            ]"
-                                        >{{ day.date }}</text>
-                                        <!-- 额外信息 -->
-                                        <text
-                                            class="c-calendar-item__lunar-text"
-                                            :style="[
-                                                textColor(day)
-                                            ]"
-                                        >{{ day.extraInfo ? day.extraInfo.text : day.isDay ? '今天' : lunar ? (day.lunar.IDayCn === '初一'?day.lunar.IMonthCn:day.lunar.IDayCn) : '' }}</text>
-                                    </view>
-                                </block>
-                            </view>
-                        </view>
+                        <c-icons
+                            type="zsuicon-towards-the-right"
+                            size="36"
+                            rotate="180"
+                        />
                     </view>
                     <view
-                        v-if="!popup && showExpand"
-                        class="flex justify-center c-ptb-24"
-                        @click="handleSlideToggle"
+                        class="p24"
+                        @click.stop="prev('month')"
                     >
                         <c-icons
                             type="zsuicon-tiaozhuan"
-                            :rotate="isExpand ? -90 : 90"
+                            size="36"
+                            rotate="180"
                         />
                     </view>
-                    <!-- 底部按钮 -->
-                    <view
-                        v-if="popup && showConfirm"
-                        class="c-calendar-ft p24"
-                        @click="confirm"
+                    <picker
+                        class="p24"
+                        mode="date"
+                        :value="date"
+                        fields="month"
+                        @change="bindDateChange"
                     >
-                        <c-colors
-                            :pro="['bgc', 'c']"
-                            :theme="[confirmColor, '#fff']"
-                            type="button"
-                        >
-
-                            <c-button
-                                block
-                                size="large"
-                                shape="circle"
-                                :background="confirmColor"
-                            >{{ confirmText }}</c-button>
-                        </c-colors>
+                        <text class="c-fs-32 c-text-color">{{ `${nowDate.year ? nowDate.year + '年' : ''}${nowDate.month ? nowDate.month + '月' : ''}` }}</text>
+                    </picker>
+                    <view
+                        class="p24"
+                        @click.stop="next('month')"
+                    >
+                        <c-icons
+                            type="zsuicon-tiaozhuan"
+                            size="36"
+                        />
                     </view>
-                    <slot name="footer" />
+                    <view
+                        class="p24"
+                        @click.stop="next('year')"
+                    >
+                        <c-icons
+                            type="zsuicon-towards-the-right"
+                            size="36"
+                        />
+                    </view>
+                    <text
+                        v-if="backtoday && !hasExitToday"
+                        class="c-calendar__backtoday flex align-center"
+                        @click="backToToday"
+                    >今天</text>
+                </view> 
+                <view class="c-calendar-bd">
+                    <!-- 周日 - 周一 -->
+                    <view class="flex justify-around p24 c-underline" v-if="!pureMode">
+                        <view
+                            v-for="week in weekTexts"
+                            :key="week"
+                            class="c-gray c-fs-24"
+                        >
+                            {{ week }}
+                        </view>
+                    </view>
+                    <!-- 所有日期列表 -->
+                    <view class="c-calendar-box">
+                        <!-- 是否显示当前日期 -->
+                        <view
+                            v-if="showMonth && isExpand"
+                            class="c-calendar__month"
+                        >
+                            <text class="c-calendar__month-text">{{ Number(nowDate.month) }}</text>
+                        </view>
+                        <view
+                            v-for="(week,weekIndex) in weeks"
+                            :key="weekIndex"
+                            class="c-calendar-list flex justify-around c-plr-24"
+                            :class="[
+                                isExpand || expandIndex === weekIndex ? 'c-calendar-list--expand c-ptb-8' : ''
+                            ]"
+                        >
+                            <template v-for="(day,dayIndex) in week">
+								<!-- 纯净版 -->
+								<view :key="dayIndex" class="c-calendar-item" v-if="pureMode && day.isGrey"></view>
+                                <view
+									v-else
+                                    :key="dayIndex"
+                                    class="c-calendar-item"
+                                    :class="{
+                                        'is-disable':day.disable,
+                                        'is-grey':day.isGrey,
+                                        'is-today': day.isDay,
+                                        'is-checked':(calendar.fullDate === day.fullDate && !day.isDay) ,
+                                        'start-date':day.beforeMultiple,
+                                        'in-range': day.multiple,
+                                        'end-date':day.afterMultiple,
+                                    }"
+									:style="[
+										rangColor(day),
+										checkUserThemeColor(day,(calendar.fullDate === day.fullDate && !day.isDay))
+									]"
+                                    @click="choiceDate(day)"
+                                >
+                                    <!-- 有额外信息，则添加小圆点 -->
+                                    <text
+                                        v-if="day.extraInfo"
+										:style="day.extraInfo.style"
+                                        class="c-calendar-item__circle"
+                                    >										
+									</text>
+                                    <!-- 当前日期 -->
+                                    <text class="c-calendar-item__text"
+									:style="[
+										textColor(day)
+									]"
+									>{{ day.date }}</text>
+                                    <!-- 额外信息 -->
+                                    <text class="c-calendar-item__lunar-text" :style="[
+										textColor(day)
+									]">{{ day.extraInfo ? day.extraInfo.text : day.isDay ? '今天' : lunar ? (day.lunar.IDayCn === '初一'?day.lunar.IMonthCn:day.lunar.IDayCn) : '' }}</text>
+                                </view>
+                            </template>
+                        </view>
+                    </view>
                 </view>
-            </template>
+                <view
+                    v-if="!popup && showExpand"
+                    class="flex justify-center c-ptb-24"
+                    @click="handleSlideToggle"
+                >
+                    <c-icons
+                        type="zsuicon-tiaozhuan"
+                        :rotate="isExpand ? -90 : 90"
+                    />
+                </view>
+                <!-- 底部按钮 -->
+                <view
+                    v-if="popup && showConfirm"
+                    class="c-calendar-ft p24"
+                    @click="confirm"
+                >
+                    <c-colors
+                        :pro="['bgc', 'c']"
+                        :theme="[confirmColor, '#fff']"
+                        type="button"
+                    >
+
+                        <c-button
+                            block
+                            size="large"
+                            shape="circle"
+                            :background="confirmColor"
+                        >{{ confirmText }}</c-button>
+                    </c-colors>
+                </view>
+                <slot name="footer" />
+            </view>
         </c-popup>
     </view>
 </template>
@@ -229,9 +212,6 @@ export default {
         }
     },
     computed: {
-        dynamicSlotName_() {
-            return this.popup ? 'default' : 'other'
-        },
         popupFlag_: {
             get() {
                 return this.value
@@ -247,7 +227,7 @@ export default {
         },
         hasExitToday() {
             return Object.values(this.weeks).filter(week => week.filter(o => o.isDay).length).length > 0
-        }
+        },
     },
     watch: {
         value(value) {
@@ -280,39 +260,39 @@ export default {
             startDate: this.startDate,
             endDate: this.endDate,
             range: this.range,
-            pureMode: this.pureMode
+			pureMode:this.pureMode
         })
         if (this.value) {
             this.init(this.date)
         }
     },
     methods: {
-        textColor(day) {
-            const { beforeMultiple, afterMultiple, isDay, multiple } = day
-            if (this.checkThemeColor && (beforeMultiple || afterMultiple)) {
-                return { color: '#fff' }
-            } else if (this.checkThemeColor && (day.isDay || day.multiple)) {
-                return { color: this.checkThemeColor }
-            }
-            return ''
-        },
-        rangColor(day) {
-            if (this.checkThemeColor && day.multiple) {
-                return {
-                    backgroundColor: this.$c.colorToRgba(this.checkThemeColor, 0.1)
-                }
-            }
-            return ''
-        },
-        checkUserThemeColor(day, isChecked) {
-            const { beforeMultiple, afterMultiple } = day
-            if (this.checkThemeColor && (beforeMultiple || afterMultiple || isChecked)) {
-                return {
-                    backgroundColor: this.checkThemeColor
-                }
-            }
-            return ''
-        },
+		textColor(day){
+			const {beforeMultiple,afterMultiple,isDay,multiple}  = day;
+			if(this.checkThemeColor  && (beforeMultiple|| afterMultiple)){
+				return {color:'#fff'} 
+			}else if(this.checkThemeColor  && (day.isDay || day.multiple)){
+				return {color:this.checkThemeColor} 
+			}
+			return ""
+		},
+		rangColor(day){
+		    if(this.checkThemeColor && day.multiple){
+				return {
+					backgroundColor:this.$c.colorToRgba(this.checkThemeColor, 0.1)
+				}
+		    }
+			return ""
+		},
+		checkUserThemeColor(day,isChecked){
+			const {beforeMultiple,afterMultiple}  = day;
+			if(this.checkThemeColor && (beforeMultiple || afterMultiple || isChecked)){
+				return {
+					backgroundColor:this.checkThemeColor
+				};
+			}
+			return "";
+		},
         /**
          * 初始化日期显示
          * @param {Object} date
