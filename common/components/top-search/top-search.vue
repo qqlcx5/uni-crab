@@ -120,7 +120,7 @@ export default {
             this.$emit('input', val)
         }
     },
-    mounted() {
+    created() {
         // ios系统版本超过15会有搜索框
         // #ifdef H5
         if (uni.getSystemInfoSync().system.indexOf('iOS 15') !== -1) { this.confirmType = 'done' }
