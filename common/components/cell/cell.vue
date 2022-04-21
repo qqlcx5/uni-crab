@@ -6,7 +6,7 @@
             'c-cell--' + size,
             arrow ? 'c-cell__arrow': '',
             center ? 'c-cell__center': '',
-            flex ?'flex':''
+            flex ?'c-flex':''
         ]"
         :style="[ cellStyle ]"
         @tap="handleClick"
@@ -70,7 +70,7 @@
             ]"
             :style="[ valueStyle ]"
         >
-            <text>{{ value }}</text>
+            <text v-if="value">{{ value }}</text>
             <slot name="value"></slot>
         </view>
         <c-icons
@@ -245,7 +245,7 @@ export default {
         // 右侧图标大小
         arrowSize: {
             type: [String, Number],
-            default: 32
+            default: 28
         },
         arrowColor: {
             type: String,

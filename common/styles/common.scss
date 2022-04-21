@@ -223,6 +223,39 @@ $vertical-value: baseline, sub, super, top, text-top, middle, bottom, text-botto
     top: 0;
     bottom: auto;
 }
+
+// 上下边框
+.c-underline__right,
+.c-underline__left {
+    position: relative;
+    &::after {
+        content: "";
+        @include abs(0, 0, 0);
+        width: 1px;
+        background-color: $border-color;
+        transform: scaleX(0.5);
+    }
+}
+.c-underline__left::after {
+    left: 0;
+    right: auto;
+}
+
+.c-relative {
+    position: relative;
+}
+
+.c-small {
+    font-size: 80%;
+}
+.c-normal {
+    font-weight: normal;
+}
+
+.bg-color {
+    background-color: $bg-color;
+}
+
 // 4边边框
 .c-border {
     position: relative;
@@ -262,6 +295,34 @@ $vertical-value: baseline, sub, super, top, text-top, middle, bottom, text-botto
 }
 .c-radius-circle {
     border-radius: $border-radius-circle;
+    overflow: hidden;
+}
+
+.c-line-through {
+    text-decoration: line-through;
+}
+
+.c-break-all {
+    word-break: break-all;
+}
+
+.c-inline-block {
+    display: inline-block;
+}
+
+.c-absolute {
+    position: absolute;
+}
+
+.c-width-full {
+    width: 100%;
+}
+
+.c-height-full {
+    height: 100%;
+}
+
+.c-over-hidden {
     overflow: hidden;
 }
 

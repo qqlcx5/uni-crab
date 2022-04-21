@@ -45,6 +45,45 @@
 .c-justify-center {
     justify-content: center;
 }
+.c-align-self-start {
+    align-self: flex-start;
+}
+
+.c-align-self-end {
+    align-self: flex-end;
+}
+
+.c-align-self-center {
+    align-self: center;
+}
+
+.c-justify-self-start {
+    justify-self: start;
+}
+
+.c-justify-self-center {
+    justify-self: center;
+}
+
+.c-justify-self-end {
+    justify-self: end;
+}
+
+.c-shrink-0 {
+    flex-shrink: 0;
+}
+
+.c-flex-ajcenter {
+    @extend .c-flex;
+    @extend .c-align-center;
+    @extend .c-justify-center;
+}
+
+.c-flex-column-ajcenter {
+    @extend .c-flex-column;
+    @extend .c-align-center;
+    @extend .c-justify-center;
+}
 
 .c-row {
     @include flex(row);

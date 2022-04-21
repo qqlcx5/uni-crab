@@ -43,7 +43,6 @@ export function setRequestList(reqList) {
         item.type = isExitValue(item, 'type') ? item.type : 'post'
         needCatchList[key] = item
     }
-    console.log(needCatchList)
 }
 /**
  * @description 请求前统一拦截

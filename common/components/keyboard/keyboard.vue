@@ -27,7 +27,7 @@
             >
                 <view
                     v-if="clipboard"
-                    class="keyboard-clipboard c-flex align-center justify-center"
+                    class="keyboard-clipboard c-flex c-align-center c-justify-center"
                     :class="[
                         clipboardData.length ? 'keyboard-clipboard--active' : ''
                     ]"

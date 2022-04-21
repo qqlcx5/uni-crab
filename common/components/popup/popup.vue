@@ -19,6 +19,7 @@
                 @click="maskClose"
             ></c-mask>
             <view
+                v-if="fixed"
                 class="c-modal-hd"
                 :class="[
                     `c-modal-hd--${mode}`,
@@ -27,7 +28,51 @@
                     innerPopupFlag ? 'c-modal-hd--visible' : '',
                 ]"
                 :style="[childStyle_]"
-                @touchmove.stop.prevent
+                @touchmove.stop.prevent="stopPrevent"
+                @click="handleClick"
+            >
+                <!-- 父级加这个会导致子元素scroll-view无法滑动 -->
+                <!-- @touchmove.stop.prevent -->
+                <c-status-bar v-if="custom_" />
+                <view
+                    class="c-modal__close"
+                    :class="[`c-modal__close--${closePos}`]"
+                >
+                    <!-- #ifdef APP-PLUS-NVUE -->
+                    <c-image
+                        v-if="showClose_"
+                        :size="closeSize / 3 * 2"
+                        src="guest/close@2x.png"
+                        @click="close"
+                    />
+                    <!-- #endif -->
+                    <!-- #ifndef APP-PLUS-NVUE -->
+                    <c-icons
+                        v-if="showClose_"
+                        type="zsuicon-guanbi"
+                        :color="closeColor"
+                        :size="closeSize"
+                        @click="close"
+                    />
+                    <!-- #endif -->
+                </view>
+                <view
+                    v-if="!hasTabbar_ && ['top', 'left', 'right'].includes(mode)"
+                    class="c-safe-area c-safe-area-inset-top"
+                ></view>
+                <slot />
+                <view
+                    v-if="!hasTabbar_ && ['bottom', 'left', 'right'].includes(mode)"
+                    class="c-safe-area c-safe-area-inset-bottom"
+                ></view>
+            </view>
+            <view
+                v-else
+                class="c-modal-hd"
+                :class="[
+                    innerPopupFlag ? 'c-modal-hd--visible' : '',
+                ]"
+                :style="[childStyle_]"
                 @click="handleClick"
             >
                 <!-- 父级加这个会导致子元素scroll-view无法滑动 -->
@@ -317,6 +362,9 @@ export default {
         // #endif
     },
     methods: {
+        stopPrevent() {
+            //	return false;
+        },
         moveHandle() {
             return
         },
@@ -378,6 +426,7 @@ export default {
         z-index: -1;
         .c-modal {
             &-hd {
+                opacity: 0;
                 position: relative;
                 z-index: 10;
                 transition-delay: 0ms;
@@ -386,7 +435,6 @@ export default {
                 transition-property: transform, opacity, top;
 
                 &--middle {
-                    opacity: 0;
                     /* #ifndef APP-PLUS-NVUE */
                     max-width: 600rpx;
                     /* #endif */

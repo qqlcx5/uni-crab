@@ -5,12 +5,16 @@
             :mask="popup"
             :fixed="popup"
             :mode="mode"
+            :show-close="popup"
         >
             <view class="c-calendar__content">
                 <!-- 当前日期 -->
-                <view class="c-calendar-hd c-flex c-justify-center c-align-center">
+                <view
+                    v-if="!pureMode"
+                    class="c-calendar-hd c-flex-ajcenter"
+                >
                     <view
-                        class="c-p-24"
+                        class="p24"
                         @click.stop="prev('year')"
                     >
                         <c-icons
@@ -20,7 +24,7 @@
                         />
                     </view>
                     <view
-                        class="c-p-24"
+                        class="p24"
                         @click.stop="prev('month')"
                     >
                         <c-icons
@@ -30,7 +34,7 @@
                         />
                     </view>
                     <picker
-                        class="c-p-24"
+                        class="p24"
                         mode="date"
                         :value="date"
                         fields="month"
@@ -39,7 +43,7 @@
                         <text class="c-fs-32 c-text-color">{{ `${nowDate.year ? nowDate.year + '年' : ''}${nowDate.month ? nowDate.month + '月' : ''}` }}</text>
                     </picker>
                     <view
-                        class="c-p-24"
+                        class="p24"
                         @click.stop="next('month')"
                     >
                         <c-icons
@@ -48,7 +52,7 @@
                         />
                     </view>
                     <view
-                        class="c-p-24"
+                        class="p24"
                         @click.stop="next('year')"
                     >
                         <c-icons
@@ -58,17 +62,20 @@
                     </view>
                     <text
                         v-if="backtoday && !hasExitToday"
-                        class="c-calendar__backtoday c-flex align-center"
+                        class="c-calendar__backtoday c-flex c-align-center"
                         @click="backToToday"
                     >今天</text>
                 </view>
                 <view class="c-calendar-bd">
                     <!-- 周日 - 周一 -->
-                    <view class="c-flex justify-around c-p-24 c-underline">
+                    <view
+                        v-if="!pureMode"
+                        class="c-flex c-justify-around p24 c-underline"
+                    >
                         <view
                             v-for="week in weekTexts"
                             :key="week"
-                            class="c-gray c-flex-1 c-fs-24"
+                            class="c-gray c-fs-24"
                         >
                             {{ week }}
                         </view>
@@ -90,9 +97,17 @@
                                 isExpand || expandIndex === weekIndex ? 'c-calendar-list--expand c-ptb-8' : ''
                             ]"
                         >
-                            <template v-for="(day,dayIndex) in week">
+                            <block
+                                v-for="(day,dayIndex) in week"
+                                :key="dayIndex"
+                            >
+                                <!-- 纯净版 -->
                                 <view
-                                    :key="dayIndex"
+                                    v-if="pureMode && day.isGrey"
+                                    class="c-calendar-item"
+                                ></view>
+                                <view
+                                    v-else
                                     class="c-calendar-item"
                                     :class="{
                                         'is-disable':day.disable,
@@ -112,8 +127,10 @@
                                     <!-- 有额外信息，则添加小圆点 -->
                                     <text
                                         v-if="day.extraInfo"
+                                        :style="day.extraInfo.style"
                                         class="c-calendar-item__circle"
-                                    ></text>
+                                    >
+                                    </text>
                                     <!-- 当前日期 -->
                                     <text
                                         class="c-calendar-item__text"
@@ -129,13 +146,13 @@
                                         ]"
                                     >{{ day.extraInfo ? day.extraInfo.text : day.isDay ? '今天' : lunar ? (day.lunar.IDayCn === '初一'?day.lunar.IMonthCn:day.lunar.IDayCn) : '' }}</text>
                                 </view>
-                            </template>
+                            </block>
                         </view>
                     </view>
                 </view>
                 <view
                     v-if="!popup && showExpand"
-                    class="c-flex justify-center c-ptb-24"
+                    class="c-flex c-justify-center c-ptb-24"
                     @click="handleSlideToggle"
                 >
                     <c-icons
@@ -146,7 +163,7 @@
                 <!-- 底部按钮 -->
                 <view
                     v-if="popup && showConfirm"
-                    class="c-calendar-ft c-p-24"
+                    class="c-calendar-ft p24"
                     @click="confirm"
                 >
                     <c-colors
@@ -257,7 +274,8 @@ export default {
             selected: this.selected,
             startDate: this.startDate,
             endDate: this.endDate,
-            range: this.range
+            range: this.range,
+            pureMode: this.pureMode
         })
         if (this.value) {
             this.init(this.date)
