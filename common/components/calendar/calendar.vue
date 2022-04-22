@@ -14,7 +14,7 @@
                     class="c-calendar-hd c-flex-ajcenter"
                 >
                     <view
-                        class="p24"
+                        class="c-p-24"
                         @click.stop="prev('year')"
                     >
                         <c-icons
@@ -24,7 +24,7 @@
                         />
                     </view>
                     <view
-                        class="p24"
+                        class="c-p-24"
                         @click.stop="prev('month')"
                     >
                         <c-icons
@@ -34,7 +34,7 @@
                         />
                     </view>
                     <picker
-                        class="p24"
+                        class="c-p-24"
                         mode="date"
                         :value="date"
                         fields="month"
@@ -43,7 +43,7 @@
                         <text class="c-fs-32 c-text-color">{{ `${nowDate.year ? nowDate.year + '年' : ''}${nowDate.month ? nowDate.month + '月' : ''}` }}</text>
                     </picker>
                     <view
-                        class="p24"
+                        class="c-p-24"
                         @click.stop="next('month')"
                     >
                         <c-icons
@@ -52,7 +52,7 @@
                         />
                     </view>
                     <view
-                        class="p24"
+                        class="c-p-24"
                         @click.stop="next('year')"
                     >
                         <c-icons
@@ -70,7 +70,7 @@
                     <!-- 周日 - 周一 -->
                     <view
                         v-if="!pureMode"
-                        class="c-flex c-justify-around p24 c-underline"
+                        class="c-flex c-justify-around c-p-24 c-underline"
                     >
                         <view
                             v-for="week in weekTexts"
@@ -163,7 +163,7 @@
                 <!-- 底部按钮 -->
                 <view
                     v-if="popup && showConfirm"
-                    class="c-calendar-ft p24"
+                    class="c-calendar-ft c-p-24"
                     @click="confirm"
                 >
                     <c-colors
