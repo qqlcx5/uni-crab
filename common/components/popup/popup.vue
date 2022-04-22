@@ -426,6 +426,7 @@ export default {
         z-index: -1;
         .c-modal {
             &-hd {
+                opacity: 0;
                 position: relative;
                 z-index: 10;
                 transition-delay: 0ms;
