@@ -75,10 +75,10 @@ function returnPromise(obj) {
                 bgObj,
                 type,
                 bgScale,
-                getBgObj: function() {
+                getBgObj: function () {
                     return params.bgObj
                 },
-                setBgObj: function(newBgObj) {
+                setBgObj: function (newBgObj) {
                     const n = { ...params.bgObj, ...newBgObj }
                     params.bgObj = n
                     bgObj = n
@@ -220,7 +220,7 @@ function returnPromise(obj) {
                     }, 50)
                 })
             }
-            if (_app.abort) return new Promise(() => {})
+            if (_app.abort) return new Promise(() => { })
             const poster = await drawShareImage({
                 Context,
                 type,
@@ -243,7 +243,8 @@ function returnPromise(obj) {
             rs({
                 bgObj,
                 poster,
-                type
+                type,
+                Context
             })
         } catch (e) {
             // TODO handle the exception
@@ -352,7 +353,7 @@ function drawShareImage(obj) {
             setTimeout(() => {
                 _app.log('准备执行draw方法')
                 _app.log('Context:' + Context)
-                const fn = function() {
+                const fn = function () {
                     // _app.showLoading('正在输出图片');
                     let setObj = setCanvasToTempFilePath || {}
                     if (setObj && typeof setObj === 'function') {
@@ -369,7 +370,7 @@ function drawShareImage(obj) {
                         fileType: 'jpg',
                         ...setObj
                     }
-                    const canvasToTempFilePathFn = function() {
+                    const canvasToTempFilePathFn = function () {
                         const toTempFilePathObj = {
                             // 输出为图片
                             ...data,
@@ -1239,7 +1240,7 @@ function drawQrCode(Context, qrCodeObj) {
             obj: qrCodeAlg
         })
     }
-    const getForeGround = function(config) {
+    const getForeGround = function (config) {
         const options = config.options
         if (
             options.pdground &&
