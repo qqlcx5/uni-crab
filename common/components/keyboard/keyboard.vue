@@ -228,7 +228,7 @@ export default {
             // 键盘的输出值
             codeInputValue: '',
             // 剪切板内容
-            clipboardData: '1111',
+            clipboardData: '',
             height: 580,
             popupValue: false
         }

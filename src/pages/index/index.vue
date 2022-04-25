@@ -126,7 +126,6 @@ export default {
         console.log('除:', this.$c.calcFn.divide(1.2, 2))
         try {
             this.$http('shopInfo')
-            console.log(111)
         } catch (error) {
             console.log(error)
         }
