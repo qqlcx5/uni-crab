@@ -51,7 +51,8 @@ export interface FunctionalUtils {
         path: string;
         query: {};
     };
-
+    downLoadFile<T>(file:T):Promise<any>;
+    saveImageToPhotosAlbum<T>(file:T):Promise<any>;
     /**
      * @example 防抖
      */

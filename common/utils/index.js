@@ -20,7 +20,32 @@ export function setArrData(arr = [], num = 2) {
     }
     return temp
 }
-
+export function downLoadFile(file) {
+    return new Promise((r, s) => {
+        uni.downloadFile({
+            url: file,
+            success: res => {
+                res.statusCode === 200 ? r(res): s(res)
+            },
+            fail(res) {
+                s(res)
+            }
+        })
+    })
+}
+export function saveImageToPhotosAlbum(filePath) {
+    return new Promise((r, s) => {
+        uni.saveImageToPhotosAlbum({
+            filePath,
+            success: res => {
+                r(res)
+            },
+            fail(res) {
+                s(res)
+            }
+        })
+    })
+}
 export const isArrayEqual = (a, b, has = true) => {
     if (a.length !== b.length) {
         has = false
@@ -53,7 +78,7 @@ export function numFormat(num, type = 'price') {
  * @parmas src {String} 地址或者icon值
  * @return {Boolean}
  */
-export const isImg = (src) => {
+export const isImg = src => {
     if (!src) return false
     // 这个针对微信或者H5
     if (src.indexOf('data:image') !== -1 || src.indexOf('wxfile') !== -1) return true
@@ -104,10 +129,11 @@ export const parse = (query = {}) => {
 export function getUrlQuery(page) {
     const urlArr = String(page).split('?')
     const queryObj = {}
-    urlArr[1] && urlArr[1].split('&').forEach(o => {
-        const item = o.split('=')
-        item[1] ? queryObj[item[0]] = item[1] : ''
-    })
+    urlArr[1] &&
+        urlArr[1].split('&').forEach(o => {
+            const item = o.split('=')
+            item[1] ? (queryObj[item[0]] = item[1]) : ''
+        })
     return {
         path: urlArr[0],
         query: queryObj
@@ -159,9 +185,13 @@ export const throttle = (function () {
  * @parmas success 成功回调
  * @parmas error 失败回调
  */
-export function copyText({ content, success = (title) => {
-    uni.showToast({ title, icon: 'none', duration: 2000 })
-}, error = () => { } }) {
+export function copyText({
+    content,
+    success = title => {
+        uni.showToast({ title, icon: 'none', duration: 2000 })
+    },
+    error = () => {}
+}) {
     if (!content) return error('复制的内容不能为空 !')
     content = typeof content === 'string' ? content : content.toString() // 复制内容，必须字符串，数字需要转换为字符串
     /**
@@ -185,7 +215,8 @@ export function copyText({ content, success = (title) => {
      * H5端的复制逻辑
      */
     // #ifdef H5
-    if (!document.queryCommandSupported('copy')) { // 为了兼容有些浏览器 queryCommandSupported 的判断
+    if (!document.queryCommandSupported('copy')) {
+        // 为了兼容有些浏览器 queryCommandSupported 的判断
         // 不支持
         error('浏览器不支持')
     }
@@ -261,30 +292,38 @@ export function getRect(selecter, pro = {}) {
                 msg: '请用『方法名』.call(this)来调用'
             })
         }
-        this.$nextTick && this.$nextTick(() => {
-            // 兼容问题
-            setTimeout(() => {
-                // #ifdef H5
-                if (!this.$el) return rej({ mag: '节点获取失败' })// 不存在节点信息就中断
-                // #endif
-                try {
-                    uni.createSelectorQuery()
-                        // #ifndef MP-ALIPAY
-                        .in(this)
+        this.$nextTick &&
+            this.$nextTick(() => {
+                // 兼容问题
+                setTimeout(() => {
+                    // #ifdef H5
+                    if (!this.$el) return rej({ mag: '节点获取失败' }) // 不存在节点信息就中断
                     // #endif
-                    // eslint-disable-next-line no-unexpected-multiline
-                    [isSelectAll ? 'selectAll' : 'select'](selecter).fields({
-                        size: true,
-                        rect: true,
-                        ...pro
-                    }, (data) => {
-                        res(Array.isArray(data) ? (data.length > 1 ? data : data[0]) : data)
-                    }).exec()
-                } catch (error) {
-                    rej({ mag: '节点获取失败' })
-                }
-            }, 100)
-        })
+                    try {
+                        uni.createSelectorQuery()
+                            // #ifndef MP-ALIPAY
+                            .in(this)
+                            [
+                                // #endif
+                                // eslint-disable-next-line no-unexpected-multiline
+                                isSelectAll ? 'selectAll' : 'select'
+                            ](selecter)
+                            .fields(
+                                {
+                                    size: true,
+                                    rect: true,
+                                    ...pro
+                                },
+                                data => {
+                                    res(Array.isArray(data) ? (data.length > 1 ? data : data[0]) : data)
+                                }
+                            )
+                            .exec()
+                    } catch (error) {
+                        rej({ mag: '节点获取失败' })
+                    }
+                }, 100)
+            })
         // #endif
     })
 }
@@ -316,7 +355,9 @@ export function guid(len = 32, firstU = true, radix = null) {
 
     if (len) {
         // 如果指定uuid长度,只是取随机的字符,0|x为位运算,能去掉x的小数位,返回整数位
-        for (let i = 0; i < len; i++) { uuid[i] = chars[0 | (Math.random() * radix)] }
+        for (let i = 0; i < len; i++) {
+            uuid[i] = chars[0 | (Math.random() * radix)]
+        }
     } else {
         let r
         // rfc4122标准要求返回的uuid中,某些位为固定的字符
@@ -399,7 +440,7 @@ function accMul(arg1, arg2) {
     const argInfo1 = dotedAfterInfo(arg1)
     const argInfo2 = dotedAfterInfo(arg2)
     var m = argInfo1.length + argInfo2.length
-    return argInfo1.number * argInfo2.number / Math.pow(10, m)
+    return (argInfo1.number * argInfo2.number) / Math.pow(10, m)
 }
 
 // 说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
@@ -408,7 +449,7 @@ function accMul(arg1, arg2) {
 function accDiv(arg1, arg2) {
     const argInfo1 = dotedAfterInfo(arg1)
     const argInfo2 = dotedAfterInfo(arg2)
-    return accMul((argInfo1.number / argInfo2.number), Math.pow(10, argInfo2.length - argInfo1.length))
+    return accMul(argInfo1.number / argInfo2.number, Math.pow(10, argInfo2.length - argInfo1.length))
 }
 
 function dotedAfterInfo(arg) {
@@ -422,5 +463,5 @@ function dotedAfterInfo(arg) {
 }
 
 export function formatUnit(val, unit = 'rpx', deault = 0) {
-    return !val ? deault : validateFn('number', val) ? (val + unit) : val
+    return !val ? deault : validateFn('number', val) ? val + unit : val
 }
