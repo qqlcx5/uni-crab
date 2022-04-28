@@ -478,9 +478,9 @@ function drawRoundStrokeRect(Context, drawArrayItem = {}) {
 // export
 function drawRoundFillRect(Context, drawArrayItem = {}) {
     let { r } = drawArrayItem
-    const { dx, dy, width, height, backgroundColor } = drawArrayItem
+    const { dx, dy, width, height, backgroundColor, linearGradient } = drawArrayItem
     r = r || width * 0.1
-
+    let bg = backgroundColor;
     if (width < 2 * r) {
         r = width / 2
     }
@@ -494,7 +494,12 @@ function drawRoundFillRect(Context, drawArrayItem = {}) {
     Context.arcTo(dx, dy + height, dx, dy, r)
     Context.arcTo(dx, dy, dx + width, dy, r)
     Context.closePath()
-    Context.setFillStyle(backgroundColor)
+    if (linearGradient) {
+        bg = Context.createLinearGradient(dx, dx, dx, dy + height)
+        bg.addColorStop(0, linearGradient[0])
+        bg.addColorStop(1, linearGradient[1])
+    }
+    Context.setFillStyle(bg)
     Context.fill()
 }
 
