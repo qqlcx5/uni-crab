@@ -17,7 +17,7 @@
             >
                 <rich-text
                     v-if="ctrl[i]!=0"
-                    :nodes="[{attrs:{src:loading&&(ctrl[i]||0)<2?loading:(lazyLoad&&!ctrl[i]?placeholder:(ctrl[i]==3?errorImg:n.attrs.src||'')),alt:n.attrs.alt||'',width:n.attrs.width||'',style:'-webkit-touch-callout:none;max-width:100%;display:block'+(n.attrs.height?';height:'+n.attrs.height:'')},name:'img'}]"
+                    :nodes="[{attrs:{src:loading&&(ctrl[i]||0)<2?loading:(lazyLoad&&!ctrl[i]?placeholder:(ctrl[i]==3?errorImg:n.attrs.src||'')),alt:n.attrs.alt||'',width:n.attrs.width||'',style:'-webkit-touch-callout:none;max-width:100%;display:block'+(n.attrs.height?';height:'+n.attrs.height:'')},name:'img',link:n||''}]"
                 />
                 <image
                     class="_image"
@@ -93,7 +93,7 @@
                 hover-class="_hover"
                 :style="n.attrs.style"
                 :data-attrs="n.attrs"
-                @tap.stop="linkpress"
+                @click.stop="linkpress"
             >
                 <trees
                     class="_span"
@@ -241,8 +241,8 @@
     </view>
 </template>
 <script module="handler" lang="wxs" src="./handler.wxs"></script>
-<script>
-global.Parser = {};
+<script>    
+global.Parser =  {};
 import trees from './trees'
 const errorImg = require('../libs/config.js').errorImg;
 export default {
@@ -335,6 +335,12 @@ export default {
         },
         imgtap(e) {
             var attrs = e.currentTarget.dataset.attrs;
+            var link = e.currentTarget.dataset.attrs.link
+            //console.error(link)
+            //console.error(attrs)
+            if(link){
+                this.$jump(link)
+            }
             if (!attrs.ignore) {
                 var preview = true,
                     data = {
@@ -353,6 +359,7 @@ export default {
                     })
                 }
             }
+
         },
         loadImg(e) {
             var i = e.currentTarget.dataset.i;
@@ -379,6 +386,7 @@ export default {
             }
         },
         linkpress(e) {
+            console.error(123456)
             var jump = true,
                 attrs = e.currentTarget.dataset.attrs;
             attrs.ignore = () => jump = false;
@@ -446,7 +454,7 @@ export default {
             });
         },
         _loadVideo(e) {
-            this.$set(this.ctrl, e.target.dataset.i, 0);
+                 this.$set        (this.ctrl, e.target.dataset.i, 0);
         }
     }
 }
@@ -465,7 +473,7 @@ export default {
 
 ._hover {
     text-decoration: underline;
-    opacity: 0.7;
+    /* opacity: 0.7; */
 }
 
 ._img {
@@ -669,5 +677,9 @@ export default {
     border-color: transparent transparent transparent white;
     border-style: solid;
     border-width: 15px 0 15px 30px;
+}
+._a {
+    padding: 0;
+    margin: 0;
 }
 </style>
