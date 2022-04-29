@@ -6,9 +6,9 @@
 -->
 <template>
     <view
-        class="ca-keyboard-car"
+        class="c-keyboard-car"
         :class="[
-            `ca-keyboard-car--${config_.operation}`,
+            `c-keyboard-car--${config_.operation}`,
             config_.operation !== 'empty' && ripple ? 'ripple': ''
         ]"
         @click.stop="handleClick"
@@ -20,9 +20,9 @@
             <text
                 v-for="(item, index) in config_.value"
                 :key="index"
-                class="ca-keyboard-car__tab"
+                class="c-keyboard-car__tab"
                 :class="[
-                    active === index ? 'ca-keyboard-car__tab--active' : ''
+                    active === index ? 'c-keyboard-car__tab--active' : ''
                 ]"
             >
                 {{ item }}
@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss">
-.ca-keyboard-car {
+.c-keyboard-car {
     overflow: hidden;
     position: relative;
     background-color: #ffffff;

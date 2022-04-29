@@ -43,7 +43,6 @@ export function setRequestList(reqList) {
         item.type = isExitValue(item, 'type') ? item.type : 'post'
         needCatchList[key] = item
     }
-    console.log(needCatchList)
 }
 /**
  * @description 请求前统一拦截
@@ -220,7 +219,6 @@ async function responseSuccess(res, catchObj, query) {
         }
         catchObj.toast && showToast(getVariableType(catchObj.toast) === 'Boolean' ? res.msg : catchObj.toast, 1)
     } else {
-        console.log(res.code, catchObj.url, zzspApiConfig.refreshApi, '------token错误，需要登录，可能未登录')
         if (res.code === 20200 || (res.code === 20202 && catchObj.url === zzspApiConfig.refreshApi)) { // token错误，需要登录，可能未登录
             showLoginModal({ catchObj, content: res.data ? res.data.msg : res.msg })
         } else if (res.code !== 20202) {

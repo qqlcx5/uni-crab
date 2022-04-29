@@ -1,0 +1,60 @@
+// 字体颜色
+.c-primary {
+    color: $color-primary;
+}
+.c-info {
+    color: $color-info;
+}
+.c-success {
+    color: $color-success;
+}
+.c-warning {
+    color: $color-warning;
+}
+.c-danger {
+    color: $color-danger;
+}
+.c-text {
+    color: $color-text;
+}
+.c-sub-text {
+    color: $color-sub-text;
+}
+.c-inverse {
+    color: $text-inverse-color;
+}
+.c-grey,
+.c-gray {
+    color: $color-grey;
+}
+.c-placeholder {
+    color: $color-placeholder;
+}
+.c-disabled {
+    color: $color-disable;
+}
+
+.c-white {
+    color: #fff;
+}
+
+// 背景颜色
+.c-primary-bg {
+    background-color: $color-primary;
+}
+.c-info-bg {
+    background-color: $color-info;
+}
+.c-success-bg {
+    background-color: $color-success;
+}
+.c-warning-bg {
+    background-color: $color-warning;
+}
+.c-danger-bg {
+    background-color: $color-danger;
+}
+
+.c-white-bg {
+    background-color: #fff;
+}

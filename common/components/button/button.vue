@@ -178,7 +178,7 @@ export default {
                 detail: {
                     encryptedData: e.detail.encryptedData,
                     iv: e.detail.iv,
-                     newCode: e.detail.code
+                    newCode: e.detail.code
                 }
             })
         },

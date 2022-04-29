@@ -362,9 +362,9 @@ export default {
         // #endif
     },
     methods: {
-        stopPrevent(){
-//	return false;
-       },
+        stopPrevent() {
+            //	return false;
+        },
         moveHandle() {
             return
         },
@@ -435,7 +435,6 @@ export default {
                 transition-property: transform, opacity, top;
 
                 &--middle {
-                    opacity: 0;
                     /* #ifndef APP-PLUS-NVUE */
                     max-width: 600rpx;
                     /* #endif */

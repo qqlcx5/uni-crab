@@ -16,7 +16,7 @@
             placeholder="呵呵哈哈哈"
             :placeholder-style="{color:'red'}"
         />
-        <view class="mt24">
+        <view class="c-mt-24">
             使用c-colors有效
             <c-colors
                 :pro="['bgc', 'c']"
@@ -26,7 +26,7 @@
                 <c-button radius="16">继承按钮</c-button>
             </c-colors>
         </view>
-        <view class="mt24">
+        <view class="c-mt-24">
             使用c-colors无效
             <c-colors
                 :pro="['bgc', 'c']"
@@ -48,7 +48,7 @@
             </view>
         </c-modal>
         <c-button
-            class="mt24"
+            class="c-mt-24"
             type="success"
             radius="16"
             @click="calendarFlag = true"
@@ -57,19 +57,19 @@
         <!-- v-model="calendarFlag" -->
         <c-calendar :popup="false" />
         <c-button
-            class="mt24"
+            class="c-mt-24"
             type="success"
             radius="16"
             @click="keyboardFlag = true,keyboardMode = 'number',keyboardSimple = true"
         >显示数字键盘</c-button>
         <c-button
-            class="mt24"
+            class="c-mt-24"
             type="success"
             radius="16"
             @click="keyboardFlag = true,keyboardMode = 'number',keyboardSimple = false"
         >显示数字键盘-含清空</c-button>
         <c-button
-            class="mt24"
+            class="c-mt-24"
             type="success"
             radius="16"
             @click="keyboardFlag = true,keyboardMode = 'car'"
@@ -80,12 +80,19 @@
             :mode="keyboardMode"
             :simple="keyboardSimple"
         />
+        <c-radio-group>
+            <c-radio>111</c-radio>
+        </c-radio-group>
+        <c-checkbox-group>
+            <c-checkbox>111</c-checkbox>
+            <c-checkbox>222</c-checkbox>
+        </c-checkbox-group>
         <c-fixed-menu
             position="bottom"
             height="124"
             destroy-ele
         >
-            <view class="p24">
+            <view class="c-p-24">
                 <c-colors
                     :pro="['bgc', 'c']"
                     :theme="['#f00', '#fff']"
@@ -99,6 +106,8 @@
                 </c-colors>
             </view>
         </c-fixed-menu>
+        <!-- <c-tabbar @tabbarheightchange="handleTabbarHeightChange" /> -->
+        </c-checkbox-group>
     </view>
 </template>
 
@@ -134,6 +143,9 @@ export default {
         })
     },
     methods: {
+        handleTabbarHeightChange(e) {
+            console.log(e)
+        },
         handleModal() {
             this.modalFlag = true
         }
@@ -142,11 +154,6 @@ export default {
 </script>
 
 <style lang="scss">
-.saas-ui-modal {
-    /deep/ .c-btn {
-        background-color: red !important;
-    }
-}
 .content {
     display: flex;
     flex-direction: column;

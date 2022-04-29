@@ -9,12 +9,12 @@
             height="50px"
             position="bottom"
         >
-            <view class="flex c-tabbar-bd c-underline__top">
+            <view class="c-flex c-tabbar-bd c-underline__top">
                 <view
                     v-for="(item, index) in list_"
                     :key="index"
-                    class="flex-1"
-                    @click="changeTab(item.app_page, index,item.query)"
+                    class="c-flex-1 c-flex-column c-align-center"
+                    @click="changeTab(item.app_page, index)"
                 >
                     <view
                         v-if="!isIm_ && is_show_ws_ && item.app_page_type==='user_page' && getUnread_"
@@ -38,7 +38,7 @@
                         ></c-icons>
                     </c-colors>
                     <c-colors
-                        class="c-tabbar__text"
+                        class="c-tabbar__text c-tc"
                         :theme="[selectIndex_ === index ? selColor : color]"
                         :class="[!item.name ? 'bright-card' : '']"
                     >
@@ -107,7 +107,7 @@ export default {
     },
     computed: {
         ...mapState({
-            shopInfo_: (state) => state.config.shopInfo ? state.config.shopInfo : {}
+            shopInfo_: (state) => state?.config?.shopInfo ?? {}
         }),
         list_() {
             let tabbarArr = []
@@ -178,6 +178,20 @@ export default {
             return is_show_ws
         }
     },
+    watch: {
+        showTabbar_: {
+            async handler() {
+                const data = await this.$c.getRect.call(this, '#cTabbar')
+                this.$emit('tabbarheightchange', {
+                    type: 'change',
+                    detail: {
+                        height: data?.height ?? 0
+                    }
+                })
+            },
+            immediate: true
+        }
+    },
     created() {
         // #ifdef H5
         this.curRoute = this.$Route
@@ -201,9 +215,7 @@ export default {
 <style lang="scss" scoped>
 .c-tabbar {
     &-bd {
-        .flex-1 {
-            @include flex(column);
-            align-items: center;
+        .c-flex-1 {
             padding-top: 6px;
         }
     }
@@ -229,7 +241,6 @@ export default {
     }
 
     &__text {
-        text-align: center;
         font-size: 12px;
         line-height: 16px;
         height: 16px;

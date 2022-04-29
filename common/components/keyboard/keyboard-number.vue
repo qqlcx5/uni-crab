@@ -6,9 +6,9 @@
 -->
 <template>
     <view
-        class="ca-keyboard-number"
+        class="c-keyboard-number"
         :class="[
-            `ca-keyboard-number--${config_.operation}`,
+            `c-keyboard-number--${config_.operation}`,
             config_.operation !== 'empty' && ripple ? 'ripple': ''
         ]"
         @click.stop="handleClick($event)"
@@ -67,7 +67,7 @@ export default {
 </script>
 
 <style lang="scss">
-.ca-keyboard-number {
+.c-keyboard-number {
     @include flex(row);
     align-items: center;
     justify-content: center;

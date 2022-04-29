@@ -1,0 +1,87 @@
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+
+/* 最大宽度 */
+$max-width: 750px;
+
+/* 颜色变量 */
+
+/* 行为相关颜色 */
+$color-primary: #3c9cff;
+$color-info: #5bc0de;
+$color-success: #5cb85c;
+$color-warning: #f0ad4e;
+$color-danger: #e64340;
+
+/* 文字基本颜色 */
+$color-text: #333; //主要文字颜色
+$color-sub-text: #666; //次级文字颜色
+$color-grey: #999; //辅助灰色
+$text-inverse-color: #fff; //反色
+$color-placeholder: #ccc;
+$color-disable: #c0c0c0;
+
+// 日历相关配置
+$calendar-color: rgb(60, 156, 255);
+
+/* 背景颜色 */
+$bg-color: #f5f5f5;
+
+$bg-color-hover: #eee;
+
+/* 蒙层颜色 */
+$mask-bg: rgba(0, 0, 0, 0.55);
+
+/* 边框颜色 */
+$border-color: #ededed;
+
+/* 尺寸变量 */
+$input-height: 48rpx;
+$button-height-sm: 56rpx;
+$button-height: 76rpx;
+$button-height-lg: 88rpx;
+
+/* 文字尺寸 */
+$font-sm: 24rpx;
+$font-base: 28rpx;
+$font-lg: 32rpx;
+$font-xl: 48rpx;
+
+/* Border Radius */
+$border-radius-sm: 4rpx;
+$border-radius-base: 8rpx;
+$border-radius-lg: 16rpx;
+$border-radius-circle: 50%;
+
+/* 水平间距 */
+$spacing-row-sm: 8rpx;
+$spacing-row-base: 12rpx;
+$spacing-row-lg: 24rpx;
+
+/* 垂直间距 */
+$spacing-col-sm: 8rpx;
+$spacing-col-base: 12rpx;
+$spacing-col-lg: 24rpx;
+
+// 键盘
+$keyboard-spacing-sm: 8rpx;
+$keyboard-spacing-base: 12rpx;
+$keyboard-border-radius: 8rpx;
+$keyboard-box-shadow: 0 4rpx 0 #d0d1d4;
+$keyboard-border: #ccc;
+
+// 键盘
+$keyboard-spacing-sm: 8rpx;
+$keyboard-spacing-base: 12rpx;
+$keyboard-border-radius: 8rpx;
+$keyboard-box-shadow: 0 4rpx 0 #d0d1d4;
+$keyboard-border: #ccc;
+
+/* 亮牌颜色 */
+$bright-card: #f5f5f5;
+$bright-card-light: #fff;

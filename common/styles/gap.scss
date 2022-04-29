@@ -1,0 +1,45 @@
+// 定义内外边距，历遍1-80
+@for $i from 0 through 80 {
+    // 只要能被2或者4除尽的数
+    @if $i % 2 == 0 or $i % 4 == 0 {
+        .c-hr-#{$i} {
+            height: $i + rpx;
+        }
+        .c-p-#{$i} {
+            padding: $i + rpx;
+        }
+
+        .c-m-#{$i} {
+            margin: $i + rpx;
+        }
+
+        .c-mb-#{$i} {
+            margin-bottom: $i + rpx;
+        }
+
+        .c-plr-#{$i} {
+            padding-left: $i + rpx;
+            padding-right: $i + rpx;
+        }
+
+        .c-mlr-#{$i} {
+            margin-left: $i + rpx;
+            margin-right: $i + rpx;
+        }
+
+        .c-ptb-#{$i} {
+            padding-top: $i + rpx;
+            padding-bottom: $i + rpx;
+        }
+
+        @each $key, $value in l left, t top, r right, b bottom {
+            // 缩写版，结果如： ml30
+            .c-m#{$key}-#{$i} {
+                margin-#{$value}: $i + rpx;
+            }
+            .c-p#{$key}-#{$i} {
+                padding-#{$value}: $i + rpx;
+            }
+        }
+    }
+}
