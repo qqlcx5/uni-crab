@@ -1,11 +1,11 @@
 /*
- * @Descripttion: 
+ * @Descripttion:
  * @version: 1.0
  * @Author: sanhui
  * @Date: 2022-04-15 17:15:03
  */
 export default class CountDown {
-    constructor({ showDays = false }) {
+    constructor({ showDays = false } = {}) {
         this.timer = null
         this.taskList = []
         this.callback = null
@@ -31,18 +31,18 @@ export default class CountDown {
             showHour = Math.floor(timestamp / (60 * 60))
         }
         minute = Math.floor(timestamp / 60) - hour * 60 - day * 24 * 60
-        second =
-            Math.floor(timestamp) -
-            day * 24 * 60 * 60 -
-            hour * 60 * 60 -
-            minute * 60
+        second = Math.floor(timestamp) - day * 24 * 60 * 60 - hour * 60 * 60 - minute * 60
         // 如果小于10，在前面补上一个"0"
         showHour = showHour < 10 ? '0' + showHour : showHour
         minute = minute < 10 ? '0' + minute : minute
         second = second < 10 ? '0' + second : second
         day = day < 10 ? '0' + day : day
         return {
-            day, showHour, minute, second, hour
+            day,
+            showHour,
+            minute,
+            second,
+            hour
         }
     }
     start(callback) {
