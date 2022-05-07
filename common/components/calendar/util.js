@@ -301,8 +301,8 @@ class Calendar {
         let currentDay = new Date(year, month, 0).getDate()
         this.calender = [].concat(
             this._getLastMonthDays(firstDay, dateData), // 上个月末尾几天
-            this._currentMonthDys(currentDay, dateData),  // 本月天数
-           this.pureMode ? [] : this._getNextMonthDays(42 - firstDay - currentDay, dateData)// 下个月开始几天
+            this._currentMonthDys(currentDay, dateData), // 本月天数
+            this.pureMode ? this._getNextMonthDays(35 - firstDay - currentDay, dateData) : this._getNextMonthDays(42 - firstDay - currentDay, dateData) // 下个月开始几天
         )
         this.weeks = this._setArrData(this.calender, 7)
     }
