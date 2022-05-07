@@ -187,6 +187,7 @@ export const throttle = (function () {
  */
 export function copyText({
     content,
+    showToast = true,
     success = title => {
         uni.showToast({ title, icon: 'none', duration: 2000 })
     },
@@ -200,6 +201,7 @@ export function copyText({
     // #ifndef H5
     uni.setClipboardData({
         data: content,
+        showToast,
         success: function () {
             success('复制成功~')
             // this.$toast('复制成功~')
