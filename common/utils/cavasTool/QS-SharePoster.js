@@ -51,7 +51,7 @@ function returnPromise(obj) {
     let { textArray, drawArray, qrCodeArray, imagesArray, bgScale, Context } = obj
     return new Promise(async (rs, rj) => {
         try {
-            loadingText ? _app.showLoading(loadingText) : ''
+            loadingText ? _app.showLoading(loadingText, true) : ''
             if (!Context) {
                 _app.log('没有画布对象,创建画布对象')
                 Context = uni.createCanvasContext(posterCanvasId, _this || null)
