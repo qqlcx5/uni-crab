@@ -1,6 +1,6 @@
 {
     "name": "zzsp-saas-ui",
-    "version": "2.5.9",
+    "version": "2.6.0",
     "files": [
         "common",
         "types"
@@ -82,24 +82,24 @@
         "@vue/cli-plugin-babel": "~4.5.0",
         "@vue/cli-service": "~4.5.0",
         "@vue/shared": "^3.0.0",
+        "babel-eslint": "^10.1.0",
         "babel-plugin-import": "^1.11.0",
         "core-js": "^3.6.5",
         "cross-env": "^7.0.2",
+        "eslint": "^5.16.0",
+        "eslint-loader": "^3.0.2",
+        "eslint-plugin-vue": "^5.2.3",
         "flyio": "^0.6.2",
         "jest": "^25.4.0",
         "mini-types": "*",
         "miniprogram-api-typings": "*",
+        "node-sass": "^4.14.1",
         "postcss-comment": "^2.0.0",
         "regenerator-runtime": "^0.12.1",
+        "sass-loader": "^10.1.0",
         "vue": "^2.6.11",
         "vue-template-compiler": "^2.6.11",
-        "vuex": "^3.2.0",
-        "babel-eslint": "^10.1.0",
-        "eslint": "^5.16.0",
-        "eslint-loader": "^3.0.2",
-        "eslint-plugin-vue": "^5.2.3",
-        "node-sass": "^4.14.1",
-        "sass-loader": "^10.1.0"
+        "vuex": "^3.2.0"
     },
     "browserslist": [
         "Android >= 4.4",
