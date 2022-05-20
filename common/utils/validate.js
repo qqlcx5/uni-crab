@@ -81,11 +81,18 @@ export default function validateReg(type, str, hasMsg = false) {
             case 'enNumber': // 英文数字
                 reg = /^[0-9a-zA-Z]+$/
                 break
+            case 'decimals':
+                reg = /^(\-)?\d+(\.\d{1,2})$/
+                break
             default:
                 reg = ''
                 break
         }
+
         validate = !reg ? (!!str) : reg.test(str)
+        if (type === 'decimals' && validate == false) {
+            validate = /^[0-9]*$/.test(str)
+        }
     }
     return hasMsg ? {
         validate: validate,
