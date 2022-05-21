@@ -883,12 +883,15 @@ function drawText(Context, textArray, bgObj) {
                         } else {
                             row.push(temp)
                             temp = chr[a]
+                            if (a === len - 1) {
+                                row.push(temp)
+                            }
                         }
                     }
                 }
                 // 只显示几行 变量间距lineHeight  变量行数lineNum
                 const allNum = lineNum >= 0 && lineNum < row.length ? lineNum : row.length
-
+                console.log("-7777777777");
                 for (let i = 0; i < allNum; i++) {
                     let str = row[i]
                     if (i === allNum - 1 && allNum < row.length) {
