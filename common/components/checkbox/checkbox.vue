@@ -245,7 +245,7 @@ export default {
             if (!this.value) {
                 // 如果超出最多可选项，提示
                 if (this.parent && checkedNum >= this.parent.max) {
-                    return this.toast(`最多可选${this.parent.max}项`)
+                    return this.$toast(`最多可选${this.parent.max}项`)
                 }
             }
             this.emitEvent()
