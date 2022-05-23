@@ -44,6 +44,10 @@ import { mapState } from 'vuex'
 export default {
     name: 'CCheckbox',
     props: {
+        customMaxToast:{
+             type: Boolean,
+            default: false
+        },
         // checkbox的名称
         name: {
             type: [String, Number],
@@ -245,12 +249,21 @@ export default {
             if (!this.value) {
                 // 如果超出最多可选项，提示
                 if (this.parent && checkedNum >= this.parent.max) {
-                    return this.$toast(`最多可选${this.parent.max}项`)
+                    if(!this.customMaxToast){
+                        this.$toast(`最多可选${this.parent.max}项`)
+                           }else{
+                           this.$emit("maxToast",{
+                              detail:{
+                                  value:this.parent.max
+                                }
+                         }) ; 
+                    }
+                        return
                 }
             }
-            this.emitEvent()
-            // this.$emit('input', !this.value);
-        }
+              this.emitEvent()
+            // this. $ emit('input', !this.value);
+          }
     }
 }
 </script>
