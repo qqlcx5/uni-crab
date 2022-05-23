@@ -438,7 +438,9 @@ export default {
         },
         validate(hasMsg = true) {
             if (!this.pattern) return true
-            if (!this.required && !this.inputValue) return true
+            if (!this.required && !this.inputValue) return {
+                validate: true
+            }
             const validateObj = this.$c.validate(this.pattern, this.inputValue, hasMsg)
             if (hasMsg) {
                 if (!validateObj.validate) {

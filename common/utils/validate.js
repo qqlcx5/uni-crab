@@ -90,7 +90,7 @@ export default function validateReg(type, str, hasMsg = false) {
         }
 
         validate = !reg ? (!!str) : reg.test(str)
-        if (type === 'decimals' && validate == false) {
+        if (type === 'decimals' && validate == false && str != "") {
             validate = /^[0-9]*$/.test(str)
         }
     }
