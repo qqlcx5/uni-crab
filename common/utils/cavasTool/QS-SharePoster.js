@@ -863,7 +863,7 @@ function drawText(Context, textArray, bgObj) {
                 const row = []
                 // 循环出几行文字组成数组
                 for (let sa = 0, slen = splitChars.length; sa < slen; sa++) {
-                    const chr = splitChars[sa].split('')
+                    const chr = Array.from(splitChars[sa]).filter(v => v !== '🏽');
                     let temp = ''
                     for (let a = 0, len = chr.length; a < len; a++) {
                         if (
@@ -891,7 +891,16 @@ function drawText(Context, textArray, bgObj) {
                 }
                 // 只显示几行 变量间距lineHeight  变量行数lineNum
                 const allNum = lineNum >= 0 && lineNum < row.length ? lineNum : row.length
-                console.log("-7777777777");
+
+                //换行回调
+                if (textItem.lineFeed.lineFeedback && row.length > 1) {
+                    textItem.lineFeed.lineFeedback(textItem, row.length);
+                }
+                //意外换行
+                if (allNum > 1 && (textItem.size * 2 > textItem.height) && textItem.lineFeed.accidentLineFeed) {
+                    textItem.lineFeed.accidentLineFeed(textItem, row.length);
+                }
+
                 for (let i = 0; i < allNum; i++) {
                     let str = row[i]
                     if (i === allNum - 1 && allNum < row.length) {
