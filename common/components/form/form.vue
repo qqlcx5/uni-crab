@@ -22,6 +22,10 @@ export default {
         validateToast: {
             type: [Boolean, String],
             default: true
+        },
+        disabled: {
+            type: [Boolean, String],
+            default: false
         }
     },
     data() {
@@ -35,6 +39,9 @@ export default {
         },
         validateToast_() {
             return String(this.validateToast) !== 'false'
+        },
+        disabled_() {
+            return String(this.disabled) !== 'false'
         }
     },
     created() {
