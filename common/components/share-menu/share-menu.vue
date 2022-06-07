@@ -78,7 +78,7 @@
                         open-type="share"
                         height="142"
                     >
-                        <view class="flex-column c-align-center">
+                        <view class="flex-column c-align-center c-justify-center">
                             <c-image
                                 size="90"
                                 src="common/wechat-share.png"
@@ -92,7 +92,7 @@
                 <!-- #ifdef H5 -->
                 <template v-if="$isWechatBrowser">
                     <view
-                        class="share-menu-bd__item"
+                        class="share-menu-bd__item "
                         @click="handleShowPoster('h5')"
                     >
                         <c-image
@@ -333,6 +333,7 @@ export default {
             flex: 1;
             @include flex(row);
             align-items: center;
+            justify-content: center;
             flex-direction: column;
             font-size: 28rpx;
 
