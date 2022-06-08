@@ -213,11 +213,14 @@ export default {
         }
     },
     created() {
+        // #ifdef MP
         this.paddingTop = menuButtonInfo.top + 'px'
         this.paddingRight =
             menuButtonInfo.width +
             (systemInfo.screenWidth - menuButtonInfo.right) +
             'px'
+        // #endif
+
         // #ifdef APP-PLUS
         this.paddingTop = systemInfo.statusBarHeight + 'px'
         // #endif
