@@ -33,6 +33,13 @@
 </template>
 
 <script>
+// 获取系统状态栏的高度
+const systemInfo = uni.getSystemInfoSync()
+let menuButtonInfo = {}
+// 如果是小程序，获取右上角胶囊的尺寸信息，避免导航栏右侧内容与胶囊重叠(支付宝小程序非本API，尚未兼容)
+// #ifdef MP-WEIXIN || MP-BAIDU || MP-TOUTIAO || MP-QQ
+menuButtonInfo = uni.getMenuButtonBoundingClientRect()
+// #endif
 export default {
     props: {
         destroyEle: {
@@ -88,7 +95,12 @@ export default {
         hasNav: {
             type: [Boolean, String],
             default: true
-        }
+        },
+        // 是否有自定义头部
+        customHeader: {
+            type: [Boolean, String],
+            default: false
+        },
     },
     data() {
         return {
@@ -109,6 +121,9 @@ export default {
         hasTab_() {
             return String(this.hasTab) !== 'false'
         },
+        customHeader_() {
+            return String(this.customHeader) !== 'false'
+        },
         destroyEle_() {
             return String(this.destroyEle) !== 'false'
         },
@@ -127,6 +142,23 @@ export default {
         },
         paddingTop_() {
             return this.hasNav_ ? '0px' : this.paddingTop
+        },
+        height_() {
+            // #ifdef APP-PLUS || H5
+            return 44
+            // #endif
+            // #ifdef MP
+            // eslint-disable-next-line no-unreachable
+            return menuButtonInfo.height + (menuButtonInfo.top - systemInfo.statusBarHeight) * 2// 导航高度
+            // #endif
+        },
+        // 要清空顶部的高度
+        navbarHeight_() {
+            const offsetY = systemInfo.statusBarHeight === 20 ? 6 : 3
+            // 刘海屏 导航高度6 普通屏幕导航高度12
+            const height = this.height_ + systemInfo.statusBarHeight - offsetY
+            console.log('navbarHeight_', height,this.height_, systemInfo.statusBarHeight)
+            return height
         },
         parentStyle_() {
             // 浮动在顶部,并且清除没有高度
@@ -157,7 +189,8 @@ export default {
             }
             this.hasNav_ ? '' : (childrenStyle.top = 0)
             this.top ? (childrenStyle.top = this.top + 'rpx') : ''
-            this.value &&
+            this.customHeader_ ? (childrenStyle.top = this.navbarHeight_ + 'px') : ''
+                this.value &&
                 this.hasTab_ &&
                 (childrenStyle.transform = `translateY(${this.hasTab_ ? '-50px' : 0
                     })`)
