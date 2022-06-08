@@ -95,19 +95,34 @@ export default function requestBefore(name, query = {}, modifyObj = {}, type) {
             var storage = catchObj.persistence ? uni.getStorageSync : sessionCatch.get
             var catchName = getCatchName(catchObj.catchName, query)
             var catchStorage = storage(catchName)
-            if (catchStorage) {
-                return resolve({
-                    code: 0,
-                    msg: '读取缓存成功',
-                    data: catchStorage
-                })
-            }
-            if (catchObj.source === 'catch') { // 如果缓存没有则返回空，一般是object类型
-                return resolve({
-                    code: 0,
-                    msg: '缓存中没有相应数据',
-                    data: {}
-                })
+            // 有过期时间字段判断数据是否过期
+            if (catchObj.catchTime) {
+                const time = uni.getStorageSync(catchName + 'CacheTime')
+                const today = new Date() - time;
+                const diff = Math.round(today / 1000 / 60)
+                //没有过期
+                if (diff < Number(catchObj.catchTime) && catchStorage) {
+                    return resolve({
+                        code: 0,
+                        msg: '读取缓存成功',
+                        data: catchStorage
+                    })
+                }
+            } else {
+                if (catchStorage) {
+                    return resolve({
+                        code: 0,
+                        msg: '读取缓存成功',
+                        data: catchStorage
+                    })
+                }
+                if (catchObj.source === 'catch') { // 如果缓存没有则返回空，一般是object类型
+                    return resolve({
+                        code: 0,
+                        msg: '缓存中没有相应数据',
+                        data: {}
+                    })
+                }
             }
         }
         type = (type || catchObj.type || 'POST').toLocaleLowerCase()
@@ -329,8 +344,10 @@ function setStorageSync(name, catchObj, data) {
     } = catchObj
     if (persistence) {
         uni.setStorageSync(name, data)
+        catchObj.catchTime && uni.setStorageSync(name + 'CacheTime', new Date())
     } else {
         sessionCatch.set(name, data)
+        catchObj.catchTime && sessionCatch.set(name + 'CacheTime', new Date())
     }
 }
 /**
