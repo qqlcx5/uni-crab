@@ -154,10 +154,10 @@ export default {
         },
         // 要清空顶部的高度
         navbarHeight_() {
-            const offsetY = systemInfo.statusBarHeight === 20 ? 6 : 3
-            // 刘海屏 导航高度6 普通屏幕导航高度12
+            const offsetY = systemInfo.statusBarHeight === 20 ? 5 : 3
+            // 刘海屏 导航高度6rpx 普通屏幕导航高度14rpx
             const height = this.height_ + systemInfo.statusBarHeight - offsetY
-            console.log('navbarHeight_', height,this.height_, systemInfo.statusBarHeight)
+            console.log('navbarHeight_', height, this.height_, systemInfo.statusBarHeight)
             return height
         },
         parentStyle_() {
@@ -190,7 +190,7 @@ export default {
             this.hasNav_ ? '' : (childrenStyle.top = 0)
             this.top ? (childrenStyle.top = this.top + 'rpx') : ''
             this.customHeader_ ? (childrenStyle.top = this.navbarHeight_ + 'px') : ''
-                this.value &&
+            this.value &&
                 this.hasTab_ &&
                 (childrenStyle.transform = `translateY(${this.hasTab_ ? '-50px' : 0
                     })`)
@@ -213,18 +213,11 @@ export default {
         }
     },
     created() {
-        // console.log('呵呵呵呵呵');
-        const systemInfo = uni.getSystemInfoSync()
-        // #ifdef MP
-        console.log('获取胶囊')
-        const menuButtonInfo = uni.getMenuButtonBoundingClientRect()
-        console.log(menuButtonInfo)
         this.paddingTop = menuButtonInfo.top + 'px'
         this.paddingRight =
             menuButtonInfo.width +
             (systemInfo.screenWidth - menuButtonInfo.right) +
             'px'
-        // #endif
         // #ifdef APP-PLUS
         this.paddingTop = systemInfo.statusBarHeight + 'px'
         // #endif
