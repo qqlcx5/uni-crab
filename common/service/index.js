@@ -340,7 +340,7 @@ function setStorageSync(name, catchObj, data) {
     if (getVariableType(data) === 'Object' && JSON.stringify(data) === '{}') return
     if (getVariableType(data) === 'Array' && data.length === 0) return
     // 增加缓存黑名单
-    if (this.$config.catchBlackList.includes(name)) return
+    if (curPage && curPage.$config && curPage.$config.catchBlackList.includes(name)) return
     const {
         persistence
     } = catchObj
