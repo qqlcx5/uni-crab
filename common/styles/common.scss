@@ -325,18 +325,6 @@ $vertical-value: baseline, sub, super, top, text-top, middle, bottom, text-botto
 .c-over-hidden {
     overflow: hidden;
 }
-
-// 字体位置
-.c-tc {
-    text-align: center;
-}
-.c-tl {
-    text-align: left;
-}
-.c-tr {
-    text-align: right;
-}
-
 // 元素隐藏
 .c-hidden {
     display: none;
