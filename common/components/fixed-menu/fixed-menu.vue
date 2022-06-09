@@ -37,7 +37,7 @@
 const systemInfo = uni.getSystemInfoSync()
 let menuButtonInfo = {}
 // 如果是小程序，获取右上角胶囊的尺寸信息，避免导航栏右侧内容与胶囊重叠(支付宝小程序非本API，尚未兼容)
-// #ifdef MP-WEIXIN || MP-BAIDU || MP-TOUTIAO || MP-QQ
+// #ifdef MP
 menuButtonInfo = uni.getMenuButtonBoundingClientRect()
 // #endif
 export default {
@@ -100,7 +100,7 @@ export default {
         customHeader: {
             type: [Boolean, String],
             default: false
-        },
+        }
     },
     data() {
         return {
@@ -143,7 +143,7 @@ export default {
         paddingTop_() {
             return this.hasNav_ ? '0px' : this.paddingTop
         },
-        height_() {
+        customHeight_() {
             // #ifdef APP-PLUS || H5
             return 44
             // #endif
@@ -156,8 +156,8 @@ export default {
         navbarHeight_() {
             const offsetY = systemInfo.statusBarHeight === 20 ? 5 : 3
             // 刘海屏 导航高度6rpx 普通屏幕导航高度14rpx
-            const height = this.height_ + systemInfo.statusBarHeight - offsetY
-            console.log('navbarHeight_', height, this.height_, systemInfo.statusBarHeight)
+            const height = this.customHeight_ + systemInfo.statusBarHeight - offsetY
+            console.log('navbarHeight_', height, this.customHeight_, systemInfo.statusBarHeight)
             return height
         },
         parentStyle_() {
@@ -213,11 +213,14 @@ export default {
         }
     },
     created() {
+        // #ifdef MP
         this.paddingTop = menuButtonInfo.top + 'px'
         this.paddingRight =
             menuButtonInfo.width +
             (systemInfo.screenWidth - menuButtonInfo.right) +
             'px'
+        // #endif
+
         // #ifdef APP-PLUS
         this.paddingTop = systemInfo.statusBarHeight + 'px'
         // #endif
