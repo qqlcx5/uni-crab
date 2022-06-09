@@ -97,10 +97,10 @@ export default function requestBefore(name, query = {}, modifyObj = {}, type) {
             var catchStorage = storage(catchName)
             // 有过期时间字段判断数据是否过期
             if (catchObj.catchTime) {
-                const time = uni.getStorageSync(catchName + 'CacheTime')
-                const today = new Date() - time;
+                const time = uni.getStorageSync(catchName + 'CacheTime') || 0
+                const today = new Date() - time
                 const diff = Math.round(today / 1000 / 60)
-                //没有过期
+                // 没有过期
                 if (diff < Number(catchObj.catchTime) && catchStorage) {
                     return resolve(catchObj.catchComplete ? catchStorage : {
                         code: 0,
@@ -340,7 +340,7 @@ function setStorageSync(name, catchObj, data) {
     if (getVariableType(data) === 'Object' && JSON.stringify(data) === '{}') return
     if (getVariableType(data) === 'Array' && data.length === 0) return
     // 增加缓存黑名单
-    if (curPage && curPage.$config && curPage.$config.catchBlackList.includes(name)) return
+    if (curPage && curPage.$config && curPage.$config.catchBlackList?.includes(name)) return
     const {
         persistence
     } = catchObj
