@@ -300,7 +300,7 @@ function catchHandle(catchObj = {}, resObj = {}, queryObj = {}) {
             setStorageSync('prveToken', {}, prevToken.token)
         }
     }
-    catchObj.catchName && setStorageSync(catchName, catchObj, resObj.data)
+    catchObj.catchName && setStorageSync(catchName, catchObj, catchObj.catchComplete ? resObj : resObj.data)
 }
 
 /**
