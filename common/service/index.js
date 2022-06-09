@@ -102,7 +102,7 @@ export default function requestBefore(name, query = {}, modifyObj = {}, type) {
                 const diff = Math.round(today / 1000 / 60)
                 //没有过期
                 if (diff < Number(catchObj.catchTime) && catchStorage) {
-                    return resolve({
+                    return resolve(catchObj.catchComplete ? catchStorage : {
                         code: 0,
                         msg: '读取缓存成功',
                         data: catchStorage
@@ -110,7 +110,7 @@ export default function requestBefore(name, query = {}, modifyObj = {}, type) {
                 }
             } else {
                 if (catchStorage) {
-                    return resolve({
+                    return resolve(catchObj.catchComplete ? catchStorage : {
                         code: 0,
                         msg: '读取缓存成功',
                         data: catchStorage
@@ -339,6 +339,8 @@ const getCatchName = (nameObj, queryObj = {}) => {
 function setStorageSync(name, catchObj, data) {
     if (getVariableType(data) === 'Object' && JSON.stringify(data) === '{}') return
     if (getVariableType(data) === 'Array' && data.length === 0) return
+    // 增加缓存黑名单
+    if (this.$config.catchBlackList.includes(name)) return
     const {
         persistence
     } = catchObj
