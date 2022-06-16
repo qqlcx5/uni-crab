@@ -170,7 +170,42 @@ export const jumpPage = (name, params = {}, method = 'push', errFn) => {
         return console.error('[fatal error] 路由地址错误，『' + name + '』不存在路由表中')
     }
     params = formatParams(params) || {}
-    Router[method]({
+    let methodType = method
+    // #ifdef MP-WEIXIN
+    const { CONFIG: { routes } } = that_.$Router
+    // 如果是首页和自定义页面 跳转方法改为 push() 因为replace()需要销毁当前页面所有组件.因为自定义页面组件数量不受控制.安卓销毁时间大大加大.因此换一种方式
+    const tabbarListPush = that_.$config.tabbarListPush || ['home', 'custom']
+    if (tabbarListPush.includes(that_.$Route.name)) {
+        methodType = 'push'
+    }
+    if (tabbarListPush.includes(name)) {
+        // 获取对应的绝对地址
+        const obj = routes.filter((item) => item.name === name)
+        if (obj.length) {
+            // 当前历史路由
+            const pages = getCurrentPages()
+            let backNum = undefined
+            // 筛选要去的路由是否在历史路由里
+            backNum = pages.findIndex((item, i) => {
+                let nameBox = obj[0].path
+                let n = 0
+                // 拼接参数
+                for (let c in params) {
+                    n++
+                    nameBox += `${n === 1 ? '?' : '&'}${c}=${params[c]}`
+                }
+                return item.$page.fullPath === nameBox
+            })
+            let back = pages.length - (backNum + 1)
+            // 要去的路由在历史路由里 直接 back
+            if (back && backNum >= 0) {
+                Router.back(back)
+                return
+            }
+        }
+    }
+    // #endif
+    Router[methodType]({
         name: jumpRouteObj.name,
         params: params
     })
