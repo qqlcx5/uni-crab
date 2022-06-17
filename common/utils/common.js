@@ -158,6 +158,7 @@ export const sessionCatch = {
 
 export const jumpPage = (name, params = {}, method = 'push', errFn) => {
     if (!name) return
+    const that_ = Vue.prototype
     params = params || {}
     if (name.indexOf('?')) {
         const routeObj = getUrlQuery(name)
