@@ -419,6 +419,11 @@ export default {
             this.$emit('click', e)
         },
         handleSelect(e) {
+            // 处理朋友圈输入框选中等问题
+            // #ifdef MP-WEIXIN
+            const isWechatMoments = getApp().globalData.errModalFlag
+            if(isWechatMoments) return this.$toast('点击右下角前往小程序，查看完整内容')
+            // #endif
             this.$emit('select', e)
         },
         clear() {
