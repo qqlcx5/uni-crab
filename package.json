@@ -9,8 +9,7 @@
     "dependencies": {
         "luch-request": "^3.0.7",
         "uni-read-pages": "^1.0.5",
-        "uni-simple-router": "^1.5.5",
-        "zzsp-saas-ui": "^2.8.2"
+        "uni-simple-router": "^1.5.5"
     },
     "browserslist": [
         "Android >= 4.4",

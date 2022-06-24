@@ -270,7 +270,8 @@ export default {
         return {
             popupFlag: false, // 外层显示隐藏状态
             innerPopupFlag: false, // 内层动画状态
-            timer: null
+            timer: null,
+            isFirstWechatMoments: true // 第一次弹窗不提示微信朋友圈
         }
     },
     computed: {
@@ -391,7 +392,8 @@ export default {
             // #ifdef MP-WEIXIN
             const isWechatMoments = getApp().globalData.errModalFlag
             if(isWechatMoments) {
-                this.$toast('点击右下角前往小程序，查看完整内容')
+                !this.isFirstWechatMoments && this.$toast('点击右下角前往小程序，查看完整内容')
+                this.isFirstWechatMoments = false
                 this.$emit('input', false)
                 return 
             }
