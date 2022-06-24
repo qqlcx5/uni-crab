@@ -357,7 +357,7 @@ export default {
             return String(this.arrows) !== 'false'
         },
         disabled_() {
-            return String(this.disabled) !== 'false' || this.type === 'select' || this.parent.disabled_ 
+            return String(this.disabled) !== 'false' || this.type === 'select' || !!this.parent.disabled_ 
         },
         focus_() {
             return String(this.focus) !== 'false'
