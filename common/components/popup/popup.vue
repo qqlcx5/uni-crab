@@ -376,12 +376,6 @@ export default {
             this.close()
         },
         open() {
-            // 处理朋友圈输入框选中等问题
-            // #ifdef MP-WEIXIN
-            const isWechatMoments = getApp().globalData.errModalFlag
-            if(isWechatMoments) return this.$toast('点击右下角前往小程序，查看完整内容')
-            // #endif
-            console.log('isWechatMoments', isWechatMoments);
             this.change('popupFlag', 'innerPopupFlag', true)
             return true
         },
@@ -393,6 +387,15 @@ export default {
             return !this.popupFlag ? this.open() : this.close()
         },
         modalFun(pro = 'open') {
+            // 处理朋友圈输入框选中等问题
+            // #ifdef MP-WEIXIN
+            const isWechatMoments = getApp().globalData.errModalFlag
+            if(isWechatMoments) {
+                this.$toast('点击右下角前往小程序，查看完整内容')
+                this.$emit('input', false)
+                return 
+            }
+            // #endif
             this[pro]()
         },
         change(pro1, pro2, status) {
