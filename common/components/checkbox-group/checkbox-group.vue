@@ -145,7 +145,7 @@ export default {
                 message: '校验正确'
             }
         },
-        emitEvent(name) {
+        emitEvent(name, inVal) {
             const values = []
             if (this.isMultiple) {
                 this.children.forEach(val => {
@@ -155,8 +155,9 @@ export default {
                 this.children.forEach(val => {
                     if (val.name !== name) { val.value = false }
                 })
+                // 如果是切换为选中时               
                 this.$nextTick(() => {
-                    values.push(name)
+                    inVal ? values.push(name) : values.splice(values.findIndex(o => o === name), 1)
                 })
             }
 
