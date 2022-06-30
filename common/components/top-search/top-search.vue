@@ -175,7 +175,7 @@ export default {
         display: block;
     }
 }
-.search-box.flex-ajcenter {
+.search-box.c-flex-ajcenter {
     width: 100%;
 }
 </style>

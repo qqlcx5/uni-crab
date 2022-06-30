@@ -43,7 +43,7 @@
             v-model="modalFlag"
             custom-class="saas-ui-modal"
         >
-            <view class="flex-ajcenter">
+            <view class="c-flex-ajcenter">
                 <image src="/static/logo.png" />
             </view>
         </c-modal>
@@ -107,7 +107,6 @@
             </view>
         </c-fixed-menu>
         <!-- <c-tabbar @tabbarheightchange="handleTabbarHeightChange" /> -->
-        </c-checkbox-group>
     </view>
 </template>
 

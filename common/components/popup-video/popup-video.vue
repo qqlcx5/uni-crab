@@ -7,7 +7,7 @@
             :width="popupWidth"
             close-pos="top-right"
         >
-            <view class="video-box flex-ajcenter">
+            <view class="video-box c-flex-ajcenter">
                 <video
                     v-if="innerShowVideoPopup"
                     :src="videoSrc"

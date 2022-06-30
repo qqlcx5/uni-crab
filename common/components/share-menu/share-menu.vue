@@ -56,7 +56,7 @@
                             </view>
                             <view
                                 v-else-if="mode ==='live'"
-                                class="flex-1 line-block"
+                                class="c-flex-1 line-block"
                             >
                                 <view class="c-flex c-align-center">
                                     <c-image
@@ -78,7 +78,7 @@
                         open-type="share"
                         height="142"
                     >
-                        <view class="flex-column c-align-center c-justify-center">
+                        <view class="c-flex-column c-align-center c-justify-center">
                             <c-image
                                 size="90"
                                 src="common/wechat-share.png"
