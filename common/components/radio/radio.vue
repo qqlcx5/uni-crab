@@ -17,6 +17,7 @@
         >
             <c-icons
                 class="c-radio__zsuicon-wrap__icon"
+                :class="[iconClass]"
                 :type="iconType_"
                 :size="elIconSize"
                 :color="iconColor"
@@ -316,7 +317,7 @@ export default {
 
         &--checked {
             color: #fff;
-            background-color: $color-primary;
+            //background-color: $color-primary;
             border-color: $color-primary;
         }
 
@@ -326,6 +327,9 @@ export default {
         }
 
         &--disabled--checked {
+            /deep/.c-icons__text {                
+                color: #c8c9cc !important;
+            }
             color: #c8c9cc !important;
         }
     }

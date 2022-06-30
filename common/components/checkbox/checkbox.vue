@@ -10,6 +10,7 @@
         >
             <c-icons
                 class="c-radio__zsuicon-wrap__icon"
+                :class="[iconClass]"
                 :type="iconType_"
                 :size="checkboxIconSize"
                 :color="iconColor"
@@ -169,6 +170,20 @@ export default {
             style.height = this.$c.formatUnit(this.checkboxSize)
             return style
         },
+        iconClass() {
+            console.error(this.name)
+            console.error(this.value)
+            const classes = []
+            classes.push('c-checkbox__zsuicon-wrap--' + this.elShape)
+            if (this.value) classes.push('c-checkbox__zsuicon-wrap--checked')
+            if (this.isDisabled) classes.push('c-checkbox__zsuicon-wrap--disabled')
+            if (this.value && this.isDisabled) {
+                classes.push(
+                    'c-checkbox__zsuicon-wrap--disabled--checked')
+            }
+            // 支付宝小程序无法动态绑定一个数组类名，否则解析出来的结果会带有","，而导致失效
+            return classes.join(' ')
+        },
         // checkbox内部的勾选图标，如果选中状态，为白色，否则为透明色即可
         iconColor() {
             return this.value == true ? this.elActiveColor : '#E0E0E0'
@@ -326,6 +341,9 @@ export default {
 
         &--disabled--checked {
             color: #c8c9cc !important;
+            /deep/.c-icons__text {
+                color: #c8c9cc !important;
+            }
         }
     }
 
