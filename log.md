@@ -4,6 +4,10 @@
  * @Author: sky
  * @Date: 2022-06-24 15:13:00
 -->
+v2.8.8
+2022年6月30日13:00:44
+1、修复c-checkbox、c-raido在设置disabled时，灰色样式无效问题
+
 v2.8.7
 2022年6月28日16:10:25
 1、修改c-checkbox、c-checkbox-group在isMultiple=false的时候，@change事件回调数据不更新问题
