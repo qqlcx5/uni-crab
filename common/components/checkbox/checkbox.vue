@@ -171,8 +171,6 @@ export default {
             return style
         },
         iconClass() {
-            console.error(this.name)
-            console.error(this.value)
             const classes = []
             classes.push('c-checkbox__zsuicon-wrap--' + this.elShape)
             if (this.value) classes.push('c-checkbox__zsuicon-wrap--checked')
