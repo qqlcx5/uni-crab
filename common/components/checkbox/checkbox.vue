@@ -333,8 +333,14 @@ export default {
         }
 
         &--disabled {
-            background-color: #ebedf0;
-            border-color: #c8c9cc;
+            // background-color: #ebedf0;
+            // border-color: #c8c9cc;
+            // 因为可用状态下的边框比实际icon图标尺寸小一点，故需要渐变个透明色处理
+            background-image: radial-gradient(
+                circle,
+                #ebedf0 60%,
+                transparent 2px
+            );
         }
 
         &--disabled--checked {
