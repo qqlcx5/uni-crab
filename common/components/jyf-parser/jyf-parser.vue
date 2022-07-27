@@ -30,11 +30,11 @@
 </template>
 
 <script>
-	var search;
+var search;
 // #ifndef H5 || APP-PLUS-NVUE || MP-360
 import trees from './libs/trees';
 var cache = {},
-    // #ifdef MP-WEIXIN || MP-TOUTIAO
+    // #ifdef MP || MP-TOUTIAO
     fs = uni.getFileSystemManager ? uni.getFileSystemManager() : null,
     // #endif
     Parser = require('./libs/MpHtmlParser.js');
@@ -161,7 +161,7 @@ export default {
             if (src.includes('data:image')) {
                 var filePath, info = src.match(/data:image\/(\S+?);(\S+?),(.+)/);
                 if (!info) return;
-                // #ifdef MP-WEIXIN || MP-TOUTIAO
+                // #ifdef MP || MP-TOUTIAO
                 filePath = `${wx.env.USER_DATA_PATH}/${Date.now()}.${info[1]}`;
                 fs && fs.writeFile({
                     filePath,
@@ -212,7 +212,7 @@ export default {
                 });
             }
             // #endif
-            // #ifdef MP-WEIXIN || MP-TOUTIAO
+            // #ifdef MP || MP-TOUTIAO
             if (src && src.includes(uni.env.USER_DATA_PATH))
                 fs && fs.unlink({
                     filePath: src
@@ -357,11 +357,11 @@ export default {
                                     id: href.substr(1)
                                 })
                             }
-                        } else if (href.indexOf('http') == 0 || href.indexOf('//') == 0) {                            
+                        } else if (href.indexOf('http') == 0 || href.indexOf('//') == 0) {
                             return true;
-                        }else{
-                            console.log('href',href)  
-                            _ts.$jump(href)                          
+                        } else {
+                            console.log('href', href)
+                            _ts.$jump(href)
                             /* uni.navigateTo({
                                     url: href
                             }) */
@@ -520,7 +520,7 @@ export default {
             // #endif
             // #ifndef APP-PLUS-NVUE
             var d = ' ';
-            // #ifdef MP-WEIXIN || MP-QQ || MP-TOUTIAO
+            // #ifdef MP || MP-QQ || MP-TOUTIAO
             d = '>>>';
             // #endif
             var selector = uni.createSelectorQuery().in(this._in ? this._in.page : this).select((this._in ? this._in.selector :
@@ -654,7 +654,7 @@ export default {
     }
 }
 
-/* #ifdef MP-WEIXIN */
+/* #ifdef MP */
 :host {
     display: block;
     overflow: auto;

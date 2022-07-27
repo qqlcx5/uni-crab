@@ -72,7 +72,7 @@
                 </view>
             </view>
             <view class="share-menu-bd">
-                <!-- #ifdef MP-WEIXIN -->
+                <!-- #ifdef MP -->
                 <view class="share-menu-bd__item">
                     <c-button
                         open-type="share"

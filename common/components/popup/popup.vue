@@ -389,13 +389,13 @@ export default {
         },
         modalFun(pro = 'open') {
             // 处理朋友圈输入框选中等问题
-            // #ifdef MP-WEIXIN
+            // #ifdef MP
             const isWechatMoments = getApp().globalData.errModalFlag
-            if(isWechatMoments) {
+            if (isWechatMoments) {
                 !this.isFirstWechatMoments && this.$toast('点击右下角前往小程序，查看完整内容')
                 this.isFirstWechatMoments = false
                 this.$emit('input', false)
-                return 
+                return
             }
             // #endif
             this[pro]()

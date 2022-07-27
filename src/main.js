@@ -53,7 +53,7 @@ Vue.use(saasUI, {
             'app-version': config.version, // 版本号
             'app-type': config.platformType, // 平台类型
             'shop-uid': config.shopUid, // 商家id
-            // #ifdef MP-WEIXIN
+            // #ifdef MP
             'applet-appid': config.appId, // 商家id
             'template-id': config.templateId, // 小程序模板id
             'user-version': config.userVersion || '', // 小程序模板id

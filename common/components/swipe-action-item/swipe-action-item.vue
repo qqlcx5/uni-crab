@@ -1,6 +1,6 @@
 <template>
     <!-- 在微信小程序 app vue端 h5 使用wxs 实现-->
-    <!-- #ifdef APP-VUE || MP-WEIXIN || H5 -->
+    <!-- #ifdef APP-VUE || MP || H5 -->
     <view class="uni-swipe">
         <view
             class="uni-swipe_box"
@@ -176,7 +176,7 @@
     lang="wxs"
 ></script>
 <script>
-// #ifdef APP-VUE|| MP-WEIXIN || H5
+// #ifdef APP-VUE|| MP || H5
 import mpwxs from './mpwxs'
 // #endif
 
@@ -184,7 +184,7 @@ import mpwxs from './mpwxs'
 import bindingx from './bindingx.js'
 // #endif
 
-// #ifndef APP-PLUS|| MP-WEIXIN  ||  H5
+// #ifndef APP-PLUS|| MP  ||  H5
 import mixins from './mpother'
 // #endif
 
@@ -203,7 +203,7 @@ import mixins from './mpother'
  */
 
 export default {
-    // #ifdef APP-VUE|| MP-WEIXIN||H5
+    // #ifdef APP-VUE|| MP||H5
     mixins: [mpwxs],
     // #endif
 
@@ -211,7 +211,7 @@ export default {
     mixins: [bindingx],
     // #endif
 
-    // #ifndef APP-PLUS|| MP-WEIXIN ||  H5
+    // #ifndef APP-PLUS|| MP ||  H5
     mixins: [mixins],
     // #endif
 

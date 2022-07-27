@@ -135,7 +135,7 @@ export default {
 
 <style lang="scss" scoped>
 .c-popup-video {
-    /* #ifdef MP-WEIXIN */
+    /* #ifdef MP */
     /deep/.c-modal__close--top-right {
         top: 188rpx;
     }

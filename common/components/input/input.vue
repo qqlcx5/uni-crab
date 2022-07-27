@@ -357,7 +357,7 @@ export default {
             return String(this.arrows) !== 'false'
         },
         disabled_() {
-            return String(this.disabled) !== 'false' || this.type === 'select' || !!this.parent.disabled_ 
+            return String(this.disabled) !== 'false' || this.type === 'select' || !!this.parent.disabled_
         },
         focus_() {
             return String(this.focus) !== 'false'
@@ -420,9 +420,9 @@ export default {
         },
         handleSelect(e) {
             // 处理朋友圈输入框选中等问题
-            // #ifdef MP-WEIXIN
+            // #ifdef MP
             const isWechatMoments = getApp().globalData.errModalFlag
-            if(isWechatMoments) return this.$toast('点击右下角前往小程序，查看完整内容')
+            if (isWechatMoments) return this.$toast('点击右下角前往小程序，查看完整内容')
             // #endif
             this.$emit('select', e)
         },
@@ -552,7 +552,7 @@ export default {
 
     &-view {
         position: relative;
-        /* #ifdef MP-WEIXIN */
+        /* #ifdef MP */
         background-color: inherit;
         /* #endif */
         @include flex(row);

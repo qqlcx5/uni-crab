@@ -172,7 +172,7 @@ export const jumpPage = (name, params = {}, method = 'push', errFn) => {
     }
     params = formatParams(params) || {}
     let methodType = method
-    // #ifdef MP-WEIXIN
+    // #ifdef MP
     const { CONFIG: { routes } } = that_.$Router
     // 如果是首页和自定义页面 跳转方法改为 push() 因为replace()需要销毁当前页面所有组件.因为自定义页面组件数量不受控制.安卓销毁时间大大加大.因此换一种方式
     const tabbarListPush = that_.$config.tabbarListPush || ['home', 'custom']

@@ -41,7 +41,7 @@ userVersion = extConfig.user_version
 ossImgUrl = process.env.NODE_ENV === 'production' ? extConfig.img_host : 'https://betastatic-saas.zzsupei.com'
 // #endif
 
-// #ifndef H5 || MP-WEIXIN
+// #ifndef H5 || MP
 domainList = [
     'https://betaapp-saas.zzsupei.com'
 ]

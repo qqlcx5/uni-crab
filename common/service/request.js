@@ -200,7 +200,7 @@ export function setHttpConfig({ apiConfig, header = {} }) {
 export function setApiConfig(force = false, url = '') {
     const newTime = +new Date()
     let apiCatch = uni.getStorageSync(commonConfig.curApiCatch) || {}
-    // #ifdef MP-WEIXIN
+    // #ifdef MP
     // 切换的域名有效
     if (Object.keys(apiCatch).length) {
         // 时间超过缓存时间 要切回来,特殊域名不过期
