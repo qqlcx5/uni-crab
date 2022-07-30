@@ -70,7 +70,7 @@
                     <!-- 周日 - 周一 -->
                     <view
                         v-if="!pureMode"
-                        class="c-flex c-justify-around c-p-24 c-underline"
+                        class="c-flex c-p-24 c-underline"
                     >
                         <view
                             v-for="week in weekTexts"
@@ -92,7 +92,7 @@
                         <view
                             v-for="(week,weekIndex) in weeks"
                             :key="weekIndex"
-                            class="c-calendar-list c-flex c-justify-around c-plr-24"
+                            class="c-calendar-list c-flex c-plr-24"
                             :class="[
                                 isExpand || expandIndex === weekIndex ? 'c-calendar-list--expand c-ptb-8' : ''
                             ]"
