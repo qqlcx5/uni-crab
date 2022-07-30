@@ -1,6 +1,6 @@
 <template>
     <!-- 在微信小程序 app vue端 h5 使用wxs 实现-->
-    <!-- #ifdef APP-VUE || MP || H5 -->
+    <!-- #ifdef APP-VUE || MP-WEIXIN || H5 -->
     <view class="uni-swipe">
         <view
             class="uni-swipe_box"
@@ -168,7 +168,6 @@
         </view>
     </view>
     <!-- #endif -->
-
 </template>
 <script
     src="./index.wxs"
