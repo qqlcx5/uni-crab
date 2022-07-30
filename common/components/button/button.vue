@@ -14,6 +14,7 @@
         :style="[ style_ ]"
         @click="handleClick"
         @getphonenumber="handleGetphonenumber"
+        @bindgetphonenumber="handleGetphonenumber"
         @getuserinfo="handleGetuserinfo"
         @error="handleError"
         @opensetting="handleOpensetting"
@@ -100,6 +101,11 @@ export default {
             default: ''
         }
     },
+    data() {
+        return {
+            isShow: 0
+        }
+    },
     computed: {
         loading_() {
             return String(this.loading) !== 'false'
@@ -114,6 +120,9 @@ export default {
             return this.height && this.shape === 'circle' ? this.height / 2 : this.radius
         },
         style_() {
+            // #ifdef MP-TOUTIAO
+            const i = this.isShow
+            // #endif
             const bottonStyle = this.parent && this.type === 'inherit' ? { ...this.parent.colorsStyle_ } : {}
             this.width ? (bottonStyle.width = this.$c.formatUnit(this.width)) : ''
             this.height ? (bottonStyle.height = this.$c.formatUnit(this.height)) : ''
@@ -144,6 +153,9 @@ export default {
         this.formEl = this.$c.getParent.call(this, 'CForm')
         // 支付宝小程序不支持provide/inject，所以使用这个方法获取整个父组件，在created定义，避免循环应用
         this.parent = this.$c.getParent.call(this, 'CColors')
+        // #ifdef MP-TOUTIAO
+        this.isShow++
+        // #endif
     },
     methods: {
         async getUserInfo() { // 获取用户信息 微信
@@ -151,27 +163,34 @@ export default {
             this.btnLoading = true
             const data = await this.getwxUserInfo()
             this.btnLoading = false
+            let box = data
+            // #ifdef MP-TOUTIAO
+            const [f, s] = data
+            box = s
+            console.log(f)
+            // #endif
             this.$emit('getuserinfoencry', {
                 type: 'getuserinfo',
-                detail: data ? {
-                    encryptedData: data.encryptedData,
-                    iv: data.iv
+                detail: box ? {
+                    encryptedData: box.encryptedData,
+                    iv: box.iv
                 } : {}
             })
         },
         async getwxUserInfo() { // 获取微信授权个人信息
             let res = false
             try {
-                res = await wx.getUserProfile({
+                res = await uni.getUserProfile({
                     desc: '用于完善会员资料'
                 })
+                console.log(res, 2222)
             } catch (error) {
                 res = false
             }
             return res
         },
         handleGetphonenumber(e) {
-            console.log(e)
+            console.log(e, 111)
             this.$emit('getphonenumber', e)
             this.$emit('getphonenumberencry', {
                 type: e.type || 'getphonenumber',
@@ -196,7 +215,7 @@ export default {
         },
         handleClick(e) {
             if (this.loading_) return
-            if (this.openType === 'getUserInfo') this.getUserInfo()
+            if (this.openType === 'getUserInfo' || this.openType === 'getPhoneNumber') this.getUserInfo()
             if (this.formType && this.formEl) {
                 if (this.formType === 'submit' && this.formEl.emitSubmit) {
                     console.log('button submit')

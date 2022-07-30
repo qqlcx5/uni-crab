@@ -1,5 +1,6 @@
 <template>
     <view>
+        <!-- #ifndef MP-TOUTIAO -->
         <c-colors
             class="c-page-head"
             :class="{ 'c-page-head__fixed': fixed_ }"
@@ -58,6 +59,7 @@
             class="c-page-head__clear"
             :style="{height: navbarHeight_ + 'px'}"
         ></view>
+        <!-- #endif -->
     </view>
 </template>
 

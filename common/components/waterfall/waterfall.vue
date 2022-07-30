@@ -153,6 +153,7 @@ export default {
                 //     // console.log(JSON.stringify(this.tempList), 'tempList.length')
                 // })
             }
+            this.$emit('change', { leftList: this.leftList })
         },
         // 清空数据列表
         clear(clearInput = true) {
