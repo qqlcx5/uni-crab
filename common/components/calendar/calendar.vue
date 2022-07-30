@@ -488,6 +488,7 @@ export default {
     }
     &-item {
         flex: 1;
+        max-width: 14.285%; // 7分之一
         @include flex(column);
         justify-content: center;
         align-items: center;
