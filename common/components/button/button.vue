@@ -215,7 +215,7 @@ export default {
         },
         handleClick(e) {
             if (this.loading_) return
-            if (this.openType === 'getUserInfo' || this.openType === 'getPhoneNumber') this.getUserInfo()
+            if (this.openType === 'getUserInfo') this.getUserInfo()
             if (this.formType && this.formEl) {
                 if (this.formType === 'submit' && this.formEl.emitSubmit) {
                     console.log('button submit')
