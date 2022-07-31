@@ -211,7 +211,7 @@
             />
             <!--#endif-->
             <!--富文本-->
-            <!--#ifdef MP || MP-QQ || APP-PLUS-->
+            <!--#ifdef MP-WEIXIN-->
             <rich-text
                 v-else-if="handler.use(n)"
                 :id="n.attrs.id"
@@ -219,7 +219,15 @@
                 :nodes="[n]"
             />
             <!--#endif-->
-            <!--#ifndef MP || MP-QQ || APP-PLUS-->
+            <!--#ifdef MP-TOUTIAO-->
+            <rich-text
+                v-else-if="true"
+                :id="n.attrs.id"
+                :class="'_p __'+n.name"
+                :nodes="[n]"
+            />
+            <!--#endif-->
+            <!--#ifndef MP-->
             <rich-text
                 v-else-if="!n.c"
                 :id="n.attrs.id"
