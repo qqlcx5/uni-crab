@@ -97,7 +97,8 @@ export default {
                 const listLen = this.pageList.push.apply(this.pageList, data.list)
                 if (listLen < data.count && this.limit <= resLen) { // 说明还有数据
                     this.busy = false
-                    this.page = Math.ceil(listLen / this.limit) + 1
+                    // data.list 夹杂广告类等返回数据和实际不符，让服务端取page
+                    this.page = data.next_page ?? Math.ceil(listLen / this.limit) + 1
                 }
                 this.resSuccess(data, refresh)
             } catch (e) {
