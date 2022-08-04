@@ -94,7 +94,9 @@ export default {
                     return
                 }
                 data = this.assignBefore(data)
-                const listLen = this.pageList.push.apply(this.pageList, data.list)
+                // 人人开单首页列表返回数据和实际不符，因为额外有广告，进行处理
+                const len = this.pageList.push.apply(this.pageList, data.list)
+                const listLen = this.filterFn() ?? len
                 if (listLen < data.count && this.limit <= resLen) { // 说明还有数据
                     this.busy = false
                     this.page = Math.ceil(listLen / this.limit) + 1
@@ -105,6 +107,9 @@ export default {
                 this.busy = false
                 this.finish = true
             }
+        },
+        filterFn() {
+            return null
         },
         resSuccess(data, refresh) {
             /* 增加loadMore参数，用于控制无需下拉加载更多的场景，例如推荐商品
@@ -135,6 +140,9 @@ export default {
         },
         assignBefore(data) {
             return data
+        },
+        beforeInvalid(data) {
+            return 0
         },
         // 请求完成做点什么（方便外面导入的文件自己引用）
         finishInit(data) { // 请求完成做点什么
