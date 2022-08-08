@@ -56,10 +56,10 @@ uni-simple-router@^1.5.5:
   dependencies:
     query-string "^6.12.1"
 
-zzsp-saas-ui@^3.0.9:
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/zzsp-saas-ui/-/zzsp-saas-ui-3.0.9.tgz#6379600a93190d6bc1ae5b2b532ecf42713b541a"
-  integrity sha512-ORBZOV8Nj0RoZU7Et4m9zOotjUTZTD2wVTltASMFn5NwiE5hBfXuvF5UotLA3r03fameuGZLasG9ihiijHbQBw==
+zzsp-saas-ui@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/zzsp-saas-ui/-/zzsp-saas-ui-3.1.0.tgz#95903b31fd99af0ff5f6aa0cc60f253c0ad8680b"
+  integrity sha512-SuoOq66K5mIZN6IqoQ5R13SeKFIEdlNcwUbgXamzDJ8lunnmrC0eKOX2l81seGdjptNOHjlkPNPxNphB41SsnQ==
   dependencies:
     luch-request "^3.0.7"
     uni-read-pages "^1.0.5"
