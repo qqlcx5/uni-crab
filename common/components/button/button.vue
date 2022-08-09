@@ -163,17 +163,12 @@ export default {
             this.btnLoading = true
             const data = await this.getwxUserInfo()
             this.btnLoading = false
-            let box = data
-            // #ifdef MP-TOUTIAO
             const [f, s] = data
-            box = s
-            console.log(f)
-            // #endif
             this.$emit('getuserinfoencry', {
                 type: 'getuserinfo',
-                detail: box ? {
-                    encryptedData: box.encryptedData,
-                    iv: box.iv
+                detail: s ? {
+                    encryptedData: s.encryptedData,
+                    iv: s.iv
                 } : {}
             })
         },
@@ -183,7 +178,6 @@ export default {
                 res = await uni.getUserProfile({
                     desc: '用于完善会员资料'
                 })
-                console.log(res, 2222)
             } catch (error) {
                 res = false
             }
