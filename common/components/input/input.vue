@@ -357,10 +357,11 @@ export default {
             return String(this.arrows) !== 'false'
         },
         disabled_() {
-            return String(this.disabled) !== 'false' || this.type === 'select' || !!this.parent.disabled_
+            const disabled = this.disabled !== null ? this.disabled : false
+            const { disabled_ = false } = this.parent || {}
+            return String(disabled) !== 'false' || this.type === 'select' || !!disabled_
         },
         focus_() {
-            // 抖音小程序ios端 第一次focus 默认是 null.导致默认弹出输入框
             const focus = this.focus !== null ? this.focus : false
             return String(focus) !== 'false'
         },
@@ -522,6 +523,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+input,
+textarea {
+    -webkit-user-select: none;
+}
 .c-input {
     &-hd {
         @include flex(row);

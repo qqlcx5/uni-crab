@@ -65,7 +65,7 @@
                         class="c-calendar__backtoday c-flex c-align-center"
                         @click="backToToday"
                     >今天</text>
-                </view> 
+                </view>
                 <view class="c-calendar-bd">
                     <!-- 周日 - 周一 -->
                     <view
@@ -75,7 +75,7 @@
                         <view
                             v-for="week in weekTexts"
                             :key="week"
-                            class="c-gray c-fs-24"
+                            class="c-gray c-flex-1 c-flex c-justify-center c-fs-24"
                         >
                             {{ week }}
                         </view>

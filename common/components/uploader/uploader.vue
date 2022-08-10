@@ -720,6 +720,7 @@ const upload = async function (options) {
     font-size: 40rpx;
     font-weight: 400;
     color: #999;
+    width: 200rpx;
     line-height: 44rpx;
     height: 44rpx;
     margin-top: 16rpx;
