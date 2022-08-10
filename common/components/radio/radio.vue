@@ -117,7 +117,8 @@ export default {
                 theme: '#FF5D0C',
                 subColor1: '#FFAE37',
                 subColor2: '#FF5D0C'
-            }
+            },
+            isShow: 1
         }
     },
     created() {
@@ -126,6 +127,7 @@ export default {
         if (!this.parent) return this.$toast('请嵌套c-radio-group使用')
         this.parent.children.push(this)
         this.parentData.value = this.parent.value
+        this.isShow++
     },
     computed: {
         ...mapState({
@@ -139,6 +141,8 @@ export default {
         },
         // 是否禁用，如果父组件c-raios-group禁用的话，将会忽略子组件的配置
         elDisabled() {
+            // 头条小程序 parent 改变后不能出发计算属性更新 打印一个变量来触发
+            console.log(this.isShow, '改变值')
             return this.disabled !== '' ? this.disabled : this.parent.disabled !== null ? this.parent.disabled : false
         },
         // 是否禁用label点击
