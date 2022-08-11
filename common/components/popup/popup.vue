@@ -389,7 +389,7 @@ export default {
         },
         modalFun(pro = 'open') {
             // 处理朋友圈输入框选中等问题
-            // #ifdef MP
+            // #ifdef MP-WEIXIN
             const isWechatMoments = getApp().globalData.errModalFlag
             if (isWechatMoments) {
                 !this.isFirstWechatMoments && this.$toast('点击右下角前往小程序，查看完整内容')
@@ -406,12 +406,12 @@ export default {
             clearTimeout(this.timer)
             this.timer = null
             if (status) {
-                // #ifdef H5 || MP
+                // #ifdef H5 || MP-WEIXIN
                 this.timer = setTimeout(() => {
                     this[pro2] = status
                 }, 50)
                 // #endif
-                // #ifndef H5 || MP
+                // #ifndef H5 || MP-WEIXIN
                 this.$nextTick(() => {
                     this[pro2] = status
                 })
