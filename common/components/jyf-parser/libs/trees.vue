@@ -211,7 +211,7 @@
             />
             <!--#endif-->
             <!--富文本-->
-            <!--#ifdef MP-WEIXIN-->
+            <!--#ifdef MP-WEIXIN || MP-QQ || APP-PLUS-->
             <rich-text
                 v-else-if="handler.use(n)"
                 :id="n.attrs.id"
@@ -219,15 +219,7 @@
                 :nodes="[n]"
             />
             <!--#endif-->
-            <!--#ifdef MP-TOUTIAO-->
-            <rich-text
-                v-else-if="true"
-                :id="n.attrs.id"
-                :class="'_p __'+n.name"
-                :nodes="[n]"
-            />
-            <!--#endif-->
-            <!--#ifndef MP-->
+            <!--#ifndef MP-WEIXIN || MP-QQ || APP-PLUS-->
             <rich-text
                 v-else-if="!n.c"
                 :id="n.attrs.id"
@@ -250,7 +242,7 @@
 </template>
 <script module="handler" lang="wxs" src="./handler.wxs"></script>
 <script>    
-global.Parser = {};
+global.Parser =  {};
 import trees from './trees'
 const errorImg = require('../libs/config.js').errorImg;
 export default {
@@ -346,7 +338,7 @@ export default {
             var link = e.currentTarget.dataset.attrs.link
             //console.error(link)
             //console.error(attrs)
-            if (link) {
+            if(link){
                 this.$jump(link)
             }
             if (!attrs.ignore) {
@@ -462,7 +454,7 @@ export default {
             });
         },
         _loadVideo(e) {
-            this.$set(this.ctrl, e.target.dataset.i, 0);
+                 this.$set        (this.ctrl, e.target.dataset.i, 0);
         }
     }
 }
@@ -490,7 +482,7 @@ export default {
     overflow: hidden;
 }
 
-/* #ifdef MP */
+/* #ifdef MP-WEIXIN */
 :host {
     display: inline;
 }
@@ -659,7 +651,7 @@ export default {
 
 /* #endif */
 
-/* #ifdef MP || MP-QQ */
+/* #ifdef MP-WEIXIN || MP-QQ */
 .__bdo,
 .__bdi,
 .__ruby,
