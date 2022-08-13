@@ -64,3 +64,13 @@ zzsp-saas-ui@^3.1.0:
     luch-request "^3.0.7"
     uni-read-pages "^1.0.5"
     uni-simple-router "^1.5.5"
+
+zzsp-saas-ui@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/zzsp-saas-ui/-/zzsp-saas-ui-3.1.2.tgz#56ce5e6578bc3a0ac32acc8b3622362667965625"
+  integrity sha512-Fh0WEh6Kpg2X86CV6HI3f+d5IummW50RQKsYpTjVQnzH/ckyeFgZbJSD21TsJ7wv+kP7f95k2FZr5GWPkK03fA==
+  dependencies:
+    luch-request "^3.0.7"
+    uni-read-pages "^1.0.5"
+    uni-simple-router "^1.5.5"
+    zzsp-saas-ui "^3.1.0"
