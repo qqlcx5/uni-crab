@@ -559,18 +559,18 @@ export default {
                     style += `${item}{${this.tagStyle[item]}}`;
                 style += '</style>';
                 html = style + html;
-            }
+            } 
             // 处理 rpx
             if (html.includes('rpx'))
                 html = html.replace(/[0-9.]+\s*rpx/g, $ => (parseFloat($) * windowWidth / 750) + 'px');
             return html;
         },
-        // #endif
+        // #endif 
         // #ifdef APP-PLUS-NVUE
         _message(e) {
             // 接收 web-view 消息
             var d = e.detail.data[0];
-            switch (d.action) {
+            switch (d.action) { 
                 case 'load':
                     this.$emit('load');
                     this.height = d.height;

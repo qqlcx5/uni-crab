@@ -220,6 +220,9 @@ MpHtmlParser.prototype.setNode = function() {
 		}
 		// 压缩 style
 		var styles = style.split(';');
+		styles.push('max-width:100%')
+	        styles.push('word-break:break-all')
+        	styles.push('word-wrap:break-word;')
 		style = '';
 		for (var i = 0, len = styles.length; i < len; i++) {
 			var info = styles[i].split(':');
