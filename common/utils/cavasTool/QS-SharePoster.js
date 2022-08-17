@@ -1187,7 +1187,6 @@ function drawRoundRectImage(Context, obj) {
         r = roundRectSet.r
     }
     const br = checkRadius(typeof r !== 'number' ? r : new Array(4).fill(r), dWidth, dHeight)
-    console.log('呵呵哈哈哈哈哈', br)
     Context.beginPath()
     Context.moveTo(dx + br[1], dy)
     Context.arcTo(dx + dWidth, dy, dx + dWidth, dy + dHeight, br[1])

@@ -184,7 +184,6 @@ export default {
             return res
         },
         handleGetphonenumber(e) {
-            console.log(e, 111)
             this.$emit('getphonenumber', e)
             this.$emit('getphonenumberencry', {
                 type: e.type || 'getphonenumber',

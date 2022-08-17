@@ -157,7 +157,6 @@ export default {
             const offsetY = systemInfo.statusBarHeight === 20 ? 5 : 3
             // 刘海屏 导航高度6rpx 普通屏幕导航高度14rpx
             const height = this.customHeight_ + systemInfo.statusBarHeight - offsetY
-            console.log('navbarHeight_', height, this.customHeight_, systemInfo.statusBarHeight)
             return height
         },
         parentStyle_() {

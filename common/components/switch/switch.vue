@@ -240,7 +240,6 @@ export default {
     methods: {
         async calcSwitch() {
             const data = await this.$c.getRect.call(this, '.c-switch__text, .c-switch__slide, .c-switch', { dataset: true })
-            console.log(data, 33333)
             let switchWidth = 0
             const textData = data.filter(o => o.dataset.name === 'text').map(o => {
                 const width = o.width

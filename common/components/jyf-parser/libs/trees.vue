@@ -344,8 +344,6 @@ export default {
         imgtap(e) {
             var attrs = e.currentTarget.dataset.attrs;
             var link = e.currentTarget.dataset.attrs.link
-            //console.error(link)
-            //console.error(attrs)
             if (link) {
                 this.$jump(link)
             }
@@ -394,7 +392,6 @@ export default {
             }
         },
         linkpress(e) {
-            console.error(123456)
             var jump = true,
                 attrs = e.currentTarget.dataset.attrs;
             attrs.ignore = () => jump = false;

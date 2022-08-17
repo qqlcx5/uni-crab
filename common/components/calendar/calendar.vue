@@ -314,7 +314,6 @@ export default {
          */
         init(date) {
             this.cale.setDate(date)
-            console.log(this.cale)
             this.weeks = this.cale.weeks
             this.nowDate = this.calendar = this.cale.getInfo(date)
         },
@@ -417,7 +416,6 @@ export default {
             this.cale.setDate(date)
             this.weeks = this.cale.weeks
             this.nowDate = this.cale.getInfo(date)
-            console.log()
         },
 
         handleSlideToggle() {
