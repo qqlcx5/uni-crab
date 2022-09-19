@@ -17,6 +17,8 @@
                 :placeholder="placeholder"
                 :placeholder-style="placeholderStyle"
                 :clearable="clearable"
+                @focus="inputFocus"
+                @blur="inputBlur"
                 @click="inputClick"
                 @confirm="confirmInput"
             >
@@ -146,6 +148,12 @@ export default {
                     value: this.keyword
                 }
             })
+        },
+        inputBlur(e) {
+            this.$emit('blur', e)
+        },
+        inputFocus(e) {
+            this.$emit('focus', e)
         }
     }
 }
