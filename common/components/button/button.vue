@@ -19,6 +19,7 @@
         @error="handleError"
         @opensetting="handleOpensetting"
         @launchapp="handleLaunchapp"
+        @chooseavatar="handleChooseavatar"
     >
         <text
             v-if="plain_"
@@ -205,6 +206,9 @@ export default {
         },
         handleLaunchapp(e) {
             this.$emit('launchapp', e)
+        },
+        handleChooseavatar(e) {
+            this.$emit('chooseavatar', e)
         },
         handleClick(e) {
             if (this.loading_) return

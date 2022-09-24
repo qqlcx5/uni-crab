@@ -20,3 +20,8 @@ v2.8.7
 v2.8.5
 2022年6月24日15:13:04 
 1、修复input未嵌套c-form组件时，设置disabled无效bug
+
+v3.1.7
+2022年9月24日14:42:37
+1、增加input组件支持nickname、safe-password获取功能
+2、增加button的open-type支持@chooseavatar事件
