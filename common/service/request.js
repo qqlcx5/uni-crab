@@ -212,7 +212,7 @@ export function setApiConfig(force = false, url = '') {
             }
             apiCatch = {
                 saveTime: newTime,
-                url: url || zzspApiConfig.domainList[currentIndex],
+                url: url || zzspApiConfig.domainList[currentIndex] ? zzspApiConfig.domainList[currentIndex] : zzspApiConfig.domainList[0],
                 isSpecial: !!url
             }
             uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
