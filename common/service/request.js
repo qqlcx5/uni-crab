@@ -216,6 +216,13 @@ export function setApiConfig(force = false, url = '') {
                 isSpecial: !!url
             }
             uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
+        } else {
+            apiCatch = {
+                saveTime: newTime,
+                url: url || zzspApiConfig.domainList[0],
+                isSpecial: !!url
+            }
+            uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
         }
     } else {
         console.log('-----------重新设置域名请求---------')
