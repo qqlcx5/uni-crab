@@ -25,3 +25,7 @@ v3.1.7
 2022年9月24日14:42:37
 1、增加input组件支持nickname、safe-password获取功能
 2、增加button的open-type支持@chooseavatar事件
+
+v3.1.8
+2022年9月26日16:07:33
+1、修复登陆问题 by 江南~
