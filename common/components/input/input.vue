@@ -342,7 +342,7 @@ export default {
         },
         inputType() {
             const inputType = (this.type === 'password' ? 'text' : (this.type === 'price' ? 'digit' : this.type)).toLocaleLowerCase()
-            return ['text', 'number', 'idcard', 'digit'].includes(inputType) ? inputType : 'text'
+            return ['text', 'number', 'idcard', 'digit', 'nickname', 'safe-password'].includes(inputType) ? inputType : 'text'
         },
         clearable_() {
             return String(this.clearable) !== 'false' && String(this.value).length
