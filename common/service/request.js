@@ -212,17 +212,15 @@ export function setApiConfig(force = false, url = '') {
             }
             apiCatch = {
                 saveTime: newTime,
-                url: url || zzspApiConfig.domainList[currentIndex] ? zzspApiConfig.domainList[currentIndex] : zzspApiConfig.domainList[0],
+                url: url || (zzspApiConfig.domainList[currentIndex] ? zzspApiConfig.domainList[currentIndex] : zzspApiConfig.domainList[0]),
                 isSpecial: !!url
             }
             uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
         } else {
-            apiCatch = {
-                saveTime: newTime,
-                url: url || zzspApiConfig.domainList[0],
-                isSpecial: !!url
+            if (!apiCatch.url) {
+                apiCatch.url = zzspApiConfig.domainList[0]
+                uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
             }
-            uni.setStorageSync(commonConfig.curApiCatch, apiCatch)
         }
     } else {
         console.log('-----------重新设置域名请求---------')
