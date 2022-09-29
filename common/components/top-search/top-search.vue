@@ -17,6 +17,7 @@
                 :placeholder="placeholder"
                 :placeholder-style="placeholderStyle"
                 :clearable="clearable"
+                @clear="$emit('clear',true)"
                 @focus="inputFocus"
                 @blur="inputBlur"
                 @click="inputClick"
