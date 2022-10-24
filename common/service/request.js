@@ -35,6 +35,7 @@ const http = new Request({
     }
 })
 const refreshToken = Refresh.initRefreshToken()
+
 /* 请求之前拦截器。可以使用async await 做异步操作 */
 http.interceptors.request.use(async (config) => {
     config.data = {
@@ -73,6 +74,20 @@ http.interceptors.response.use((response) => {
         response.data = {}
         response.data.code = 0
     }
+    // #ifdef MP-WEIXIN
+    // 微信埋点
+    const { config: { fullPath }, data: { code = 0, msg = '', level = 0, extraInfo = '' } } = response
+    if (fullPath) {
+        wx.reportEvent("wxdata_perf_monitor", {
+            "wxdata_perf_monitor_id": fullPath,
+            "wxdata_perf_monitor_level": level,
+            "wxdata_perf_error_code": code,
+            "wxdata_perf_error_msg": msg,
+            "wxdata_perf_cost_time": 0,
+            "wxdata_perf_extra_info1": extraInfo
+        })
+    }
+    // #endif
     // token过期
     if (((refreshToken.isRefresh && response.data.code !== 0) || response.data.code === 20202) && response.config.url !== zzspApiConfig.refreshApi) {
         // 刷新token状态中
