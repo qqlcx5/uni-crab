@@ -8,7 +8,7 @@
             radius="24rpx 24rpx 0 0"
         >
             <view class="select-city">
-                <view class="c-modal__title">所在区域</view>
+                <view class="c-modal__title">{{title}}</view>
                 <view class="select-city-hd c-underline">
                     <view
                         v-for="(item,index) in cityList"
@@ -68,6 +68,10 @@
 export default {
     name: 'CSelectCity',
     props: {
+        title: {
+            type: String,
+            default: '所属区域'
+        },
         // 城级
         level: {
             type: [String, Number],
