@@ -164,16 +164,16 @@ export default {
             handler(val, oldVal) {
                 // console.log('val', val)
                 // console.log('oldVal', oldVal)
+                this.initData()
                 const len = val.length
-                if (len <= 0) {
-                    this.initData()
-                } else {
+                if (len <= 0) return
+                this.$nextTick(() => {
                     this.showRank = len >= this.level ? this.level : len
                     val.forEach((o, i) => {
                         this.cityList[i].name = o.label
                         this.valueObj[this.identifys_[i]] = o
                     })
-                }
+                })
             },
             immediate: true,
             deep: true
