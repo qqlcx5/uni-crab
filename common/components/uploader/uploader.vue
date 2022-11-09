@@ -302,6 +302,11 @@ export default {
             default: () => {
                 return {}
             }
+        },
+        // 视频大小限制, 单位MB
+        videoSizeLimit: {
+            type: [String, Number],
+            default: ''
         }
     },
     data() {
@@ -496,6 +501,13 @@ export default {
                     sourceType: ['album', 'camera'],
                     success: function (res) {
                         console.log('video', res)
+                        const videoSize = (res.size/(1024 * 1024)).toFixed(2)
+                        const videoSizeLimit = parseInt(_self.videoSizeLimit)
+                        console.log('videoSize', videoSizeLimit)
+                        if (videoSizeLimit && videoSizeLimit < videoSize) {
+                            _self.$toast(`视频上传超过大小限制, 最大不超过${videoSizeLimit}M`)
+                            return
+                        }
                         _self.video_upload_before_list.push({
                             // 把blob文件视频文件链接修改为公用的占位图片，上传完再替换掉
                             // src: res.tempFilePath,
