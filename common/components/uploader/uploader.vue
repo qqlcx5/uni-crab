@@ -505,7 +505,7 @@ export default {
                         const videoSizeLimit = parseInt(_self.videoSizeLimit)
                         console.log('videoSize', videoSizeLimit)
                         if (videoSizeLimit && videoSizeLimit < videoSize) {
-                            _self.$toast(`视频上传超过大小限制, 最大不超过${videoSizeLimit}M`)
+                            _self.$toast(`视频不能超过${videoSizeLimit}M`)
                             return
                         }
                         _self.video_upload_before_list.push({
